@@ -37,3 +37,23 @@
  [data-slot="dialog-overlay"]{z-index:1001!important;}
 }
 @media(max-width:800px){.cc-site-quote{display:none;}}
+
+/* PDF pages 7–8: one moment at a time, with the original doorway compositions. */
+@media(min-width:801px){
+ .cc-red-storyboard{position:absolute;left:57%;bottom:var(--cc-floor-gap);height:calc(var(--cc-actor-height)*1.1);z-index:23;pointer-events:none;opacity:0;visibility:hidden;}
+ .cc-red-storyboard img{display:block;height:100%;width:auto;max-width:none;}
+ #ccRedWelcome img{transform:scaleX(-1);}
+ .scene--branding{grid-template-columns:48% 52%;}
+ .scene--branding .copy{max-width:43vw;}
+ .scene--branding .cc-branding-title{font-size:clamp(50px,5.6vw,95px);line-height:.94;}
+ .scene--branding .description{max-width:36vw;}
+}
+@media(max-width:800px){.cc-red-storyboard{display:none!important;}}
+
+/* Door artwork uses its intrinsic proportions, never a stretched common box. */
+@media(min-width:801px){
+ #ccRedWelcome{width:calc(var(--cc-actor-height)*1.1*336/368);}
+ #ccRedPresentation{width:calc(var(--cc-actor-height)*1.1*408/496);z-index:24;}
+ .cc-red-storyboard img{width:100%;height:100%;object-fit:contain;aspect-ratio:auto;}
+ #ccRedDoor img{object-fit:contain;}
+}

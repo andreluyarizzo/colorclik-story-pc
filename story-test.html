@@ -1231,7 +1231,7 @@ body.cc-modal-open {overflow:hidden;}
 .cc-site-quote{display:none;}
 </style>
 <link rel="stylesheet" href="assets/vendor/colorclik-quote.css" media="(min-width:801px)">
-<link rel="stylesheet" href="desktop-foundation.css?v=3" media="(min-width:801px)">
+<link rel="stylesheet" href="desktop-foundation.css?v=5" media="(min-width:801px)">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" media="(min-width:801px)">
 </head>
 
@@ -1475,6 +1475,8 @@ body.cc-modal-open {overflow:hidden;}
       </div>
       <div class="visual-space"></div>
     </section>
+    <div class="cc-red-storyboard" id="ccRedWelcome" aria-hidden="true"><img src="assets/optimized/red/welcome.webp" alt=""></div>
+    <div class="cc-red-storyboard" id="ccRedPresentation" aria-hidden="true"><img src="assets/optimized/red/presentation.webp" alt=""></div>
     <div class="cc-red-girl" id="ccRedGirl" aria-hidden="true"><img src="assets/yellow/49.png" alt=""></div>
     <div class="cc-red-door" id="ccRedDoor" aria-hidden="true"><img src="assets/doors/red-door.png" alt=""></div>
     <div class="cc-blue-actor" id="ccBlueActor" aria-hidden="true"><img id="ccBluePose" src="assets/yellow/42.png" alt=""></div>
@@ -1533,7 +1535,7 @@ body.cc-modal-open {overflow:hidden;}
   </div>
 </div>
 
-<script src="scene07.js?v=1"></script>
+<script src="scene07.js?v=3"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 
@@ -1734,8 +1736,8 @@ if (!window.gsap || !window.ScrollTrigger) {
 
       if (desktopStory()) {
         // Sequential fades prevent two headings and plan grids occupying the same space.
-        if (i === index && index < lastIndex && local > .82) opacity=1-clamp(0,1,(local-.82)/.08);
-        if (i === index+1) opacity=local>.90 ? clamp(0,1,(local-.90)/.10) : 0;
+        if (i === index && index < lastIndex && local > .88) opacity=1-clamp(0,1,(local-.88)/.12);
+        if (i === index+1) opacity=local>.88 ? clamp(0,1,(local-.88)/.12) : 0;
         if (i===5 && s<5.31) opacity=0;
       }
       gsap.set(scene, {autoAlpha:clamp(0,1,opacity)});
@@ -2080,6 +2082,7 @@ if (!window.gsap || !window.ScrollTrigger) {
       plansCopy.style.pointerEvents=t>=.31 && t<.90 ? 'auto':'none';
       gsap.set(redDoor,{autoAlpha:0});
       gsap.set(redGirl,{autoAlpha:0});
+      gsap.set(".cc-red-storyboard",{autoAlpha:0});
 
     /* =====================================
        ESCENA 7 — AZUL ENTRA POR IZQUIERDA, PUERTA ROJA, PELIRROJA
@@ -2113,6 +2116,7 @@ if (!window.gsap || !window.ScrollTrigger) {
       gsap.set(blueActor,{autoAlpha:0});
       gsap.set(redDoor,{autoAlpha:0});
       gsap.set(redGirl,{autoAlpha:0});
+      gsap.set(".cc-red-storyboard",{autoAlpha:0});
     }
     if (desktopStory() && s >= 5) doorOpacity=0;
 
@@ -2194,6 +2198,11 @@ if (!window.gsap || !window.ScrollTrigger) {
     onRefresh(self) {
       render(self.progress);
     }
+  });
+
+  // Refresh even when the user is already parked on the doorway while it loads.
+  document.querySelectorAll('.cc-red-storyboard img').forEach(image => {
+    image.decode().then(() => render(trigger.progress)).catch(() => {});
   });
 
   /* INICIALIZACIÓN */

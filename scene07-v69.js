@@ -63,18 +63,20 @@
     const floor=nextSequence.getBoundingClientRect().bottom;
     const ph=ah*1.35,pw=ph*840/919,left=w*.57,top=floor-ph;
     const fh=ph*555/919,fw=fh*514/731;
-    const q=phase(t,0,.36),e=q*q*(3-2*q);
-    const blend=phase(t,.32,.44);
+    const q=phase(t,0,.40),e=q*q*(3-2*q);
+    const blend=t>=.40?1:0;
+    const approach=document.querySelector('#ccRedApproach');
     const arrivalCenter=w*.58+(ah*1.22*1200/1540)*.69+w*.025;
     gsap.set(aqua,{autoAlpha:phase(t,0,.06),left,top,width:pw,height:ph});
     gsap.set(base,{autoAlpha:blend<1?1:0});
     gsap.set(join,{autoAlpha:blend});
-    gsap.set(flight,{autoAlpha:1-blend,width:fw,height:fh,x:mix(arrivalCenter,left+pw*.238,e)-fw*.5,y:mix(-fh*1.1,top+ph*.305-fh*.5,e),rotation:mix(-14,8,e),transformOrigin:'center center'});
+    gsap.set(flight,{autoAlpha:0});
+    gsap.set(approach,{autoAlpha:1-blend,x:mix(arrivalCenter-(left+pw*.238),0,e),y:mix(-ph-h*.25,0,e),rotation:0});
     gsap.set('#ccRedWelcome,#ccRedPresentation',{autoAlpha:0});
     gsap.set(blueActor,{autoAlpha:0});
     gsap.set(redGirl,{autoAlpha:0});gsap.set(redDoor,{autoAlpha:0});
     gsap.set(copy,{autoAlpha:phase(t,0,.08)});
-    aqua.dataset.beat=t<.32?'falling':t<.44?'catching':'caught';
+    aqua.dataset.beat=t<.34?'falling':t<.40?'catching':'caught';
     aqua.dataset.progress=t.toFixed(4);
   }
   window.ColorClikScene07=Object.freeze({render,renderCatch});

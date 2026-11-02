@@ -46,9 +46,11 @@
  #scene9 .description{font-size:clamp(12px,.96vw,16px);max-width:540px;line-height:1.45;margin-top:22px;}
  #ccAquaStage{position:absolute;z-index:23;pointer-events:none;opacity:0;visibility:hidden;}
  #ccAquaStage img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;}
- #ccAquaReady{clip-path:polygon(48% 0,100% 0,100% 100%,0 100%,0 63%,30% 63%,30% 44%,48% 44%);}
+ #ccAquaReady{clip-path:polygon(48% 0,100% 0,100% 100%,29.76% 100%,29.76% 44.61%,31.55% 44.61%,32.14% 42.98%,33.33% 42.55%,36.90% 45.05%,37.74% 42.87%,38.69% 42.44%,38.93% 43.96%,40.12% 45.48%,47.62% 46.79%);}
  #ccAquaJoined{opacity:0;}
  #ccRedFlight{position:absolute;left:0;top:0;z-index:25;pointer-events:none;opacity:0;visibility:hidden;will-change:transform;}
  #ccRedFlight img{display:block;width:100%;height:100%;object-fit:contain;}
 }
 @media(max-width:800px){#scene9,#ccAquaStage,#ccRedFlight{display:none!important;}}
+
+@media(min-width:801px){#ccRedApproach{position:absolute;inset:0;pointer-events:none;will-change:transform}#ccRedApproach img{clip-path:polygon(0 0,48% 0,47.62% 46.79%,40.12% 45.48%,38.93% 43.96%,38.69% 42.44%,37.74% 42.87%,36.90% 45.05%,33.33% 42.55%,32.14% 42.98%,31.55% 44.61%,29.76% 44.61%,29.76% 100%,0 100%)}}

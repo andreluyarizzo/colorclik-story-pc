@@ -1533,6 +1533,7 @@ body.cc-modal-open {overflow:hidden;}
   </div>
 </div>
 
+<script src="scene07.js?v=1"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 
@@ -1587,11 +1588,18 @@ if (!window.gsap || !window.ScrollTrigger) {
   }
 
   if (desktopStory()) {
+    for (const number of [50,51]) {
+      const image=new Image();
+      image.src=`assets/optimized/red/${number}.webp`;
+      poses[number]=image;
+      image.decode().then(()=>render(trigger.progress)).catch(()=>{});
+    }
     redDoorImage.src = "assets/optimized/doors/red-door.webp";
     redGirl.querySelector("img").src = "assets/optimized/yellow/49.webp";
   }
   // Alpha-derived body bounds; transparent canvas padding never determines character size.
   const portraitMetrics={"1":[1024,1536,209,8,569,1495],"2":[1024,1536,191,1,604,1522],"3":[1024,1536,177,0,610,1521],"4":[1024,1536,13,7,939,1425],"5":[1024,1536,16,6,984,1265],"6":[1024,1536,46,21,961,1377],"7":[1024,1536,164,3,636,1477],"8":[1024,1536,89,4,872,1481],"9":[1024,1536,118,14,834,1437],"10":[1024,1536,19,17,986,1488],"11":[1024,1536,32,20,959,1485],"12":[1024,1536,118,18,860,1487],"13":[1024,1536,99,6,819,1498],"14":[1024,1536,100,14,874,1501],"15":[1024,1536,70,10,894,1495],"16":[1024,1536,127,4,868,1508],"17":[1024,1536,133,14,773,1488],"18":[1024,1536,196,3,574,1485],"19":[1024,1536,184,10,593,1479],"20":[1024,1536,229,8,586,1479],"21":[1024,1536,203,7,613,1482],"22":[1024,1536,206,8,608,1479],"23":[1024,1536,209,6,669,1484],"24":[1024,1536,202,5,669,1484],"25":[1024,1536,82,3,834,1487],"27":[1024,1536,227,9,650,1481],"28":[1024,1536,234,9,556,1482],"29":[1024,1536,209,7,600,1484],"30":[1024,1536,270,5,542,1484],"31":[1024,1536,115,9,676,1491],"42":[1024,1536,99,10,821,1511],"43":[1024,1536,86,10,882,1511],"45":[1024,1536,60,6,919,1506],"46":[1024,1536,115,6,633,1516],"47":[1024,1536,120,3,787,1517],"48":[1024,1536,117,5,685,1517],"49":[1024,1536,113,14,691,1509]};
+  Object.assign(portraitMetrics,{"50":[1024,1536,127,16,791,1484],"51":[1024,1536,81,15,767,1499]});
   const posePosture={4:.72,5:.88,6:.72,17:.72};
   function normalizePortrait(image,number){
     if(!desktopStory())return;
@@ -1749,7 +1757,7 @@ if (!window.gsap || !window.ScrollTrigger) {
     const h = stage.clientHeight;
     const cw = character.offsetWidth;
 
-    const s = p * (desktopStory() ? 7 : 5);
+    const s = desktopStory() ? (p<=2/3 ? p*9 : 6+(p-2/3)*3) : p*5;
     const index = updateScenes(s);
 
     // V6.1: coreografía móvil independiente; no altera el recorrido desktop.
@@ -2078,22 +2086,13 @@ if (!window.gsap || !window.ScrollTrigger) {
        La puerta roja es un PNG independiente; 49 es solo la pelirroja.
     ===================================== */
     } else {
-      const t = clamp(0, 1, s - 6);
-      frame = 31;
-      opacity = 0;
+      const t=clamp(0,1,s-6);
+      frame=31;opacity=0;
       gsap.set(nextSequence,{autoAlpha:0});
-      const walkT = clamp(0,1,t/.49);
-      const blueX = mix(-cw*1.2,w*.57-cw*.45,walkT);
-      const actorFrame = t < .49 ? (Math.floor(t*28)%2 ? 43 : 45) : t < .59 ? 46 : t < .71 ? 47 : t < .82 ? 48 : 46;
-      setActorPose(bluePose, actorFrame);
-      gsap.set(blueActor,{autoAlpha:1,x:blueX,y:nextSequence.getBoundingClientRect().bottom-blueActor.offsetHeight,scaleX:1,scaleY:1,transformOrigin:'center bottom'});
-      normalizePortrait(redGirl.querySelector("img"),49);
-      const floor = nextSequence.getBoundingClientRect().bottom;
-      gsap.set(redDoor,{autoAlpha:1,y:floor-h});
-      const opening = clamp(0,1,(t-.82)/.12);
-      gsap.set(redDoorImage,{rotationY:-opening*63,transformOrigin:'16% 50%'});
-      gsap.set(redGirl,{autoAlpha:clamp(0,1,(t-.84)/.10),x:-opening*12,y:floor-h});
-      gsap.set(scenes[6].querySelector('.copy'), {autoAlpha:clamp(0,1,(t-.84)/.10)});
+      window.ColorClikScene07.render(t,{
+        gsap,w,h,nextSequence,blueActor,bluePose,redDoor,redDoorImage,redGirl,
+        copy:scenes[6].querySelector('.copy'),setActorPose
+      });
     }
 
     /* En móvil, la escena de planes necesita prioridad de lectura.
@@ -2182,7 +2181,7 @@ if (!window.gsap || !window.ScrollTrigger) {
   const trigger = ScrollTrigger.create({
     trigger: ".story",
     start: "top top",
-    end: () => window.innerWidth <= 800 ? "+=550%" : "+=1050%",
+    end: () => window.innerWidth <= 800 ? "+=550%" : "+=1350%",
     pin: ".stage",
     scrub: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? false : true,
     anticipatePin: 1,

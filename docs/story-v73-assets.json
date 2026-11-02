@@ -1,0 +1,38 @@
+{
+  "mode": "built-in image_gen",
+  "assets": "assets/optimized/purple-v73/",
+  "reference": "Original PDF pages 11–12; original aqua character",
+  "prompts": [
+    [
+      "caught",
+      "Use reference1 exact PURPLE man identity and OPEN door, reference2 same identity and CLOSED door, reference3 aqua grandfather identity. Original premium 3D style. Purple man: brown skin, short lilac curls, white sunglasses, hoop earrings, purple fleece jacket over orange-yellow hoodie, pendant chain, black cargo pants, purple sneakers. Grandfather: aqua pompom beanie, black glasses, white beard, aqua hoodie, green backpack, jeans, aqua sneakers. Do not change faces, outfits or shoes. Full bodies, no cropping, no text, no extra limbs. True transparent background. Front camera, complete purple arched door on RIGHT, hinges RIGHT, warm interior visible only if open. Consistent door and head scale. Story keyframe: purple man has caught the falling grandfather and is gently helping him down, firmly supporting BOTH forearms. Grandfather LEFT, purple man center LEFT of his OPEN door. Both knees slightly bent, grandfather shoes about to touch floor. Look at each other relieved and smiling. No other characters."
+    ],
+    [
+      "greeting",
+      "Use reference1 exact PURPLE man identity and OPEN door, reference2 same identity and CLOSED door, reference3 aqua grandfather identity. Original premium 3D style. Purple man: brown skin, short lilac curls, white sunglasses, hoop earrings, purple fleece jacket over orange-yellow hoodie, pendant chain, black cargo pants, purple sneakers. Grandfather: aqua pompom beanie, black glasses, white beard, aqua hoodie, green backpack, jeans, aqua sneakers. Do not change faces, outfits or shoes. Full bodies, no cropping, no text, no extra limbs. True transparent background. Front camera, complete purple arched door on RIGHT, hinges RIGHT, warm interior visible only if open. Consistent door and head scale. Story keyframe after landing: grandfather LEFT and purple man center, both standing firmly on floor OUTSIDE the OPEN purple door on right. They smile at each other and wave friendly goodbye to EACH OTHER, hands lifted, arms separated. Equal standing height, natural proportions. No other characters."
+    ],
+    [
+      "closing",
+      "Use reference1 exact PURPLE man identity and OPEN door, reference2 same identity and CLOSED door, reference3 aqua grandfather identity. Original premium 3D style. Purple man: brown skin, short lilac curls, white sunglasses, hoop earrings, purple fleece jacket over orange-yellow hoodie, pendant chain, black cargo pants, purple sneakers. Grandfather: aqua pompom beanie, black glasses, white beard, aqua hoodie, green backpack, jeans, aqua sneakers. Do not change faces, outfits or shoes. Full bodies, no cropping, no text, no extra limbs. True transparent background. Front camera, complete purple arched door on RIGHT, hinges RIGHT, warm interior visible only if open. Consistent door and head scale. Purple man ONLY, grandfather absent. Full body on LEFT of his purple door, turned three-quarter RIGHT, hand firmly on black handle, actively pulling leaf almost closed, only 20 degrees open and narrow warm interior slit. Other hand at side. SAME frame, paneling and door scale as reference2. No lightbulb or symbols."
+    ],
+    [
+      "wave",
+      "Use reference1 exact PURPLE man identity and OPEN door, reference2 same identity and CLOSED door, reference3 aqua grandfather identity. Original premium 3D style. Purple man: brown skin, short lilac curls, white sunglasses, hoop earrings, purple fleece jacket over orange-yellow hoodie, pendant chain, black cargo pants, purple sneakers. Grandfather: aqua pompom beanie, black glasses, white beard, aqua hoodie, green backpack, jeans, aqua sneakers. Do not change faces, outfits or shoes. Full bodies, no cropping, no text, no extra limbs. True transparent background. Front camera, complete purple arched door on RIGHT, hinges RIGHT, warm interior visible only if open. Consistent door and head scale. Purple man ONLY full body standing LEFT of his fully CLOSED purple door, facing the PUBLIC, smiling warmly and raising one open hand in a natural wave. Other hand relaxed. Complete same closed door on right. No lightbulb, no other character."
+    ],
+    [
+      "door",
+      "Edit reference2: remove ONLY the purple man, his lightbulb and glow/symbols. Reconstruct the occluded areas of the SAME purple arched CLOSED door. Preserve door proportions, paneling, black handle and hinges RIGHT, original front camera. Door alone, full uncropped, genuine transparent background outside door, no other objects or characters. High quality original3D style."
+    ],
+    [
+      "aqua-walk",
+      "Use reference1 exact PURPLE man identity and OPEN door, reference2 same identity and CLOSED door, reference3 aqua grandfather identity. Original premium 3D style. Purple man: brown skin, short lilac curls, white sunglasses, hoop earrings, purple fleece jacket over orange-yellow hoodie, pendant chain, black cargo pants, purple sneakers. Grandfather: aqua pompom beanie, black glasses, white beard, aqua hoodie, green backpack, jeans, aqua sneakers. Do not change faces, outfits or shoes. Full bodies, no cropping, no text, no extra limbs. True transparent background. Front camera, complete purple arched door on RIGHT, hinges RIGHT, warm interior visible only if open. Consistent door and head scale. Grandfather ONLY, no door, no purple man. Full body PROFILE walking toward LEFT, one sneaker firmly on floor, opposite leg taking a natural step, head turned slightly backward toward RIGHT with grateful smile and one hand raised in goodbye. Exactly same face/clothes/backpack/shoes as reference3. Transparent background, no text."
+    ]
+  ],
+  "farewell": "Animation keyframe, exact purple man from references, FULL BODY standing upright OUTSIDE on LEFT of his completely OPEN purple arched door on RIGHT. He smiles looking LEFT and waves goodbye with left-side raised hand to the departing aqua grandfather (grandfather NOT present). Other hand relaxed at side. Preserve brown skin, short lilac curls, white sunglasses, hoop earrings, purple fleece jacket, orange-yellow hoodie, chain pendant, black cargo pants and purple sneakers exactly. Identical original3D style and complete door with hinges RIGHT, leaf opens toward RIGHT, same warm studio interior. No text, no lightbulb, no other character. Same camera and door-to-body proportions as original. Genuine transparent background outside doorway. Uncropped head and shoes.",
+  "selectedNotes": [
+    "Greeting was regenerated using caught composition: same portrait frame, straightened knees, feet on floor, hands raised between people, transparent background.",
+    "Closed door was corrected to preserve right hinges and left handle. The public-wave avatar is clipped over this fixed plate to prevent hardware changing sides.",
+    "Original purple walking and aqua falling poses are reused from the PDF.",
+    "Scene8: remove body bobbing, rotation and horizontal drift; lower the small hop; preserve uniform scaling."
+  ]
+}

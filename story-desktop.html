@@ -2077,15 +2077,15 @@ if (!window.gsap || !window.ScrollTrigger) {
       opacity = 0;
       const nFrame = t < .06 ? 38 : t < .17 ? 39 : t < .31 ? 40 : 41;
       setActorPose(nextPose, nFrame);
-      const departing = t >= .84;
-      gsap.set(nextSequence, {autoAlpha:1-clamp(0,1,(t-.94)/.06),clipPath:departing ? "inset(0 42% 0 0)" : "inset(0)"});
+      const departing = t >= .80;
+      gsap.set(nextSequence, {autoAlpha:1-clamp(0,1,(t-.80)/.04),clipPath:"inset(0)"});
       normalizePortrait(redGirl.querySelector("img"),49);
       const composition = nextSequence.getBoundingClientRect();
       const actorY = composition.bottom - blueActor.offsetHeight;
       const actorX = composition.left + composition.width*.78 - blueActor.offsetWidth*.5;
       const walking = t >= .84;
       setActorPose(bluePose, walking ? (Math.floor((t-.84)*75)%2 ? 43 : 45) : 46);
-      gsap.set(blueActor,{autoAlpha:departing ? 1 : 0,x:mix(actorX,w+cw*.25,clamp(0,1,(t-.84)/.16)),y:actorY,scaleX:1,scaleY:1,transformOrigin:'center bottom'});
+      gsap.set(blueActor,{autoAlpha:clamp(0,1,(t-.80)/.04),x:mix(actorX,w+cw*.25,clamp(0,1,(t-.84)/.16)),y:actorY,scaleX:1,scaleY:1,transformOrigin:'center bottom'});
       const plansCopy = scenes[5].querySelector('.copy');
       gsap.set(plansCopy,{autoAlpha:clamp(0,1,(t-.31)/.08)});
       plansCopy.style.pointerEvents=t>=.31 && t<.90 ? 'auto':'none';

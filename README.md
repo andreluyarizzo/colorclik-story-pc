@@ -1,14 +1,41 @@
-# ColorClik · Storyboard PC V6.6
+# ColorClik · Historia PC V6.6
 
-Prototipo independiente de la web principal. **PC es el objetivo de esta entrega**; la versión móvil queda pendiente.
+Proyecto independiente publicado en https://andreluyarizzo.github.io/colorclik-story-pc/.
+Repositorio: https://github.com/andreluyarizzo/colorclik-story-pc.
 
-- Escenas 1–5 conservan su estructura original V6.5, incluyendo la puerta azul y poses 1–38.
-- Escena 6: despedida (39, 40), azul solo (41), planes web y salida caminando (42, 43, 45).
-- Escena 7: el azul entra por la izquierda (43/45), observa (46), toca (47/48) la puerta roja y aparece la pelirroja (49).
-- La puerta roja está en `assets/doors/red-door.png` y se reutiliza como capa.
-- No se inventó 44.png: el ciclo de caminata utiliza 43 y 45.
-- Los precios de planes web son **referenciales** y se tomaron de la maqueta de Canva; confirmar antes de publicar comercialmente.
-- GSAP se carga desde CDN, por lo que requiere conexión a Internet.
+## Alcance
 
-## Publicar
-Crear un repositorio nuevo en GitHub, subir todo el contenido de esta carpeta en la raíz y activar GitHub Pages para la rama principal (`main`) y carpeta `/ (root)`. Abrir `https://USUARIO.github.io/REPOSITORIO/`.
+Historia de escritorio con GSAP y ScrollTrigger, hasta la aparición de la pelirroja (imagen 49). La versión móvil original se conserva y queda fuera del trabajo de esta entrega. No se modificó el repositorio `colorclik-web`.
+
+## Recursos y estructura
+
+- `index.html`: entrada con redirección relativa a `story-desktop.html`.
+- `story-desktop.html`: historia, estilos y control del scroll.
+- `story-test.html`: misma versión para pruebas.
+- `assets/yellow/`: todos los PNG originales, sin cambios. No existen 26 ni 44 en el ZIP; no se solicitan.
+- `assets/doors/red-door.png`: puerta roja original independiente.
+- `assets/optimized/`: copias WebP transparentes a calidad 90 para escritorio, sin generación de imágenes. Total 11,7 MB frente a 94,7 MB de originales; se conserva la relación de aspecto y el canal alfa.
+- `.nojekyll`: publicación estática desde `main`, carpeta raíz.
+
+## Correcciones de escritorio
+
+- Continuidad de orientación y encuadre en las composiciones de la puerta azul.
+- Encuadre común para 38–41 y suelo común para los actores de la extensión.
+- Una sola capa de personaje durante el paso de la composición 41 a la pose 42.
+- Despedida 39/40, azul solo 41 y aparición posterior de los tres planes web.
+- Ciclo de marcha reutilizando 43 y 45; salida derecha y entrada izquierda.
+- Puerta roja y poses 46–48; aparición de 49 y del texto Branding y Diseño.
+- Fundidos sucesivos para evitar títulos superpuestos; las capas ocultas no interceptan clics.
+- Precarga de WebP y actualización al completar la decodificación.
+- Corrección de espacios en el nombre del plan al abrir el formulario en escritorio.
+- Evitar que Enter recargue la historia al completar el formulario en escritorio.
+
+## Contacto
+
+Los tres planes web abren `mailto:hola@colorclik.cl` con su asunto. El formulario de Marketing valida los pasos y prepara un correo en la aplicación del visitante. GitHub Pages no envía correos ni guarda datos: no se incluye un backend. Los precios existentes siguen marcados como referenciales.
+
+## Dependencias
+
+GSAP 3.12.5 y ScrollTrigger se cargan desde jsDelivr; las fuentes desde Google Fonts. Requiere conexión a Internet.
+
+Las comprobaciones y límites se documentan en `QA_DESKTOP.md`.

@@ -47,7 +47,7 @@
       const presenting=c.planPhase>=.20;
       setActorPose(redGirl.querySelector('img'),presenting?51:50);
       const live=phase(c.planPhase,0,.48);
-      gsap.set(redGirl,{autoAlpha:c.planPhase<.48?1:0,left:0,right:'auto',top:0,bottom:'auto',x:left+pw*.69-redGirl.offsetWidth*.5,y:floor-ah-Math.sin(live*Math.PI*4)*2,rotation:Math.sin(live*Math.PI*4)*1.2,scaleX:1,scaleY:1,zIndex:25,transformOrigin:'center bottom'});
+      gsap.set(redGirl,{autoAlpha:c.planPhase<.48?1:0,height:'61vh',left:0,right:'auto',top:0,bottom:'auto',x:left+pw*.69-redGirl.offsetWidth*.5,y:floor-ah-Math.sin(live*Math.PI*4)*2,rotation:Math.sin(live*Math.PI*4)*1.2,scaleX:1,scaleY:1,zIndex:25,transformOrigin:'center bottom'});
       const flight=document.querySelector('#ccRedFlight');
       const fh=ah*1.35*555/919,fw=fh*514/731;
       gsap.set(flight,{autoAlpha:c.planPhase>=.48?1:0,width:fw,height:fh,x:left+pw*.69-fw*.5+w*.025*jump,y:floor-fh-innerHeight*.18*Math.sin(Math.PI*jump)+innerHeight*1.15*jump*jump,rotation:jump*-14,transformOrigin:'center center'});
@@ -88,7 +88,7 @@
     // A separate standing pose greets him before she takes her first step.
     setActorPose(redGirl.querySelector('img'),50);
     const greet=ease(phase(t,.50,.54))*(1-ease(phase(t,.61,.65)));
-    gsap.set(redGirl,{autoAlpha:greet,left:0,right:'auto',top:0,bottom:'auto',
+    gsap.set(redGirl,{autoAlpha:greet,height:ah,left:0,right:'auto',top:0,bottom:'auto',
       x:groundedX-redGirl.offsetWidth*.5,y:floor-ah,scaleX:.82,scaleY:.82,
       zIndex:27,rotation:Math.sin(phase(t,.53,.63)*Math.PI*2)*1.8,transformOrigin:'center bottom'});
     const walk=ease(phase(t,.61,.89)),wh=ah*.82,ww=wh*398/631;

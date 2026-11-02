@@ -1,0 +1,21 @@
+COLORCLIK V6.5 — SOLO ESCRITORIO
+
+OBJETIVO
+Corregir la historia de PC e incorporar la secuencia completa disponible (1–25 y 27–38).
+Las escenas 1–4 y sus interacciones se mantienen como en la versión de escritorio anterior.
+En la escena 5 se conserva el recorrido y se añaden 35, 36, 37 y 38 tras 32–34.
+La última pose (38) queda fija al finalizar el scroll.
+
+ARCHIVOS
+- story-desktop.html: archivo de escritorio.
+- story-test.html: copia del mismo escritorio para la URL de prueba.
+- assets/yellow/1–25.png y 27–38.png: todas las poses disponibles (26.png no existe en los originales).
+
+INSTALACIÓN
+Subir story-test.html y story-desktop.html a la raíz del sitio de pruebas.
+Mantener assets/yellow/ con las 37 imágenes disponibles; 26.png no forma parte del material original.
+No reemplazar index.html.
+La prueba de móvil queda pospuesta.
+
+NOTA
+GSAP se carga desde CDN y requiere internet.

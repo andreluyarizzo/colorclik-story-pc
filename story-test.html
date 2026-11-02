@@ -1,0 +1,2203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ColorClik | Historia interactiva V5.0.9.7</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --yellow: #f3c600;
+  --ink: #111111;
+  --muted: #505050;
+  --white: #ffffff;
+  --gutter: clamp(22px, 5vw, 90px);
+  --header-height: clamp(64px, 10svh, 100px);
+  --footer-space: clamp(36px, 8svh, 80px);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+  width: 100%;
+  background: var(--white);
+}
+
+body {
+  margin: 0;
+  width: 100%;
+  overflow-x: hidden;
+  background: var(--white);
+  color: var(--ink);
+  font-family: "Outfit", Arial, sans-serif;
+}
+
+.story {
+  position: relative;
+  width: 100%;
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--white);
+}
+
+/* NAVEGACIÓN */
+
+.header {
+  position: absolute;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-height);
+  padding: 0 var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: clamp(19px, 1.6vw, 26px);
+  font-weight: 900;
+  letter-spacing: -.065em;
+}
+
+.logo span {
+  color: var(--yellow);
+}
+
+.header-note {
+  font-size: clamp(9px, .8vw, 12px);
+  font-weight: 800;
+  letter-spacing: .11em;
+}
+
+/* ESCENARIO */
+
+.scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding:
+    calc(var(--header-height) + 10px)
+    var(--gutter)
+    var(--footer-space);
+  display: grid;
+  grid-template-columns: minmax(0, 54%) minmax(0, 46%);
+  align-items: center;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.scene.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.copy {
+  position: relative;
+  z-index: 5;
+  min-width: 0;
+  width: 100%;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.visual-space {
+  position: relative;
+  min-width: 0;
+  height: 100%;
+}
+
+.eyebrow {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 0 clamp(8px, 1.5svh, 18px);
+  font-size: clamp(9px, .85vw, 13px);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+/* TIPOGRAFÍA */
+
+.title {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-size: clamp(44px, 8vw, 155px);
+  font-weight: 900;
+  line-height: .82;
+  letter-spacing: -.045em;
+  text-transform: uppercase;
+  color: var(--ink);
+  overflow-wrap: normal;
+}
+
+.title .accent {
+  color: var(--yellow);
+}
+
+.title-line {
+  display: block;
+  white-space: nowrap;
+}
+
+.description {
+  max-width: 350px;
+  margin: clamp(9px, 2svh, 22px) 0 0;
+  font-size: clamp(11px, 1vw, 15px);
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+/* ESCENA 1 */
+
+.scene--hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 3%;
+  padding-right: 3%;
+}
+
+.scene--hero .copy {
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.scene--hero .title {
+  width: max-content;
+  max-width: 100%;
+  font-size: clamp(60px, 14vw, 255px);
+  line-height: .76;
+  text-align: center;
+}
+
+/* ESCENA 2 */
+
+.scene--intro {
+  grid-template-columns: minmax(0, 58%) minmax(0, 42%);
+}
+
+.scene--intro .title {
+  font-size: clamp(42px, 7.2vw, 135px);
+}
+
+/* ESCENA 3 */
+
+.scene--color .title {
+  font-size: clamp(55px, 9vw, 165px);
+}
+
+/* ESCENA 4 */
+
+.scene--marketing {
+  grid-template-columns: minmax(0, 62%) minmax(0, 38%);
+}
+
+.scene--marketing .title {
+  font-size: clamp(55px, 8.3vw, 150px);
+}
+
+.scene--marketing .description {
+  max-width: 400px;
+}
+
+/* TARJETAS */
+
+.pricing {
+  width: 100%;
+  max-width: 650px;
+  margin-top: clamp(12px, 2.5svh, 26px);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(5px, .8vw, 12px);
+}
+
+.plan {
+  min-width: 0;
+  min-height: clamp(90px, 15svh, 145px);
+  padding: clamp(8px, 1vw, 16px);
+  border: 1px solid var(--ink);
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.plan.featured {
+  background: var(--yellow);
+  border-color: var(--yellow);
+}
+
+.plan-name {
+  font-size: clamp(9px, .9vw, 13px);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.plan-price {
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-size: clamp(24px, 2.5vw, 42px);
+  font-weight: 900;
+  line-height: 1;
+}
+
+.plan-foot {
+  font-size: clamp(8px, .7vw, 11px);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* PERSONAJE */
+
+.character {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: clamp(160px, 24vw, 390px);
+  height: clamp(245px, 39vw, 600px);
+  z-index: 20;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.character img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* INDICADORES */
+
+.scroll-hint {
+  position: absolute;
+  z-index: 40;
+  left: 50%;
+  bottom: clamp(13px, 3svh, 30px);
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  white-space: nowrap;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 23px;
+  background: var(--ink);
+}
+
+.counter {
+  position: absolute;
+  z-index: 40;
+  right: var(--gutter);
+  bottom: clamp(15px, 3svh, 30px);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.progress {
+  position: absolute;
+  z-index: 60;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 4px;
+  background: var(--yellow);
+}
+
+/* TABLETS Y MÓVILES */
+
+@media (max-width: 800px) {
+  :root {
+    --gutter: 6vw;
+    --header-height: 70px;
+    --footer-space: 60px;
+  }
+
+  .scene {
+    grid-template-columns: 1fr;
+    align-content: start;
+    align-items: start;
+    padding-top: calc(var(--header-height) + 16px);
+  }
+
+  .copy {
+    justify-content: flex-start;
+  }
+
+  .scene--hero {
+    align-items: center;
+    justify-content: center;
+  }
+
+  .scene--hero .copy {
+    justify-content: center;
+  }
+
+  .scene--hero .title {
+    font-size: clamp(52px, 13vw, 120px);
+  }
+
+  .scene--intro .title {
+    font-size: clamp(40px, 9vw, 90px);
+  }
+
+  .scene--color .title,
+  .scene--marketing .title {
+    font-size: clamp(48px, 11vw, 105px);
+  }
+
+  .character {
+    width: clamp(150px, 42vw, 310px);
+    height: clamp(225px, 65vw, 470px);
+  }
+
+  .description {
+    font-size: 12px;
+  }
+
+  .pricing {
+    gap: 5px;
+    margin-top: 12px;
+  }
+
+  .plan {
+    min-height: 90px;
+    padding: 8px 6px;
+  }
+
+  .plan-price {
+    font-size: 24px;
+  }
+}
+
+@media (max-height: 650px) {
+  .eyebrow {
+    margin-bottom: 6px;
+  }
+
+  .description {
+    margin-top: 8px;
+  }
+
+  .pricing {
+    margin-top: 10px;
+  }
+
+  .plan {
+    min-height: 75px;
+  }
+
+  .scroll-hint {
+    bottom: 10px;
+  }
+
+  .scroll-line {
+    height: 12px;
+  }
+}
+
+
+/* ESCENA 1 — COMPOSICIÓN CANVA */
+
+.scene--hero .copy {
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.scene--hero .hero-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: max-content;
+  max-width: 100%;
+  font-size: clamp(55px, 10vw, 170px);
+  line-height: .82;
+  letter-spacing: -.045em;
+}
+
+.hero-title-top {
+  display: block;
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.hero-title-bottom {
+  display: block;
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.hero-subtitle {
+  margin: 24px 0 0;
+  font-family: "Outfit", sans-serif;
+  font-size: clamp(10px, .9vw, 14px);
+  font-weight: 500;
+  letter-spacing: .35em;
+  text-align: center;
+}
+
+@media(max-width:800px) {
+  .scene--hero .hero-title {
+    font-size: clamp(45px, 12vw, 100px);
+  }
+
+  .hero-subtitle {
+    font-size: 9px;
+    letter-spacing: .16em;
+  }
+}
+
+
+/* ESCENA 02 — COMPOSICIÓN CANVA */
+
+.scene--intro {
+  grid-template-columns: minmax(0, 53%) minmax(0, 47%);
+  padding-left: clamp(35px, 10vw, 190px);
+  padding-right: 4%;
+}
+
+.scene--intro .copy {
+  width: 100%;
+  max-width: 680px;
+  justify-content: center;
+}
+
+.scene--intro .eyebrow {
+  font-size: clamp(10px, .9vw, 14px);
+  font-weight: 400;
+  letter-spacing: .35em;
+  margin-bottom: 8px;
+}
+
+.scene--intro .intro-title {
+  width: 100%;
+  max-width: 100%;
+  font-size: clamp(40px, 4.6vw, 86px);
+  line-height: .91;
+  letter-spacing: -.035em;
+}
+
+.intro-line {
+  display: block;
+  white-space: nowrap;
+}
+
+.intro-light {
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-weight: 400;
+}
+
+.intro-bold {
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-weight: 900;
+}
+
+.scene--intro .intro-description {
+  max-width: 510px;
+  margin-top: 18px;
+  font-size: clamp(12px, .95vw, 15px);
+  line-height: 1.4;
+  color: #333;
+}
+
+@media (max-width: 800px) {
+  .scene--intro {
+    grid-template-columns: 1fr;
+    padding-left: 6%;
+    padding-right: 6%;
+    padding-top: 15svh;
+  }
+
+  .scene--intro .intro-title {
+    font-size: clamp(27px, 6.5vw, 56px);
+  }
+
+  .scene--intro .eyebrow {
+    font-size: 9px;
+    letter-spacing: .2em;
+  }
+
+  .scene--intro .intro-description {
+    max-width: 340px;
+    font-size: 11px;
+    margin-top: 12px;
+  }
+}
+
+
+/* ESCENA 03 — DISEÑO CANVA */
+
+.scene--color {
+  grid-template-columns: 52% 48%;
+  padding-left: clamp(35px, 18.7vw, 315px);
+  padding-right: 5%;
+}
+
+.scene--color .copy {
+  max-width: 580px;
+}
+
+.scene--color .eyebrow {
+  font-weight: 400;
+  letter-spacing: .30em;
+  margin-bottom: 6px;
+}
+
+.scene--color .color-title {
+  font-size: clamp(42px, 4.4vw, 75px);
+  line-height: .96;
+  letter-spacing: -.035em;
+}
+
+.color-light,
+.color-bold {
+  display: block;
+  white-space: nowrap;
+}
+
+.color-light {
+  font-weight: 400;
+}
+
+.color-bold {
+  font-weight: 900;
+}
+
+.scene--color .color-description {
+  max-width: 450px;
+  margin-top: 12px;
+  font-size: clamp(12px, .9vw, 15px);
+}
+
+@media (max-width: 800px) {
+  .scene--color {
+    grid-template-columns: 1fr;
+    padding-left: 6%;
+    padding-right: 6%;
+  }
+
+  .scene--color .color-title {
+    font-size: clamp(30px, 7vw, 55px);
+  }
+}
+
+
+/* ========================================
+   ESCENA 04 — MARKETING DIGITAL
+   Tarjetas protagonistas, grandes y legibles
+   Sin alterar las escenas 1, 2 ni 3.
+======================================== */
+.scene--marketing {
+  grid-template-columns: minmax(0, 65%) minmax(0, 35%);
+  padding-left: clamp(32px, 7.4vw, 130px);
+  padding-right: clamp(20px, 3.2vw, 55px);
+  padding-top: calc(var(--header-height) + 15px);
+  padding-bottom: var(--footer-space);
+}
+.scene--marketing .copy {
+  width: 100%;
+  max-width: 830px;
+  min-width: 0;
+  justify-content: center;
+}
+.scene--marketing .eyebrow {
+  margin-bottom: 10px;
+  font-size: clamp(11px, .86vw, 15px);
+  font-weight: 500;
+  letter-spacing: .26em;
+}
+.scene--marketing .marketing-title {
+  width: max-content;
+  max-width: 100%;
+  font-size: clamp(50px, 5.1vw, 90px);
+  line-height: .88;
+  letter-spacing: -.04em;
+}
+.marketing-light,
+.marketing-bold { display: block; white-space: nowrap; }
+.marketing-light { font-weight: 400; }
+.marketing-bold { font-weight: 900; color: var(--yellow); }
+.scene--marketing .pricing {
+  display: grid;
+  width: 100%;
+  max-width: 830px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: clamp(10px, 1vw, 18px);
+  margin-top: clamp(16px, 2.6svh, 28px);
+}
+.scene--marketing .plan {
+  position: relative;
+  min-width: 0;
+  min-height: clamp(265px, 36svh, 345px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0;
+  padding: clamp(13px, 1.35vw, 22px);
+  border: 1px solid #e7e7e7;
+  border-radius: 15px;
+  background: #fff;
+  box-shadow: 0 5px 18px rgba(0,0,0,.025);
+}
+.scene--marketing .plan.featured {
+  background: #ffcc00;
+  border-color: #ffcc00;
+  box-shadow: 0 8px 25px rgba(240,186,0,.13);
+}
+.scene--marketing .plan-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 40px;
+}
+.scene--marketing .plan-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #fff0bf;
+  font-size: 17px;
+}
+.scene--marketing .plan-head strong {
+  display: block;
+  font-size: clamp(12px, .9vw, 15px);
+  font-weight: 800;
+  line-height: 1.2;
+}
+.scene--marketing .plan-head small {
+  display: block;
+  margin-top: 2px;
+  font-size: clamp(9px, .7vw, 11px);
+  color: #626262;
+}
+.scene--marketing .plan-price {
+  margin-top: clamp(12px, 2svh, 22px);
+  font-family: "Outfit", sans-serif;
+  font-size: clamp(22px, 2.05vw, 36px);
+  font-weight: 900;
+  letter-spacing: -.06em;
+  line-height: 1.08;
+  white-space: nowrap;
+}
+.scene--marketing .plan-tax {
+  margin-top: 4px;
+  font-size: clamp(9px, .67vw, 11px);
+  color: #666;
+}
+.scene--marketing .plan-features {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(6px, .9svh, 11px);
+  margin: 14px 0 18px;
+  padding: 13px 0 0;
+  list-style: none;
+  border-top: 1px solid rgba(0,0,0,.14);
+}
+.scene--marketing .plan-features li {
+  position: relative;
+  padding-left: 16px;
+  font-size: clamp(10px, .74vw, 12px);
+  line-height: 1.35;
+}
+.scene--marketing .plan-features li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #dca900;
+  font-weight: 900;
+}
+.scene--marketing .featured .plan-features li::before { color: #111; }
+.scene--marketing .plan-button {
+  display: block;
+  margin-top: auto;
+  padding: 11px 8px;
+  border-radius: 100px;
+  background: #111;
+  color: #fff;
+  font-size: clamp(10px, .73vw, 12px);
+  font-weight: 750;
+  text-align: center;
+  text-decoration: none;
+  transition: transform .2s ease, background .2s ease;
+}
+.scene--marketing .plan-button:hover,
+.scene--marketing .plan-button:focus-visible {
+  transform: translateY(-2px);
+  background: #303030;
+}
+.scene--marketing .plan-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 6px;
+  border-radius: 12px;
+  background: #111;
+  color: #fff;
+  font-size: 7px;
+  font-weight: 800;
+}
+/* En pantallas medianas, priorizar tarjetas legibles. */
+@media (min-width: 801px) and (max-width: 1150px) {
+  .scene--marketing { padding-left: 5%; grid-template-columns: 68% 32%; }
+  .scene--marketing .plan { padding: 11px; }
+  .scene--marketing .plan-price { font-size: clamp(20px, 2.2vw, 27px); }
+  .scene--marketing .plan-features li { font-size: 10px; }
+}
+@media (max-width: 800px) {
+  .scene--marketing {
+    grid-template-columns: 1fr;
+    align-items: start;
+    padding: calc(var(--header-height) + 12px) 5% 55px;
+  }
+  .scene--marketing .copy { max-width: 100%; }
+  .scene--marketing .eyebrow { font-size: 10px; }
+  .scene--marketing .marketing-title { font-size: clamp(40px, 8vw, 68px); }
+  .scene--marketing .pricing {
+    gap: 9px;
+    margin-top: 18px;
+    max-height: min(46svh, 380px);
+    overflow-x: auto;
+    overflow-y: hidden;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(205px, 75%);
+    grid-template-columns: none;
+    padding-bottom: 9px;
+    scrollbar-width: thin;
+  }
+  .scene--marketing .plan { min-height: 255px; padding: 13px; }
+  .scene--marketing .plan-price { font-size: 27px; }
+  .scene--marketing .plan-features li { font-size: 11px; }
+}
+@media (max-height: 700px) and (min-width: 801px) {
+  .scene--marketing .marketing-title { font-size: clamp(46px, 4.4vw, 70px); }
+  .scene--marketing .plan { min-height: 230px; padding: 11px; }
+  .scene--marketing .pricing { margin-top: 12px; }
+  .scene--marketing .plan-features { gap: 5px; margin: 9px 0 10px; padding-top: 9px; }
+}
+
+
+/* ===============================================
+   V4.8 — SISTEMA VISUAL UNIFICADO
+   Escenas interiores: títulos con el mismo tamaño
+   y pesos constantes. No modifica el hero.
+   =============================================== */
+:root {
+  --cc-inner-title-size: clamp(44px, 5vw, 86px);
+  --cc-inner-leading: .94;
+}
+
+.scene--intro .intro-title,
+.scene--color .color-title,
+.scene--marketing .marketing-title {
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-size: var(--cc-inner-title-size);
+  line-height: var(--cc-inner-leading);
+  letter-spacing: -.035em;
+}
+
+/* Una misma escala de subtítulos entre escenas */
+.scene--intro .eyebrow,
+.scene--color .eyebrow,
+.scene--marketing .eyebrow {
+  font-size: clamp(11px, .86vw, 14px);
+  line-height: 1.25;
+  font-weight: 400;
+  letter-spacing: .27em;
+}
+.scene--intro .intro-description,
+.scene--color .color-description {
+  font-size: clamp(12px, .96vw, 16px);
+  line-height: 1.45;
+}
+/* Los marcos PNG conservan exactamente las mismas dimensiones en cada escena. */
+.character {
+  width: clamp(160px, 24vw, 390px);
+  height: clamp(245px, 39vw, 600px);
+}
+@media (max-width: 800px) {
+  :root { --cc-inner-title-size: clamp(32px, 7.2vw, 58px); }
+  .character {
+    width: clamp(150px, 42vw, 310px);
+    height: clamp(225px, 65vw, 470px);
+  }
+}
+@media (max-height: 700px) and (min-width: 801px) {
+  :root { --cc-inner-title-size: clamp(40px, 4.2vw, 72px); }
+}
+
+
+/* V5.4: Desarrollo Web / puerta separada del texto, caminata breve */
+.scene--web {
+  grid-template-columns: minmax(0, 48%) minmax(0, 52%);
+  padding-left: clamp(35px, 15vw, 270px);
+  padding-right: 4vw;
+}
+.scene--web .copy { max-width: 650px; }
+.scene--web .web-title {
+  font-size: var(--cc-inner-title-size);
+  line-height: var(--cc-inner-leading);
+  letter-spacing: -.035em;
+}
+.scene--web .web-title span { display:block; white-space:nowrap; }
+.scene--web .web-thin { font-weight: 400; }
+.scene--web .web-heavy { font-weight: 900; }
+.scene--web .web-accent { color: #2671d9; }
+.scene--web .eyebrow { font-weight:400; letter-spacing:.27em; }
+.scene--web .description { max-width:470px; font-size:clamp(12px,.96vw,16px); }
+/* 32-34 ya incluyen a la amarilla y la puerta azul en una sola imagen.
+   Nunca mostrar simultáneamente con #character. */
+.door-sequence {
+  position:absolute;
+  z-index:21;
+  top:50%;
+  left:41%;
+  width:min(58vw,900px);
+  aspect-ratio:3 / 2;
+  transform:translateY(-44%);
+  pointer-events:none;
+  opacity:0;
+  visibility:hidden;
+}
+.door-sequence img {
+  width:100%; height:100%; object-fit:contain; display:block;
+  transform:scaleX(-1); /* Voltear la composición ENTERA: puerta + amarilla */
+  transform-origin:center center;
+}
+@media(max-width:800px) {
+  .scene--web {grid-template-columns:1fr;padding-left:6%;padding-right:6%;padding-top:15svh;}
+  .scene--web .web-title {font-size:clamp(32px,7.2vw,58px);}
+  .door-sequence {left:13%;top:66%;width:84vw;transform:translateY(-35%);}
+}
+
+/* V5.5 - Carrusel protagonista y cotizador. No altera las otras escenas. */
+.scene--marketing .cc-plan-carousel { width:min(100%,610px); margin-top:clamp(12px,2svh,20px); }
+.cc-carousel-top { display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:10px;font-weight:800;letter-spacing:.12em;margin-bottom:9px; }
+.cc-carousel-count {font-family:"Barlow Condensed",sans-serif;font-size:16px;letter-spacing:0;}
+.cc-carousel-layout { display:grid;grid-template-columns:36px minmax(0,1fr) 36px;gap:8px;align-items:center; }
+.cc-carousel-arrow { height:38px;width:36px;border:1px solid #ddd;border-radius:50%;background:#fff;font-size:22px;cursor:pointer;transition:background .2s; }
+.cc-carousel-arrow:hover {background:#ffcb05;}
+.cc-plan-viewport {min-width:0;overflow:hidden;border-radius:18px;}
+.scene--marketing .cc-pricing-track { display:flex !important;gap:0 !important;width:100%;max-width:none;margin:0;padding:0;transform:translateX(-100%);transition:transform .48s cubic-bezier(.2,.8,.2,1);overflow:visible;max-height:none; }
+.scene--marketing .cc-pricing-track .plan { flex:0 0 100%;width:100%;min-width:0;min-height:clamp(260px,35svh,345px);padding:clamp(14px,1.5vw,23px);border-radius:18px;gap:0;box-sizing:border-box; }
+.scene--marketing .cc-pricing-track .plan-head strong {font-size:clamp(15px,1.15vw,19px);}
+.scene--marketing .cc-pricing-track .plan-head small {font-size:11px;}
+.scene--marketing .cc-pricing-track .plan-icon {width:38px;height:38px;font-size:20px;}
+.scene--marketing .cc-pricing-track .plan-price {font-size:clamp(31px,3vw,48px);margin-top:12px;}
+.scene--marketing .cc-pricing-track .plan-tax {font-size:11px;}
+.scene--marketing .cc-pricing-track .plan-features {gap:7px;margin:10px 0;padding:10px 0 0;}
+.scene--marketing .cc-pricing-track .plan-features li {font-size:clamp(11px,.85vw,14px);line-height:1.35;padding-left:18px;}
+.scene--marketing .cc-pricing-track .plan-button {font-size:13px;cursor:pointer;border:0;width:100%;padding:12px;}
+.cc-carousel-dots {display:flex;justify-content:center;gap:8px;margin-top:12px;}
+.cc-carousel-dots button {width:9px;height:9px;border:0;background:#ccc;border-radius:50%;cursor:pointer;padding:0;}
+.cc-carousel-dots button.is-active {width:26px;border-radius:20px;background:#111;}
+.cc-quote-overlay[hidden],.cc-form-step[hidden],.cc-form-error[hidden],#ccQuoteBack[hidden] {display:none !important;}
+.cc-quote-overlay {position:fixed;inset:0;z-index:9999;background:rgba(12,12,12,.58);display:grid;place-items:center;padding:16px;}
+.cc-quote-dialog {width:min(100%,1000px);height:min(790px,calc(100dvh - 32px));display:grid;grid-template-columns:40% 60%;background:white;border-radius:23px;overflow:hidden;box-shadow:0 28px 95px #0004;font-family:"Outfit",sans-serif;}
+.cc-quote-art {position:relative;background:#ffbf12;overflow:hidden;padding:28px;}
+.cc-quote-logo {display:inline-block;background:#101010;color:white;border-radius:30px;padding:10px 15px;font-size:22px;font-weight:900;letter-spacing:-.08em;}
+.cc-quote-logo span {color:#ffcf00;}
+.cc-quote-art h2 {font-size:clamp(28px,3vw,49px);line-height:1.02;margin:52px 0 15px;font-weight:900;letter-spacing:-.06em;position:relative;z-index:2;}
+.cc-quote-art p {font-size:13px;line-height:1.55;position:relative;z-index:2;}
+.cc-quote-art img {position:absolute;right:-60px;bottom:-120px;height:70%;max-width:100%;object-fit:contain;object-position:bottom;}
+.cc-quote-content {position:relative;overflow:auto;padding:35px 30px 24px;}
+.cc-modal-close {position:absolute;top:15px;right:19px;border:0;background:none;font-size:26px;cursor:pointer;}
+.cc-quote-steps {display:flex;gap:14px;padding-right:20px;margin-bottom:24px;color:#9aa0a8;font-size:11px;}
+.cc-quote-steps span.is-current {color:#111;font-weight:800;}
+.cc-form-step h2 {font-size:clamp(22px,2vw,32px);line-height:1.1;letter-spacing:-.045em;margin:0 0 6px;}
+.cc-form-step>p {font-size:13px;color:#7c828a;margin:0 0 20px;}
+.cc-form-step label:not(.cc-radio-row label):not(.cc-plan-options label):not(.cc-orientation),.cc-form-step legend {display:block;font-weight:700;font-size:11px;margin:13px 0 8px;}
+.cc-form-step fieldset {border:0;margin:12px 0 0;padding:0;min-width:0;}
+.cc-form-step input:not([type=radio]),.cc-form-step select,.cc-form-step textarea {width:100%;padding:12px;border:1px solid #dce0e5;border-radius:11px;background:white;font:inherit;font-size:13px;color:#232323;}
+.cc-radio-row,.cc-plan-options {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;}
+.cc-radio-row label {display:flex;align-items:center;gap:4px;padding:11px 7px;border:1px solid #dce0e5;border-radius:10px;font-size:10px;cursor:pointer;}
+.cc-plan-options label {display:flex;flex-direction:column;gap:4px;border:1px solid #dce0e5;border-radius:11px;padding:12px 10px;font-size:11px;cursor:pointer;min-width:0;}
+.cc-plan-options label:has(input:checked),.cc-radio-row label:has(input:checked) {background:#fff1c8;border-color:#f4b600;}
+.cc-plan-options label b {font-size:19px;letter-spacing:-.04em;}
+.cc-orientation {display:block;margin:9px 0;font-size:12px;}
+.cc-form-step fieldset small {font-size:10px;color:#8c929a;}
+.cc-form-error {color:#c63030;font-size:12px;margin:12px 0 0;}
+.cc-form-actions {display:flex;justify-content:flex-end;gap:10px;margin-top:20px;}
+.cc-form-actions button {padding:12px 22px;border-radius:25px;border:0;cursor:pointer;font-weight:750;}
+.cc-next {background:#111;color:#fff;}
+.cc-back {background:#f0f0f0;}
+.cc-quote-summary {display:grid;gap:8px;font-size:13px;}
+.cc-quote-summary div {padding:10px;border:1px solid #eee;border-radius:9px;overflow-wrap:anywhere;}
+.cc-summary-note {margin-top:15px !important;line-height:1.5;}
+body.cc-modal-open {overflow:hidden;}
+@media(max-width:800px) {
+  .scene--marketing .cc-pricing-track {grid-auto-flow:unset;grid-auto-columns:unset;}
+  .scene--marketing .cc-pricing-track .plan {min-height:290px;}
+  .cc-quote-dialog {grid-template-columns:1fr;height:min(850px,calc(100dvh - 20px));}
+  .cc-quote-art {display:none;}
+  .cc-quote-content {padding:40px 18px 16px;}
+  .cc-quote-steps {gap:8px;font-size:10px;}
+}
+@media(max-height:700px) and (min-width:801px) { .scene--marketing .cc-pricing-track .plan {min-height:245px;padding:12px;} .scene--marketing .cc-pricing-track .plan-features {gap:3px;margin:7px 0;} }
+
+
+/* ============================================================
+   COLORCLIK V5.7 — OPTIMIZACIÓN MÓVIL
+   Solo afecta pantallas de 800px o menos; escritorio intacto.
+   ============================================================ */
+@media (max-width: 800px) {
+  :root { --gutter: clamp(16px, 5vw, 28px); --header-height: 58px; --footer-space: 36px; --cc-inner-title-size: clamp(29px, 7.1vw, 54px); }
+  .stage { height: 100svh; min-height: 0; overflow: hidden; }
+  .header { height: var(--header-height); padding-inline: var(--gutter); }
+  .header-note { font-size: 9px; letter-spacing: .04em; }
+  .scene, .scene--intro, .scene--color, .scene--marketing, .scene--web {
+    display: grid; grid-template-columns: minmax(0,1fr);
+    padding: calc(var(--header-height) + 15px) var(--gutter) var(--footer-space);
+    align-content: start; align-items: start;
+  }
+  .scene .copy { max-width: 100%; width: 100%; min-width: 0; max-height: none; justify-content: flex-start; }
+  .scene--hero { display: flex; align-items: center; justify-content: center; }
+  .scene--hero .copy { align-items: center; justify-content: center; }
+  .scene--hero .hero-title { font-size: clamp(46px, 11.4vw, 88px); }
+  .hero-subtitle { margin-top: 13px; font-size: 9px; letter-spacing: .11em; }
+  .scene--intro .intro-title, .scene--color .color-title, .scene--marketing .marketing-title,
+  .scene--web .web-title { font-size: var(--cc-inner-title-size); line-height: .94; }
+  .scene--intro .eyebrow, .scene--color .eyebrow, .scene--marketing .eyebrow, .scene--web .eyebrow {
+    font-size: 10px; letter-spacing: .15em; margin-bottom: 9px;
+  }
+  .scene--intro .intro-description, .scene--color .color-description, .scene--web .description {
+    font-size: clamp(11px, 3vw, 13px); line-height: 1.4; margin-top: 12px; max-width: 95%;
+  }
+  .character { width: clamp(135px, 40vw, 250px); height: clamp(204px, 60vw, 375px); }
+  .scene--marketing .copy { position: relative; z-index: 25; }
+  .scene--marketing .cc-plan-carousel { width: 100%; margin-top: 12px; }
+  .cc-carousel-layout { grid-template-columns: 30px minmax(0,1fr) 30px; gap: 5px; }
+  .cc-carousel-arrow { width: 30px; height: 36px; font-size: 20px; touch-action: manipulation; }
+  .scene--marketing .cc-pricing-track .plan {
+    min-height: 0; max-height: min(53svh, 440px); overflow-y: auto;
+    padding: 13px; border-radius: 14px; overscroll-behavior: contain;
+  }
+  .scene--marketing .cc-pricing-track .plan-price { font-size: clamp(25px, 7vw, 35px); margin-top: 8px; }
+  .scene--marketing .cc-pricing-track .plan-features { gap: 5px; margin: 8px 0; padding-top: 8px; }
+  .scene--marketing .cc-pricing-track .plan-features li { font-size: 11px; }
+  .scene--marketing .cc-pricing-track .plan-button { min-height: 42px; font-size: 12px; touch-action: manipulation; }
+  .cc-carousel-dots button { min-width: 18px; min-height: 18px; background-clip: content-box; padding: 4px; }
+  .scene--web .web-title span { white-space: nowrap; }
+  .door-sequence { left: 8%; top: 71%; width: 88vw; transform: translateY(-35%); }
+  .scroll-hint { bottom: 8px; font-size: 8px; }
+  .cc-quote-overlay { padding: 8px; }
+  .cc-quote-dialog { width: 100%; height: calc(100dvh - 16px); max-height: none; border-radius: 15px; }
+  .cc-quote-content { padding: 42px 15px 22px; overscroll-behavior: contain; }
+  .cc-radio-row, .cc-plan-options { grid-template-columns: 1fr; }
+  .cc-radio-row label, .cc-plan-options label { min-height: 40px; }
+  .cc-quote-steps { flex-wrap: wrap; gap: 6px 12px; }
+  .cc-form-step input:not([type=radio]), .cc-form-step select, .cc-form-step textarea { font-size: 16px; min-height: 44px; }
+  .cc-form-actions button { min-height: 44px; }
+}
+@media (max-width: 800px) and (max-height: 690px) {
+  :root { --header-height: 49px; --cc-inner-title-size: clamp(26px, 6.5vw, 43px); }
+  .scene, .scene--intro, .scene--color, .scene--marketing, .scene--web { padding-top: 59px; }
+  .scene--marketing .cc-pricing-track .plan { max-height: 49svh; }
+  .scene--marketing .cc-plan-carousel { margin-top: 6px; }
+  .scene--marketing .marketing-title { font-size: clamp(29px, 7vw, 42px); }
+  .door-sequence { top: 74%; width: 77vw; left: 15%; }
+}
+@media (max-width: 800px) and (orientation: landscape) {
+  :root { --cc-inner-title-size: clamp(27px, 4.8vw, 46px); }
+  .scene--marketing .cc-pricing-track .plan { max-height: 56svh; }
+  .character { width: clamp(100px, 23vw, 200px); height: clamp(150px, 34vw, 300px); }
+  .door-sequence { left: 50%; top: 60%; width: 46vw; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scene--marketing .cc-pricing-track { transition: none !important; }
+  .cc-carousel-arrow, .cc-plan-button { transition: none !important; }
+}
+
+
+/* V5.8 — Dirección de arte móvil: composición a pantalla completa. */
+@media (max-width: 800px) and (orientation: portrait) {
+ :root { --gutter: clamp(15px, 4.5vw, 24px); --header-height: 58px; --footer-space: 20px; --cc-inner-title-size: clamp(46px, 12vw, 78px); }
+ .stage { height: 100svh; height: 100dvh; }
+ .scene, .scene--intro, .scene--color, .scene--marketing, .scene--web {
+   grid-template-columns: minmax(0,1fr) !important;
+   grid-template-rows: auto minmax(0,1fr);
+   padding: calc(var(--header-height) + 4px) var(--gutter) 25px;
+   align-content: stretch;
+ }
+ .scene .copy { justify-content:flex-start; align-self:start; }
+ .scene .visual-space { min-height:0; height:100%; }
+ .scene--hero { display:flex; align-items:center; justify-content:center; padding: 60px 2vw 35px; }
+ .scene--hero .copy { justify-content:center; }
+ .scene--hero .hero-title { font-size:clamp(66px, 18vw, 125px) !important; line-height:.78; letter-spacing:-.05em; }
+ .scene--intro .intro-title, .scene--color .color-title, .scene--web .web-title { font-size:var(--cc-inner-title-size) !important; line-height:.89; }
+ .scene--intro .eyebrow, .scene--color .eyebrow, .scene--web .eyebrow { font-size:clamp(11px,3vw,14px); margin-bottom:13px; }
+ .scene--intro .intro-description, .scene--color .color-description, .scene--web .description { font-size:clamp(14px,3.6vw,17px); line-height:1.38; max-width:95%; margin-top:15px; }
+ .character { width:clamp(190px,59vw,330px); height:clamp(295px,91vw,510px); }
+ .scene--marketing { padding:calc(var(--header-height) + 2px) 12px 18px; display:block; }
+ .scene--marketing .copy { height:100%; display:flex; flex-direction:column; }
+ .scene--marketing .eyebrow { font-size:11px; margin-bottom:4px; }
+ .scene--marketing .marketing-title { font-size:clamp(40px,10vw,65px) !important; line-height:.88; }
+ .scene--marketing .description { font-size:clamp(11px,3vw,14px); margin-top:6px; }
+ .scene--marketing .cc-plan-carousel { display:flex; flex-direction:column; flex:1; min-height:0; margin-top:8px; width:100%; }
+ .cc-carousel-top { flex:0 0 auto; margin-bottom:5px; }
+ .cc-carousel-layout { flex:1; min-height:0; grid-template-columns:36px minmax(0,1fr) 36px; gap:3px; }
+ .cc-carousel-arrow { width:36px; height:44px; }
+ .cc-plan-viewport { height:100%; min-height:0; }
+ .scene--marketing .cc-pricing-track { height:100%; }
+ .scene--marketing .cc-pricing-track .plan { height:100%; max-height:none; min-height:0; overflow-y:auto; padding:clamp(12px,3vw,20px); }
+ .scene--marketing .cc-pricing-track .plan-price { font-size:clamp(30px,8vw,42px); }
+ .scene--marketing .cc-pricing-track .plan-features li { font-size:clamp(11px,2.9vw,14px); }
+ .scene--marketing .cc-pricing-track .plan-button { min-height:48px; }
+ .cc-carousel-dots { flex:0 0 auto; margin-top:7px; }
+ .scene--web .web-title span { white-space:normal; }
+ .door-sequence { width:105vw; left:-3vw; top:73%; transform:translateY(-30%); }
+ .cc-quote-overlay { padding:0; }
+ .cc-quote-dialog { height:100dvh; border-radius:0; }
+ .cc-quote-content { padding:55px 18px 25px; }
+ .scroll-hint { bottom:5px; }
+}
+@media (max-width:800px) and (orientation:portrait) and (max-height:700px) {
+ :root { --cc-inner-title-size:clamp(39px,10.5vw,63px); }
+ .scene--hero .hero-title { font-size:clamp(58px,16vw,98px) !important; }
+ .scene--marketing .marketing-title { font-size:clamp(34px,8.4vw,54px) !important; }
+ .scene--marketing .cc-pricing-track .plan-features { gap:3px; margin:5px 0; padding-top:5px; }
+ .scene--marketing .cc-pricing-track .plan-price { margin-top:5px; }
+}
+
+
+/* V5.9 — Dirección de arte móvil aislada; escritorio sin cambios. */
+@media (max-width: 800px) and (orientation: portrait) {
+  :root { --header-height: 52px; --gutter: 5vw; }
+  html,body { width:100%; overflow-x:clip; }
+  .stage { height:100svh; height:100dvh; overflow:hidden; }
+  .header { z-index:70; height:52px; }
+  .scene, .scene--intro, .scene--color, .scene--web {
+    display:flex !important; flex-direction:column; justify-content:flex-start;
+    padding:calc(52px + 3.5dvh) 5vw 4dvh !important;
+    grid-template-columns:none !important; grid-template-rows:none !important;
+  }
+  .scene .copy { flex:0 0 auto; height:auto; max-height:none; align-items:flex-start; justify-content:flex-start; }
+  .scene--hero { justify-content:center !important; padding:0 2vw !important; }
+  .scene--hero .copy { align-items:center; transform:translateY(-3dvh); }
+  .scene--hero .hero-title { font-size:clamp(56px,16.5vw,105px) !important; line-height:.79; }
+  .scene--hero .hero-subtitle { font-size:clamp(8px,2.1vw,11px);letter-spacing:.1em;white-space:nowrap;margin-top:15px; }
+  .scene--intro .intro-title { font-size:clamp(30px,8.1vw,61px) !important;line-height:.94; }
+  .scene--intro .intro-line { white-space:normal; }
+  .scene--intro .intro-description { max-width:90vw; font-size:clamp(12px,3.3vw,15px);line-height:1.35;margin-top:12px; }
+  .scene--color .color-title { font-size:clamp(42px,11vw,75px) !important;line-height:.9; }
+  .scene--color .color-light,.scene--color .color-bold { white-space:normal; }
+  .scene--color .color-description { font-size:clamp(13px,3.4vw,16px);max-width:90vw; }
+  .scene--web .web-title { font-size:clamp(37px,9.6vw,67px) !important;line-height:.91; }
+  .scene--web .web-title span { white-space:normal; }
+  .scene--web .description { font-size:clamp(13px,3.4vw,16px);max-width:90vw; }
+  .scene--marketing { display:flex !important;flex-direction:column;padding:calc(52px + 2dvh) 4vw 5dvh !important; }
+  .scene--marketing .copy { display:flex;flex-direction:column;height:100%;min-height:0;position:relative;z-index:25; }
+  .scene--marketing .marketing-title { font-size:clamp(36px,9.2vw,60px) !important;line-height:.87; }
+  .scene--marketing .cc-plan-carousel { display:flex;flex:1;flex-direction:column;min-height:0;width:100%;margin-top:clamp(8px,2dvh,16px); }
+  .cc-carousel-top {font-size:clamp(8px,2vw,11px);letter-spacing:.06em;}
+  .cc-carousel-layout {flex:1;min-height:0;grid-template-columns:34px minmax(0,1fr) 34px;gap:5px;}
+  .cc-carousel-arrow {height:44px;width:34px;touch-action:manipulation;}
+  .cc-plan-viewport {height:100%;min-height:0;}
+  .scene--marketing .cc-pricing-track {height:100%;}
+  .scene--marketing .cc-pricing-track .plan {height:100%;min-height:0;max-height:none;overflow-y:auto;padding:clamp(10px,2.8vw,17px);}
+  .scene--marketing .cc-pricing-track .plan-head {min-height:34px;}
+  .scene--marketing .cc-pricing-track .plan-price {font-size:clamp(27px,7.3vw,40px);}
+  .scene--marketing .cc-pricing-track .plan-features {gap:clamp(4px,1dvh,9px);}
+  .scene--marketing .cc-pricing-track .plan-features li {font-size:clamp(10px,2.7vw,13px);}
+  .scene--marketing .cc-pricing-track .plan-button {min-height:46px;}
+  .cc-carousel-dots {margin-top:5px;}
+  .character {width:min(88vw,calc(72dvh * .667));height:min(132vw,72dvh);z-index:20;}
+  .door-sequence {left:0;top:auto;bottom:5dvh;width:100vw;transform:none;aspect-ratio:3/2;}
+  .scroll-hint {bottom:10px;z-index:45;}
+  .counter {bottom:12px;}
+  .cc-quote-dialog {height:100dvh;max-height:100dvh;}
+  .cc-quote-content {overscroll-behavior:contain;}
+}
+@media (max-width:800px) and (orientation:portrait) and (max-height:690px) {
+  .scene--hero {padding:0 2vw !important;}
+  .scene--intro .intro-title {font-size:clamp(28px,7.5vw,48px) !important;}
+  .scene--marketing .marketing-title {font-size:clamp(31px,8vw,48px) !important;}
+  .scene--marketing .cc-pricing-track .plan-features {gap:3px;margin:5px 0;}
+}
+
+
+/* V6.1: composición móvil únicamente. El escritorio (>800px) permanece intacto. */
+@media (max-width:800px) and (orientation:portrait) {
+  .stage { height:100dvh; }
+  .scene--hero { justify-content:center !important; }
+  .scene--hero .copy { transform:translateY(-1dvh); z-index:5; }
+  .scene--hero .hero-title { font-size:clamp(53px,16.8vw,105px) !important; }
+  .scene--intro,.scene--color,.scene--web { padding-top:calc(54px + 5dvh) !important; }
+  .scene--intro .intro-title {font-size:clamp(30px,8.4vw,62px) !important;}
+  .scene--color .color-title {font-size:clamp(43px,11.4vw,76px) !important;}
+  .character { width:min(91vw,calc(79dvh * .667));height:min(136.5vw,79dvh); z-index:20; }
+  .scene--marketing {padding:calc(52px + 2dvh) 10px 5dvh !important;}
+  .scene--marketing .copy {height:100%;}
+  .scene--marketing .marketing-title {font-size:clamp(35px,9.5vw,62px) !important;}
+  .scene--marketing .cc-plan-carousel {flex:0 1 auto; height:auto;min-height:0;margin-top:clamp(9px,1.6dvh,17px);}
+  .scene--marketing .cc-carousel-layout {flex:none;height:clamp(260px,46dvh,410px);grid-template-columns:30px minmax(0,1fr) 30px;gap:3px;}
+  .scene--marketing .cc-carousel-arrow {width:30px;height:44px;}
+  .scene--marketing .cc-plan-viewport {height:100%;}
+  .scene--marketing .cc-pricing-track {height:100%;}
+  .scene--marketing .cc-pricing-track .plan {height:100%;min-height:0;max-height:100%;overflow-y:auto;padding:clamp(10px,3vw,17px);}
+  .scene--marketing .cc-pricing-track .plan-features {gap:5px;margin:8px 0 10px;padding-top:8px;}
+  .scene--marketing .cc-pricing-track .plan-features li {font-size:clamp(10px,2.8vw,13px);}
+  .scene--marketing .cc-pricing-track .plan-button {flex-shrink:0;min-height:44px;}
+  .scene--marketing .cc-carousel-dots {margin-top:8px;}
+  .door-sequence {width:185vw;left:-38vw;top:auto;bottom:2dvh;transform:none;}
+  .scroll-hint {bottom:8px;}
+}
+@media (max-width:800px) and (orientation:portrait) and (max-height:700px) {
+ .scene--marketing .cc-carousel-layout {height:clamp(235px,44dvh,330px);}
+ .scene--marketing .marketing-title {font-size:clamp(32px,8.5vw,50px) !important;}
+ .door-sequence {width:165vw;left:-30vw;bottom:0;}
+}
+
+
+/* ===== COLORCLIK PC V6.6 · EXTENSIÓN SIN MODIFICAR ESCENAS 1–5 ===== */
+@media (min-width: 801px) {
+  .scene--webplans,.scene--branding {grid-template-columns:minmax(0,56%) minmax(0,44%);padding-left:clamp(35px,6vw,115px);padding-right:4vw;}
+  .scene--webplans .copy,.scene--branding .copy {max-width:680px;}
+  .cc-webplans-title,.cc-branding-title {font-size:clamp(50px,5.2vw,95px);line-height:.88;letter-spacing:-.035em;}
+  .cc-webplans-title span,.cc-branding-title span {display:block;white-space:nowrap;}
+  .cc-webplans-title em {font-style:normal;color:#146cff;}
+  .cc-branding-title em {font-style:normal;color:#e52c32;}
+  .scene--webplans .description,.scene--branding .description {max-width:500px;}
+  .cc-webplans-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:clamp(16px,2.8vh,30px);max-width:650px;}
+  .cc-webplan {min-width:0;min-height:225px;border:1px solid #e5e7eb;border-radius:12px;padding:15px 12px 12px;background:#fff;display:flex;flex-direction:column;box-shadow:0 4px 15px rgba(0,0,0,.04);}
+  .cc-webplan--featured {background:#146cff;color:#fff;border-color:#146cff;}
+  .cc-webplan-type {font-size:9px;letter-spacing:.09em;text-transform:uppercase;font-weight:800;opacity:.8;}
+  .cc-webplan h3 {font-family:'Barlow Condensed',Impact,sans-serif;font-size:clamp(17px,1.8vw,25px);line-height:1.1;margin:10px 0 5px;}
+  .cc-webplan strong {font-size:clamp(16px,1.6vw,24px);line-height:1.1;}
+  .cc-webplan small {font-size:9px;opacity:.7;margin-top:3px;}
+  .cc-webplan p {font-size:11px;line-height:1.4;margin:13px 0;flex:1;opacity:.83;}
+  .cc-webplan a {display:block;text-align:center;border-radius:999px;background:#111;color:#fff;padding:10px 6px;font-size:10px;font-weight:800;text-decoration:none;}
+  .cc-webplan--featured a {background:#fff;color:#146cff;}
+  .cc-next-sequence {position:absolute;z-index:21;right:0;top:50%;width:min(49vw,740px);height:67vh;transform:translateY(-45%);pointer-events:none;opacity:0;visibility:hidden;}
+  .cc-next-sequence img {display:block;width:100%;height:100%;object-fit:contain;}
+  .cc-blue-actor {position:absolute;z-index:24;top:0;left:0;width:clamp(160px,24vw,390px);height:clamp(245px,39vw,600px);pointer-events:none;opacity:0;visibility:hidden;will-change:transform;}
+  .cc-blue-actor img {display:block;width:100%;height:100%;object-fit:contain;}
+  .cc-red-door {position:absolute;z-index:22;right:5vw;top:50%;width:min(26vw,390px);height:68vh;transform:translateY(-43%);pointer-events:none;opacity:0;visibility:hidden;perspective:1100px;}
+  .cc-red-door img {display:block;width:100%;height:100%;object-fit:contain;transform-origin:16% 50%;will-change:transform;}
+  .cc-red-girl {position:absolute;z-index:21;right:15vw;top:52%;width:min(24vw,360px);height:61vh;transform:translateY(-40%);pointer-events:none;opacity:0;visibility:hidden;}
+  .cc-red-girl img {display:block;width:100%;height:100%;object-fit:contain;}
+}
+/* Mobile remains the original V6.5 story; PC extension is intentionally hidden. */
+@media (max-width:800px) {.scene--webplans,.scene--branding,.cc-next-sequence,.cc-blue-actor,.cc-red-door,.cc-red-girl {display:none!important;}}
+
+</style>
+</head>
+
+<body>
+
+<main class="story">
+  <div class="stage" id="stage">
+
+    <header class="header">
+      <div class="logo">ColorClik<span>.</span></div>
+      <div class="header-note">ESTUDIO CREATIVO DIGITAL</div>
+    </header>
+
+    <!-- ESCENA 01: HERO -->
+     <section class="scene scene--hero active" id="scene1">
+  <div class="copy">
+    <h1 class="title hero-title">
+      <span class="hero-title-top">IDEAS QUE</span>
+      <span class="hero-title-bottom">
+        HACEN <span class="accent">CLIK.</span>
+      </span>
+    </h1>
+    <p class="hero-subtitle">
+      MARKETING · DISEÑO · DESARROLLO
+    </p>
+  </div>
+</section>
+
+
+
+    <!-- ESCENA 02 -->
+    
+<!-- ESCENA 02: NOSOTROS -->
+<section class="scene scene--intro" id="scene2">
+  <div class="copy">
+
+    <span class="eyebrow">
+      HOLA, SOMOS COLORCLIK
+    </span>
+
+    <h2 class="title intro-title">
+      <span class="intro-line intro-light">
+        PENSAMOS DIFERENTE.
+      </span>
+
+      <span class="intro-line intro-light">
+        CREAMOS EXPERIENCIAS
+      </span>
+
+      <span class="intro-line intro-bold">
+        QUE HACEN <span class="accent">CLIK.</span>
+      </span>
+    </h2>
+
+    <p class="description intro-description">
+      Somos un estudio creativo digital que mezcla estrategia,
+      diseño, tecnología e inteligencia artificial para construir
+      marcas memorables y experiencias web que funcionan.
+    </p>
+
+  </div>
+
+  <div class="visual-space"></div>
+</section>
+
+
+    <!-- ESCENA 03 -->
+   
+<section class="scene scene--color" id="scene3">
+  <div class="copy">
+    <span class="eyebrow">NUESTROS SERVICIOS</span>
+
+    <h2 class="title color-title">
+      <span class="color-light">CADA IDEA</span>
+      <span class="color-bold">TIENE SU COLOR.</span>
+    </h2>
+
+    <p class="description color-description">
+      Soluciones creativas y tecnológicas para hacer
+      crecer tu marca en el mundo digital.
+    </p>
+  </div>
+
+  <div class="visual-space"></div>
+</section>
+
+
+  
+<!-- ESCENA 04: MARKETING DIGITAL -->
+<section class="scene scene--marketing" id="scene4">
+  <div class="copy">
+
+    <span class="eyebrow">
+      PLANES DE MARKETING DIGITAL
+    </span>
+
+    <h2 class="title marketing-title">
+      <span class="marketing-light">HAZ TU PRÓXIMO</span>
+      <span class="marketing-bold">CLIK.</span>
+    </h2>
+
+    <div class="cc-plan-carousel" aria-label="Explora planes de Marketing Digital">
+      <div class="cc-carousel-top"><span>ELIGE EL PLAN QUE HACE CLIK CONTIGO</span><span class="cc-carousel-count" id="ccCarouselCount">01 / 03</span></div>
+      <div class="cc-carousel-layout">
+        <button type="button" class="cc-carousel-arrow" id="ccPlanPrev" aria-label="Plan anterior">&#8592;</button>
+        <div class="cc-plan-viewport" id="ccPlanViewport">
+          <div class="pricing cc-pricing-track" id="ccPricingTrack">
+
+
+      <article class="plan" role="group">
+        <div class="plan-head">
+          <span class="plan-icon">🚀</span>
+          <div>
+            <strong>Impulso</strong>
+            <small>Para empezar</small>
+          </div>
+        </div>
+
+        <div class="plan-price">$149.990</div>
+        <div class="plan-tax">CLP / mes + IVA</div>
+
+        <ul class="plan-features">
+          <li>Meta Ads o Google Ads</li>
+          <li>1 campaña activa</li>
+          <li>2 gráficas o textos de anuncios</li>
+          <li>Optimización y reporte mensual</li>
+        </ul>
+
+        <button type="button" class="plan-button" data-plan="Impulso
+        ">Elegir Impulso
+        </button>
+      </article>
+
+      <article class="plan featured" role="group">
+        <span class="plan-badge">RECOMENDADO</span>
+
+        <div class="plan-head">
+          <span class="plan-icon">📊</span>
+          <div>
+            <strong>Crecimiento</strong>
+            <small>Para avanzar</small>
+          </div>
+        </div>
+
+        <div class="plan-price">$249.990</div>
+        <div class="plan-tax">CLP / mes + IVA</div>
+
+        <ul class="plan-features">
+          <li>Meta Ads o Google Ads</li>
+          <li>Hasta 2 campañas</li>
+          <li>4 gráficas o textos de anuncios</li>
+          <li>Revisión semanal y reunión mensual</li>
+        </ul>
+
+        <button type="button" class="plan-button" data-plan="Crecimiento
+        ">Elegir Crecimiento
+        </button>
+      </article>
+
+      <article class="plan" role="group">
+        <div class="plan-head">
+          <span class="plan-icon">📈</span>
+          <div>
+            <strong>Escala</strong>
+            <small>Para expandirte</small>
+          </div>
+        </div>
+
+        <div class="plan-price">$399.990</div>
+        <div class="plan-tax">CLP / mes + IVA</div>
+
+        <ul class="plan-features">
+          <li>Meta Ads + Google Ads</li>
+          <li>Hasta 4 campañas en total</li>
+          <li>6 gráficas estáticas y textos</li>
+          <li>Medición y revisión semanal</li>
+        </ul>
+
+        <button type="button" class="plan-button" data-plan="Escala
+        ">Elegir Escala
+        </button>
+      </article>
+
+          </div>
+        </div>
+        <button type="button" class="cc-carousel-arrow" id="ccPlanNext" aria-label="Plan siguiente">&#8594;</button>
+      </div>
+      <div class="cc-carousel-dots" id="ccCarouselDots" aria-label="Seleccionar plan">
+        <button type="button" aria-label="Ver Impulso" data-slide="0"></button>
+        <button type="button" aria-label="Ver Crecimiento" data-slide="1"></button>
+        <button type="button" aria-label="Ver Escala" data-slide="2"></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="visual-space"></div>
+</section>
+
+
+
+    <!-- ESCENA 05: DESARROLLO WEB — HISTORIA COMPLETA DE LA PUERTA -->
+    <section class="scene scene--web" id="scene5">
+      <div class="copy">
+        <span class="eyebrow">DESARROLLO WEB</span>
+        <h2 class="title web-title">
+          <span class="web-thin">TU PRÓXIMA GRAN IDEA</span>
+          <span class="web-heavy">MERECE UNA</span>
+          <span class="web-heavy web-accent">WEB INCREÍBLE.</span>
+        </h2>
+        <p class="description">Diseñamos y desarrollamos sitios web únicos, rápidos y autoadministrables que convierten visitas en oportunidades.</p>
+      </div>
+      <div class="visual-space"></div>
+    </section>
+    <!-- Poses 32 a 38: composición de la puerta azul, la muñeca amarilla y el personaje azul. -->
+    <div class="door-sequence" id="doorSequence" aria-hidden="true">
+      <img id="doorPose" src="assets/yellow/32.png" alt="">
+    </div>
+
+    <!-- V6.6: ESCENA 06 · PLANES WEB / DESPEDIDA -->
+    <section class="scene scene--webplans" id="scene6">
+      <div class="copy">
+        <span class="eyebrow">PLANES DE DESARROLLO WEB</span>
+        <h2 class="title cc-webplans-title"><span>TU PRÓXIMA WEB</span><span>EMPIEZA <em>AQUÍ.</em></span></h2>
+        <p class="description">Tu idea merece una web increíble. Elige cómo quieres comenzar.</p>
+        <div class="cc-webplans-grid">
+          <article class="cc-webplan"><span class="cc-webplan-type">01 · Esencial</span><h3>Landing</h3><strong>$120.000</strong><small>CLP · Precio referencial</small><p>Una página enfocada en presentar y convertir.</p><a href="mailto:hola@colorclik.cl?subject=Cotizaci%C3%B3n%20Landing%20ColorClik">Consultar plan</a></article>
+          <article class="cc-webplan cc-webplan--featured"><span class="cc-webplan-type">02 · Popular</span><h3>Web Corporativa</h3><strong>$380.000</strong><small>CLP · Precio referencial</small><p>Tu marca, servicios y contenido en un sitio autoadministrable.</p><a href="mailto:hola@colorclik.cl?subject=Cotizaci%C3%B3n%20Web%20Corporativa%20ColorClik">Consultar plan</a></article>
+          <article class="cc-webplan"><span class="cc-webplan-type">03 · Venta</span><h3>Tienda Online</h3><strong>$480.000</strong><small>CLP · Precio referencial</small><p>Tu catálogo, carrito y compras en una tienda propia.</p><a href="mailto:hola@colorclik.cl?subject=Cotizaci%C3%B3n%20Tienda%20Online%20ColorClik">Consultar plan</a></article>
+        </div>
+      </div>
+      <div class="visual-space"></div>
+    </section>
+    <div class="cc-next-sequence" id="ccNextSequence" aria-hidden="true"><img id="ccNextPose" src="assets/yellow/39.png" alt=""></div>
+
+    <!-- V6.6: ESCENA 07 · BRANDING / PUERTA ROJA -->
+    <section class="scene scene--branding" id="scene7">
+      <div class="copy">
+        <span class="eyebrow">BRANDING Y DISEÑO</span>
+        <h2 class="title cc-branding-title"><span>MARCAS QUE</span><span>DEJAN <em>HUELLA.</em></span></h2>
+        <p class="description">Creamos identidades visuales únicas que cuentan tu historia, conectan con tu público y hacen destacar tu negocio.</p>
+      </div>
+      <div class="visual-space"></div>
+    </section>
+    <div class="cc-red-girl" id="ccRedGirl" aria-hidden="true"><img src="assets/yellow/49.png" alt=""></div>
+    <div class="cc-red-door" id="ccRedDoor" aria-hidden="true"><img src="assets/doors/red-door.png" alt=""></div>
+    <div class="cc-blue-actor" id="ccBlueActor" aria-hidden="true"><img id="ccBluePose" src="assets/yellow/42.png" alt=""></div>
+
+    <!-- PERSONAJE -->
+    <div class="character" id="character">
+      <img
+        id="pose"
+        src="assets/yellow/1.png"
+        alt="Personaje amarillo ColorClik"
+      >
+    </div>
+
+    <div class="scroll-hint">
+      DESLIZA PARA DESCUBRIR
+      <div class="scroll-line"></div>
+    </div>
+
+    <div class="counter" id="counter">01 / 05</div>
+    <div class="progress" id="progress"></div>
+
+  </div>
+</main>
+
+<!-- FORMULARIO DE COTIZACIÓN: se abre al elegir cualquier plan. -->
+<div class="cc-quote-overlay" id="ccQuoteOverlay" hidden>
+  <div class="cc-quote-dialog" role="dialog" aria-modal="true" aria-labelledby="ccQuoteTitle">
+    <aside class="cc-quote-art">
+      <div class="cc-quote-logo">ColorClik<span>.</span></div>
+      <h2>Tu próximo<br>clik empieza<br>aquí.</h2>
+      <p>Marketing Digital<br>Ideas que conectan.<br>Proyectos que avanzan.</p>
+      <img src="assets/yellow/1.png" alt="Personaje amarillo de ColorClik" loading="lazy">
+    </aside>
+    <div class="cc-quote-content">
+      <button type="button" class="cc-modal-close" id="ccQuoteClose" aria-label="Cerrar formulario">&times;</button>
+      <div class="cc-quote-steps" id="ccQuoteSteps"><span class="is-current">01 Tu proyecto</span><span>02 Tus datos</span><span>03 Resumen</span></div>
+      <form id="ccQuoteForm" novalidate>
+        <section class="cc-form-step" data-step="0">
+          <h2 id="ccQuoteTitle">Hagamos crecer tu marca.</h2>
+          <p>Cuéntanos qué necesitas y preparemos tu próxima idea.</p>
+          <label for="ccQuoteService">Servicio</label>
+          <select id="ccQuoteService" name="servicio"><option>Marketing Digital</option></select>
+          <fieldset><legend>¿Qué quieres conseguir?</legend><div class="cc-radio-row"><label><input type="radio" name="objetivo" value="Más clientes" required> Más clientes</label><label><input type="radio" name="objetivo" value="Más ventas"> Más ventas</label><label><input type="radio" name="objetivo" value="Dar a conocer mi marca"> Dar a conocer mi marca</label></div></fieldset>
+          <fieldset><legend>Elige tu plan</legend><div class="cc-plan-options"><label><input type="radio" name="plan" value="Impulso" required><strong>Impulso</strong><b>$149.990</b></label><label><input type="radio" name="plan" value="Crecimiento"><strong>Crecimiento</strong><b>$249.990</b></label><label><input type="radio" name="plan" value="Escala"><strong>Escala</strong><b>$399.990</b></label></div><label class="cc-orientation"><input type="radio" name="plan" value="Prefiero orientación"> Prefiero que me orienten</label><small>CLP / mes + IVA · Inversión publicitaria no incluida.</small></fieldset>
+          <label for="ccQuoteChannel">¿Dónde quieres anunciarte?</label>
+          <select id="ccQuoteChannel" name="canal" required><option value="">Selecciona una opción</option><option>Meta Ads (Facebook / Instagram)</option><option>Google Ads</option><option>Ambas plataformas</option><option>Necesito orientación</option></select>
+          <label for="ccQuoteProject">Cuéntanos sobre tu proyecto</label>
+          <textarea id="ccQuoteProject" name="proyecto" minlength="10" maxlength="1200" rows="3" required placeholder="¿A qué se dedica tu negocio y qué te gustaría lograr?"></textarea>
+        </section>
+        <section class="cc-form-step" data-step="1" hidden><h2>Queremos conocerte.</h2><p>¿Con quién tendremos el gusto de conversar?</p><label for="ccQuoteName">Nombre y apellido</label><input id="ccQuoteName" name="nombre" required autocomplete="name" placeholder="Tu nombre"><label for="ccQuoteEmail">Correo electrónico</label><input id="ccQuoteEmail" type="email" name="email" required autocomplete="email" placeholder="hola@ejemplo.cl"><label for="ccQuotePhone">WhatsApp o teléfono</label><input id="ccQuotePhone" type="tel" name="telefono" required autocomplete="tel" placeholder="+56 9 ..."><label for="ccQuoteBusiness">Nombre de tu marca (opcional)</label><input id="ccQuoteBusiness" name="marca" placeholder="Tu marca"></section>
+        <section class="cc-form-step" data-step="2" hidden><h2>¡Todo listo para hacer clik!</h2><p>Revisa tu solicitud antes de preparar el correo.</p><div id="ccQuoteSummary" class="cc-quote-summary"></div><p class="cc-summary-note">Al continuar se abrirá tu aplicación de correo con los datos completados. La solicitud no se envía automáticamente desde esta maqueta.</p></section>
+        <p id="ccFormError" class="cc-form-error" role="alert" hidden>Completa los campos obligatorios de este paso.</p>
+        <div class="cc-form-actions"><button type="button" class="cc-back" id="ccQuoteBack" hidden>Volver</button><button type="button" class="cc-next" id="ccQuoteNext">Continuar &#8594;</button></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+<script>
+/*
+ * COLORCLIK STORY V4.6
+ * Hero centrado + transiciones direccionales
+ * Compatible con el HTML y CSS de la V4
+ */
+
+if (!window.gsap || !window.ScrollTrigger) {
+  alert("No se pudo cargar GSAP. Comprueba tu conexión.");
+} else {
+  gsap.registerPlugin(ScrollTrigger);
+
+  const stage = document.querySelector("#stage");
+  const character = document.querySelector("#character");
+  const pose = document.querySelector("#pose");
+  const counter = document.querySelector("#counter");
+  const progressBar = document.querySelector("#progress");
+  const doorSequence = document.querySelector("#doorSequence");
+  const doorPose = document.querySelector("#doorPose");
+  const nextSequence = document.querySelector("#ccNextSequence");
+  const nextPose = document.querySelector("#ccNextPose");
+  const blueActor = document.querySelector("#ccBlueActor");
+  const bluePose = document.querySelector("#ccBluePose");
+  const redDoor = document.querySelector("#ccRedDoor");
+  const redDoorImage = redDoor?.querySelector("img");
+  const redGirl = document.querySelector("#ccRedGirl");
+  const desktopStory = () => window.innerWidth > 800;
+
+  const scenes = [1, 2, 3, 4, 5, 6, 7].map(
+    n => document.querySelector("#scene" + n)
+  );
+
+  const clamp = gsap.utils.clamp;
+
+  function mix(a, b, t) {
+    return a + (b - a) * clamp(0, 1, t);
+  }
+
+  /* PRECARGA DE LAS 38 POSES (INCLUYE LA SECUENCIA COMPLETA DE PUERTA) */
+
+  const poses = {};
+
+  for (let i = 1; i <= 49; i++) {
+    if (i === 26 || i === 44) continue; // Estos fotogramas no existen; 43 y 45 forman el ciclo de caminata.
+    const image = new Image();
+    image.src = `assets/yellow/${i}.png`;
+    poses[i] = image;
+  }
+
+  let activePose = 1;
+
+  function setPose(number) {
+    if (number === activePose) return;
+    const next = poses[number];
+    if (!next || !next.complete || !next.naturalWidth) return;
+    pose.src = next.src;
+    activePose = number;
+  }
+
+  /* AJUSTE RESPONSIVO DE TÍTULOS */
+
+  function fitSceneTitles() {
+    scenes.forEach(scene => {
+      const title = scene.querySelector(".title");
+      const copy = scene.querySelector(".copy");
+
+      if (!title || !copy) return;
+
+      // Títulos 2, 3 y 4 controlados por una escala tipográfica común en CSS.
+      // Solo ajustamos el hero cuando sea necesario.
+      if (scene.id !== "scene1") return;
+
+      title.style.fontSize = "";
+
+      let size = parseFloat(getComputedStyle(title).fontSize);
+
+      const sceneStyle = getComputedStyle(scene);
+
+      const availableHeight =
+        scene.clientHeight -
+        parseFloat(sceneStyle.paddingTop) -
+        parseFloat(sceneStyle.paddingBottom);
+
+      const availableWidth = copy.clientWidth;
+
+      let reservedHeight = 0;
+
+      [...copy.children].forEach(element => {
+        if (element === title) return;
+
+        const style = getComputedStyle(element);
+
+        reservedHeight +=
+          element.getBoundingClientRect().height +
+          parseFloat(style.marginTop || 0) +
+          parseFloat(style.marginBottom || 0);
+      });
+
+      const maxTitleHeight = Math.max(
+        25,
+        availableHeight - reservedHeight - 12
+      );
+
+      const lines = title.querySelectorAll(
+        ".title-line, .intro-line, .hero-title-top, .hero-title-bottom"
+      );
+
+      while (size > 20) {
+        const titleHeight = title.getBoundingClientRect().height;
+
+        let widest = 0;
+
+        if (lines.length) {
+          lines.forEach(line => {
+            widest = Math.max(widest, line.scrollWidth);
+          });
+        } else {
+          widest = title.scrollWidth;
+        }
+
+        if (
+          widest <= availableWidth + 2 &&
+          titleHeight <= maxTitleHeight
+        ) {
+          break;
+        }
+
+        size -= 1;
+        title.style.fontSize = size + "px";
+      }
+    });
+  }
+
+  /* TRANSICIONES ENTRE ESCENAS */
+
+  function updateScenes(s) {
+    const lastIndex = desktopStory() ? 6 : 4;
+    const index = Math.min(lastIndex, Math.floor(s));
+    const local = clamp(0, 1, s - index);
+
+    scenes.forEach((scene, i) => {
+      let opacity = 0;
+
+      if (i === index) {
+        opacity =
+          local > 0.82 && index < lastIndex
+            ? 1 - (local - 0.82) / 0.18
+            : 1;
+      }
+
+      if (i === index + 1 && index < lastIndex) {
+        opacity =
+          local > 0.82
+            ? (local - 0.82) / 0.18
+            : 0;
+      }
+
+      gsap.set(scene, {
+        autoAlpha: clamp(0, 1, opacity)
+      });
+
+      // Habilitar clics solo en la escena visible.
+      // GSAP controla la visibilidad; no se usa la clase .active.
+      scene.style.pointerEvents = opacity > 0.5 ? "auto" : "none";
+    });
+
+    return index;
+  }
+
+  /* ANIMACIÓN PRINCIPAL */
+
+  function render(progress) {
+    const p = clamp(0, 1, progress);
+
+    const w = stage.clientWidth;
+    const h = stage.clientHeight;
+    const cw = character.offsetWidth;
+
+    const s = p * (desktopStory() ? 7 : 5);
+    const index = updateScenes(s);
+
+    // V6.1: coreografía móvil independiente; no altera el recorrido desktop.
+    if (window.innerWidth <= 800 && window.innerHeight > window.innerWidth) {
+      const t = clamp(0,1,s-Math.floor(s));
+      const ch = character.offsetHeight;
+      const charWidth = character.offsetWidth;
+      const centered = (w-charWidth)/2;
+      const resting = h * .21;
+      let mx=centered, my=resting, mf=1, mo=1, mflip=1;
+      let dFrame=32, dOpacity=0;
+      if (s < 1) {
+        // Personaje grande por delante del título, como la referencia.
+        mf=t<.50?(Math.floor(t*24)%2?2:3):t<.72?(Math.floor(t*24)%2?10:11):t<.80?4:5;
+        mx=centered+(t>.50?Math.min(1,(t-.50)/.22)*w*.22:0);
+        my=h*.17+(t>.80?-(t-.80)/.20*h*.92:0);
+      } else if (s < 2) {
+        mf=t<.16?6:t<.33?17:t<.53?7:(Math.floor(t*22)%2?10:11);
+        mx=centered+w*.17+(t>.53?(t-.53)/.47*w*.92:0);
+        my=h*.37-(t<.16?(1-t/.16)*h*.85:0);
+      } else if (s < 3) {
+        mf=t<.63?(Math.floor(t*22)%2?10:11):t<.78?4:5;
+        mx=t<.63?(w+charWidth*.2)+(centered-(w+charWidth*.2))*(t/.63):centered;
+        my=h*.38-(t>.78?(t-.78)/.22*h*.88:0);
+        mflip=t<.63?-1:1;
+      } else if (s < 4) {
+        // El personaje sigue enorme, parcialmente recortado, detrás del carrusel.
+        mf=t<.45?24:25;
+        mx=w*.68;
+        my=h*.35;
+        mo=.22;
+      } else {
+        mf=t<.08?25:t<.16?27:t<.23?28:t<.30?29:t<.39?30:t<.63?(Math.floor(t*22)%2?10:11):31;
+        mx=centered+w*.25;
+        my=h*.38;
+        if (t>=.63) {
+          dOpacity=clamp(0,1,(t-.63)/.055);
+          dFrame=t<.78?32:t<.89?33:34;
+          mo*=1-dOpacity;
+        }
+      }
+      if (doorSequence && doorPose) {
+        if (poses[dFrame]?.complete && poses[dFrame]?.naturalWidth && doorPose.dataset.frame!==String(dFrame)) {
+          doorPose.src=poses[dFrame].src;
+          doorPose.dataset.frame=String(dFrame);
+        }
+        gsap.set(doorSequence,{autoAlpha:dOpacity});
+      }
+      setPose(mf);
+      gsap.set(character,{x:mx,y:my,scaleX:mflip,scaleY:1,opacity:mo,transformOrigin:'center bottom'});
+      counter.textContent=String(index+1).padStart(2,'0')+' / 05';
+      gsap.set(progressBar,{width:(p*100)+'%'});
+      return;
+    }
+
+    let x = w * 0.5 - cw * 0.5;
+    let y = h * 0.27;
+    let scale = 1;
+    let frame = 1;
+    let opacity = 1;
+    let flip = 1;
+    let doorFrame = 32;
+    let doorOpacity = 0;
+
+    /* =====================================
+       ESCENA 1 — HERO
+       Siempre centrada, camina hacia delante
+    ===================================== */
+
+    if (s < 1) {
+      const t = s;
+      const centerX = w * 0.50 - cw * 0.5;
+      const landingX = w * 0.72 - cw * 0.5;
+
+      if (t < 0.50) {
+        // Primer acto: camina DE FRENTE sin desplazarse lateralmente.
+        const q = t / 0.50;
+        frame = Math.min(11, Math.floor(q * 12)) % 2 === 0 ? 2 : 3;
+        x = centerX;
+        y = mix(h * 0.18, h * 0.30, q);
+        scale = mix(0.82, 1.12, q);
+
+      } else if (t < 0.70) {
+        // Segundo acto: gira y CAMINA DE LADO hacia su futuro aterrizaje.
+        const q = (t - 0.50) / 0.20;
+        const ease = q * q * (3 - 2 * q);
+        frame = Math.min(11, Math.floor(q * 12)) % 2 === 0 ? 10 : 11;
+        x = mix(centerX, landingX, ease);
+        y = mix(h * 0.30, h * 0.23, ease);
+        scale = mix(1.12, 1.10, ease);
+        flip = 1; // Mira a la derecha.
+
+      } else if (t < 0.76) {
+        // Se prepara para saltar justo en la X de la escena 2.
+        frame = 4;
+        x = landingX;
+        y = h * 0.23;
+        scale = 1.10;
+
+      } else {
+        // Salta hacia ARRIBA y continúa cayendo en la escena 2.
+        // La posición al cerrar esta escena es EXACTAMENTE la
+        // posición con que empieza la siguiente: sin teletransporte.
+        const q = (t - 0.76) / 0.24;
+        const ease = q * q * (3 - 2 * q);
+        frame = 5;
+        x = landingX;
+        y = mix(h * 0.23, -h * 0.70, ease);
+        scale = 1.10;
+      }
+
+    /* =====================================
+       ESCENA 2
+       Aterriza, saluda y sale a la derecha
+    ===================================== */
+
+    } else if (s < 2) {
+      const t = s - 1;
+      const landingX = w * 0.72 - cw * 0.5;
+
+      if (t < 0.16) {
+        // Continuación del salto del hero: cae en la misma X.
+        const q = t / 0.16;
+        const ease = q * q * (3 - 2 * q);
+        frame = t < 0.075 ? 5 : 6;
+        x = landingX;
+        y = mix(-h * 0.70, h * 0.26, ease);
+        scale = mix(1.10, 1, ease);
+
+      } else if (t < 0.33) {
+        frame = t < 0.24 ? 17 : 1;
+        x = landingX;
+        y = h * 0.24;
+        scale = 1;
+
+      } else if (t < 0.50) {
+        frame = 7;
+        x = landingX;
+        y = h * 0.22;
+        scale = 1;
+
+      } else {
+        const q = (t - 0.50) / 0.50;
+
+        frame = Math.min(11, Math.floor(q * 12)) % 2 === 0 ? 10 : 11;
+
+        // Camina hacia la derecha hasta desaparecer.
+        x = mix(
+          w * 0.72,
+          w + cw,
+          q
+        ) - cw * 0.5;
+
+        y = h * 0.22;
+        scale = 1;
+
+        // Invierte horizontalmente la pose lateral.
+        flip = 1;
+      }
+
+    /* =====================================
+       ESCENA 3
+       Entra desde la derecha hacia la izquierda
+    ===================================== */
+
+    } else if (s < 3) {
+      const t = s - 2;
+
+      if (t < 0.65) {
+        const q = t / 0.65;
+
+        frame = Math.min(11, Math.floor(q * 12)) % 2 === 0 ? 10 : 11;
+
+        // Aparece desde fuera del borde derecho.
+        x = mix(
+          w + cw,
+          w * 0.52,
+          q
+        ) - cw * 0.5;
+
+        y = h * 0.30;
+        scale = 1;
+        flip = -1;
+
+      } else if (t < 0.78) {
+        frame = 4;
+        x = w * 0.52 - cw * 0.5;
+        y = h * 0.30;
+        scale = 1;
+
+      } else {
+        // Salto continuo: la escena 3 termina EXACTAMENTE en el
+        // punto donde comienza la caída de la escena 4.
+        const q = clamp(0, 1, (t - 0.78) / 0.22);
+        const ease = q * q * (3 - 2 * q);
+        const takeoffX = w * 0.52 - cw * 0.5;
+        const landingX = w * 0.81 - cw * 0.5;
+
+        frame = 5;
+        x = mix(takeoffX, landingX, ease);
+        // La muñeca sube hasta y=-0.50h y la escena 4
+        // continúa desde exactamente esa altura.
+        y = mix(h * 0.30, -h * 0.50, ease);
+        scale = 1;
+      }
+
+    /* =====================================
+       ESCENA 4 — MARKETING DIGITAL
+    ===================================== */
+
+    } else if (s < 4) {
+      const t = s - 3;
+
+      // Zona de presentación, separada de las tarjetas.
+      x = w * 0.81 - cw * 0.5;
+      y = h * 0.17;
+      scale = 1.06;
+      flip = 1;
+
+      if (t < 0.08) {
+        frame = 6;
+        y = mix(-h * 0.50, h * 0.26, t / 0.08);
+      } else if (t < 0.15) {
+        frame = 17;
+        y = mix(h * 0.26, h * 0.17, (t - 0.08) / 0.07);
+      } else if (t < 0.22) {
+        frame = 1; // De pie: arranca la nueva actuación.
+      } else {
+        // Storyboard real de las 8 imágenes nuevas.
+        // 18: busca teléfono; 19: lo saca; 20: lo mira;
+        // 21: aparece laptop; 22: laptop cerrada;
+        // 23: abre laptop; 24: la presenta; 25: papeles.
+        const q = clamp(0, 1, (t - 0.22) / 0.71);
+        frame = 18 + Math.min(7, Math.floor(q * 8));
+        if (t >= 0.93) frame = 25;
+      }
+
+    /* =====================================
+       ESCENA 5 — CAMINATA BREVE / PUERTA CENTRO-IZQUIERDA
+       Las poses con puerta (32–34) se reflejan COMPLETAS.
+       La caminata se acorta y termina junto a la muñeca
+       que ya aparece dentro de la composición reflejada.
+    ===================================== */
+    } else if (s < 5) {
+      const t = clamp(0, 1, s - 4);
+      const homeX = w * 0.81 - cw * 0.5;
+      const outsideRight = w + cw * 0.15;
+      // Posición aproximada de la muñeca dentro de 32.png reflejada:
+      // composición left:31% width:58%, muñeca a ~70% del PNG.
+      const approachX = w * 0.73 - cw * 0.5;
+      x = homeX;
+      y = h * 0.17;
+      scale = 1;
+
+      if (t < 0.065) {
+        frame = t < 0.02 ? 25 : 27;
+      } else if (t < 0.13) {
+        frame = 28;
+      } else if (t < 0.20) {
+        frame = 29;
+      } else if (t < 0.27) {
+        frame = 30;
+      } else if (t < 0.35) {
+        // La muñeca termina su actuación y sale brevemente por la derecha.
+        const q = (t - 0.27) / 0.08;
+        frame = Math.floor(q * 6) % 2 === 0 ? 10 : 11;
+        x = mix(homeX, outsideRight, q);
+        flip = 1;
+      } else if (t < 0.51) {
+        // Regresa y se aproxima a la puerta, sin teletransporte.
+        const q = (t - 0.35) / 0.16;
+        frame = Math.floor(q * 10) % 2 === 0 ? 10 : 11;
+        x = mix(outsideRight, approachX, q);
+        flip = -1;
+      } else if (t < 0.56) {
+        // Frenado: prepara la transición a la composición de la puerta.
+        frame = 31;
+        x = approachX;
+        flip = -1;
+      } else {
+        // Storyboard completo 32–38: acercamiento, dos golpes, espera,
+        // puerta entreabierta, bienvenida y final con ambos personajes.
+        // Cada imagen ya contiene la composición completa: no superponer
+        // la muñeca independiente mientras aparece #doorSequence.
+        frame = 31;
+        x = approachX;
+        flip = -1;
+        doorOpacity = clamp(0, 1, (t - 0.56) / 0.025);
+        if (t < 0.63) doorFrame = 32;
+        else if (t < 0.70) doorFrame = 33;
+        else if (t < 0.77) doorFrame = 34;
+        else if (t < 0.83) doorFrame = 35;
+        else if (t < 0.89) doorFrame = 36;
+        else if (t < 0.94) doorFrame = 37;
+        else doorFrame = 38; // La escena termina mostrando a ambos.
+      }
+    }
+
+    /* =====================================
+       ESCENA 6 — DESPEDIDA Y PLANES WEB
+       39–41 son composiciones originales. Después el azul sale a la derecha.
+    ===================================== */
+    else if (s < 6) {
+      const t = clamp(0, 1, s - 5);
+      frame = 31;
+      opacity = 0;
+      const nFrame = t < .17 ? 39 : t < .31 ? 40 : 41;
+      if (nextPose.dataset.frame !== String(nFrame) && poses[nFrame]?.complete && poses[nFrame]?.naturalWidth) {
+        nextPose.src = poses[nFrame].src;
+        nextPose.dataset.frame = String(nFrame);
+      }
+      gsap.set(nextSequence, {autoAlpha: 1-clamp(0,1,(t-.77)/.09)});
+      const a = clamp(0,1,(t-.82)/.06);
+      const walking = t >= .9;
+      const actorFrame = walking ? (Math.floor((t-.9)*90)%2 ? 43 : 45) : 42;
+      if (bluePose.dataset.frame !== String(actorFrame) && poses[actorFrame]?.complete && poses[actorFrame]?.naturalWidth) bluePose.src=poses[actorFrame].src,bluePose.dataset.frame=String(actorFrame);
+      gsap.set(blueActor,{autoAlpha:a,x:mix(w*.69,w+cw*.25,clamp(0,1,(t-.86)/.14)),y:h*.18,scaleX:1,scaleY:1,transformOrigin:'center bottom'});
+      gsap.set(redDoor,{autoAlpha:0});
+      gsap.set(redGirl,{autoAlpha:0});
+
+    /* =====================================
+       ESCENA 7 — AZUL ENTRA POR IZQUIERDA, PUERTA ROJA, PELIRROJA
+       La puerta roja es un PNG independiente; 49 es solo la pelirroja.
+    ===================================== */
+    } else {
+      const t = clamp(0, 1, s - 6);
+      frame = 31;
+      opacity = 0;
+      gsap.set(nextSequence,{autoAlpha:0});
+      const walkT = clamp(0,1,t/.49);
+      const blueX = mix(-cw*1.2,w*.57-cw*.45,walkT);
+      const actorFrame = t < .49 ? (Math.floor(t*28)%2 ? 43 : 45) : t < .59 ? 46 : t < .71 ? 47 : t < .82 ? 48 : 46;
+      if (bluePose.dataset.frame !== String(actorFrame) && poses[actorFrame]?.complete && poses[actorFrame]?.naturalWidth) bluePose.src=poses[actorFrame].src,bluePose.dataset.frame=String(actorFrame);
+      gsap.set(blueActor,{autoAlpha:1,x:blueX,y:h*.19,scaleX:1,scaleY:1,transformOrigin:'center bottom'});
+      gsap.set(redDoor,{autoAlpha:1});
+      const opening = clamp(0,1,(t-.82)/.12);
+      gsap.set(redDoorImage,{rotationY:-opening*63,transformOrigin:'16% 50%'});
+      gsap.set(redGirl,{autoAlpha:clamp(0,1,(t-.84)/.10),x:-opening*12});
+    }
+
+    /* En móvil, la escena de planes necesita prioridad de lectura.
+       La muñeca sigue animada pero queda como acompañamiento detrás
+       del contenido interactivo, sin interceptar los botones. */
+    if (window.innerWidth <= 800 && s >= 3 && s < 4) {
+      x = w * 0.74 - cw * 0.5;
+      y = h * 0.49;
+      opacity = 0.38;
+    }
+
+    /* ESCALA CONSTANTE EN TODAS LAS ESCENAS. Poses 10-12 normalizadas al mismo lienzo 1024x1536. */
+    scale = 1;
+
+    // Restablecer los actores nuevos al retroceder por las escenas originales.
+    if (desktopStory() && s < 5) {
+      gsap.set(nextSequence,{autoAlpha:0});
+      gsap.set(blueActor,{autoAlpha:0});
+      gsap.set(redDoor,{autoAlpha:0});
+      gsap.set(redGirl,{autoAlpha:0});
+    }
+    if (desktopStory() && s >= 5) doorOpacity=0;
+
+    /* MOSTRAR SOLO UNA MUÑECA: individual o composición con puerta */
+    if (doorSequence && doorPose) {
+      if (doorPose.dataset.frame !== String(doorFrame) &&
+          poses[doorFrame] && poses[doorFrame].complete && poses[doorFrame].naturalWidth) {
+        doorPose.src = poses[doorFrame].src;
+        doorPose.dataset.frame = String(doorFrame);
+      }
+      gsap.set(doorSequence, {autoAlpha: doorOpacity});
+    }
+    opacity *= (1 - doorOpacity);
+
+    /* ACTUALIZAR PERSONAJE */
+
+    // V5.8: Adaptar encuadre del personaje a la altura y ancho reales del móvil.
+    // Se aplica después de calcular las poses, sin alterar sus fotogramas ni tiempos.
+    if (window.innerWidth <= 800 && window.innerHeight > window.innerWidth) {
+      const mobileScale = Math.min(1, 0.84 + (window.innerWidth / 1600));
+      scale *= mobileScale;
+      const isTransition = y < 0 || x < -cw * 0.35 || x > w - cw * 0.35;
+      if (!isTransition) {
+        if (s < 1) {
+          y = Math.max(h * 0.34, y);
+        } else if (s < 3) {
+          y = Math.max(h * 0.48, y);
+        } else if (s < 4) {
+          // En Marketing la tarjeta ocupa la pantalla; el personaje no tapa los botones.
+          opacity = Math.min(opacity, 0.13);
+        } else if (s < 4.7) {
+          y = Math.max(h * 0.48, y);
+        }
+        x = Math.max(-cw * 0.12, Math.min(x, w - cw * 0.88));
+      }
+    }
+
+    setPose(frame);
+
+    gsap.set(character, {
+      x,
+      y,
+      scaleX: scale * flip,
+      scaleY: scale,
+      opacity,
+      transformOrigin: "center bottom"
+    });
+
+    /* CONTADOR Y PROGRESO */
+
+    counter.textContent =
+      String(index + 1).padStart(2, "0") + (desktopStory() ? " / 07" : " / 05");
+
+    gsap.set(progressBar, {
+      width: (p * 100) + "%"
+    });
+  }
+
+  /* SCROLLTRIGGER */
+
+  const trigger = ScrollTrigger.create({
+    trigger: ".story",
+    start: "top top",
+    end: () => window.innerWidth <= 800 ? "+=550%" : "+=1050%",
+    pin: ".stage",
+    scrub: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? false : true,
+    anticipatePin: 1,
+    invalidateOnRefresh: true,
+
+    onUpdate(self) {
+      render(self.progress);
+    },
+
+    onRefresh(self) {
+      render(self.progress);
+    }
+  });
+
+  /* INICIALIZACIÓN */
+
+  function refreshLayout() {
+    fitSceneTitles();
+    ScrollTrigger.refresh();
+    render(trigger.progress);
+  }
+
+  window.addEventListener("load", refreshLayout);
+  window.addEventListener("resize", refreshLayout);
+
+  if (document.fonts) {
+    document.fonts.ready.then(refreshLayout);
+  }
+
+  fitSceneTitles();
+  render(trigger.progress);
+}
+</script>
+
+<script>
+/* V5.5: Carrusel independiente de ScrollTrigger y formulario de 3 pasos. */
+(() => {
+  const track=document.querySelector('#ccPricingTrack');
+  const dots=[...document.querySelectorAll('#ccCarouselDots button')];
+  if (!track) return;
+  const cards=[...track.querySelectorAll('.plan')];
+  let active=1;
+  function show(n){active=(n+cards.length)%cards.length;track.style.transform=`translateX(-${active*100}%)`;dots.forEach((d,i)=>{d.classList.toggle('is-active',i===active);d.setAttribute('aria-pressed',String(i===active))});document.querySelector('#ccCarouselCount').textContent=`${String(active+1).padStart(2,'0')} / 03`;
+    cards.forEach((card,i)=>{card.setAttribute('aria-hidden',String(i!==active));card.querySelectorAll('button').forEach(b=>b.tabIndex=i===active?0:-1)});
+  }
+  document.querySelector('#ccPlanPrev').addEventListener('click',()=>show(active-1));
+  document.querySelector('#ccPlanNext').addEventListener('click',()=>show(active+1));
+  dots.forEach((d,i)=>d.addEventListener('click',()=>show(i)));
+  show(1);
+  const overlay=document.querySelector('#ccQuoteOverlay');
+  const form=document.querySelector('#ccQuoteForm');
+  const steps=[...form.querySelectorAll('.cc-form-step')];
+  const labels=[...document.querySelectorAll('#ccQuoteSteps span')];
+  const err=document.querySelector('#ccFormError');
+  const next=document.querySelector('#ccQuoteNext');
+  const back=document.querySelector('#ccQuoteBack');
+  let step=0;let priorFocus=null;
+  function navigate(n){step=n;steps.forEach((el,i)=>el.hidden=i!==n);labels.forEach((el,i)=>el.classList.toggle('is-current',i===n));err.hidden=true;back.hidden=n===0;next.textContent=n===2?'Preparar correo ↗':'Continuar →';document.querySelector('.cc-quote-content').scrollTop=0;}
+  function open(plan){priorFocus=document.activeElement;form.reset();form.querySelectorAll('[name=plan]').forEach(input=>input.checked=input.value===plan);overlay.hidden=false;document.body.classList.add('cc-modal-open');navigate(0);document.querySelector('#ccQuoteClose').focus();}
+  function close(){overlay.hidden=true;document.body.classList.remove('cc-modal-open');priorFocus?.focus();}
+  track.querySelectorAll('[data-plan]').forEach(btn=>btn.addEventListener('click',()=>open(btn.dataset.plan)));
+  document.querySelector('#ccQuoteClose').addEventListener('click',close);
+  overlay.addEventListener('click',e=>{if(e.target===overlay)close()});
+  document.addEventListener('keydown',e=>{if(overlay.hidden)return;if(e.key==='Escape')close();if(e.key==='Tab'){const focusables=[...overlay.querySelectorAll('button:not([hidden]),input:not(:disabled),select,textarea')].filter(el=>el.offsetParent!==null);if(!focusables.length)return;const first=focusables[0],last=focusables.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}});
+  function fieldsValid(container){let ok=true;const fields=[...container.querySelectorAll('input[required],select[required],textarea[required]')];for(const field of fields){if(field.type==='radio'){if(!form.querySelector(`input[name="${field.name}"]:checked`)){ok=false;break}}else if(!field.checkValidity()){ok=false;field.focus();break}}if(!ok)err.hidden=false;return ok;}
+  function data(){return Object.fromEntries(new FormData(form).entries());}
+  function fillSummary(){const d=data();const entries=[['Servicio',d.servicio],['Objetivo',d.objetivo],['Plan',d.plan],['Dónde anunciarte',d.canal],['Proyecto',d.proyecto],['Nombre',d.nombre],['Correo',d.email],['Teléfono',d.telefono],['Marca',d.marca||'No indicada']];const root=document.querySelector('#ccQuoteSummary');root.replaceChildren();for(const [k,v] of entries){const item=document.createElement('div');const b=document.createElement('strong');b.textContent=k+': ';item.append(b,document.createTextNode(v||''));root.appendChild(item)}}
+  back.addEventListener('click',()=>navigate(Math.max(0,step-1)));
+  next.addEventListener('click',()=>{if(step<2){if(!fieldsValid(steps[step]))return;if(step===1)fillSummary();navigate(step+1);return}const d=data();const body=`Nueva solicitud ColorClik\n\nServicio: ${d.servicio}\nObjetivo: ${d.objetivo}\nPlan: ${d.plan}\nCanal: ${d.canal}\nProyecto: ${d.proyecto}\n\nNombre: ${d.nombre}\nEmail: ${d.email}\nTeléfono: ${d.telefono}\nMarca: ${d.marca||'No indicada'}`;const uri=`mailto:hola@colorclik.cl?subject=${encodeURIComponent('Cotización Marketing Digital - '+d.plan)}&body=${encodeURIComponent(body)}`;window.location.href=uri;});
+})();
+</script>
+
+</body>
+</html>

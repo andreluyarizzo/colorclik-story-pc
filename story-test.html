@@ -1211,7 +1211,13 @@ body.cc-modal-open {overflow:hidden;}
   .cc-webplan a {display:block;text-align:center;border-radius:999px;background:#111;color:#fff;padding:10px 6px;font-size:10px;font-weight:800;text-decoration:none;}
   .cc-webplan--featured a {background:#fff;color:#146cff;}
   .cc-next-sequence {position:absolute;z-index:21;right:0;top:50%;width:min(49vw,740px);height:67vh;transform:translateY(-45%);pointer-events:none;opacity:0;visibility:hidden;}
+  .cc-next-sequence {left:41%;right:auto;top:50%;width:min(58vw,900px);height:auto;aspect-ratio:3/2;transform:translateY(-44%);}
   .cc-next-sequence img {display:block;width:100%;height:100%;object-fit:contain;}
+  .door-sequence img {transform:none;}
+  .cc-red-door,.cc-red-girl {top:auto;bottom:0;transform:none;}
+  .cc-red-girl {right:15vw;}
+  .cc-red-door img,.cc-red-girl img,.cc-blue-actor img {object-position:center bottom;}
+  .cc-webplan a:focus-visible {outline:3px solid #06b6d4;outline-offset:3px;}
   .cc-blue-actor {position:absolute;z-index:24;top:0;left:0;width:clamp(160px,24vw,390px);height:clamp(245px,39vw,600px);pointer-events:none;opacity:0;visibility:hidden;will-change:transform;}
   .cc-blue-actor img {display:block;width:100%;height:100%;object-fit:contain;}
   .cc-red-door {position:absolute;z-index:22;right:5vw;top:50%;width:min(26vw,390px);height:68vh;transform:translateY(-43%);pointer-events:none;opacity:0;visibility:hidden;perspective:1100px;}
@@ -1571,11 +1577,16 @@ if (!window.gsap || !window.ScrollTrigger) {
   for (let i = 1; i <= 49; i++) {
     if (i === 26 || i === 44) continue; // Estos fotogramas no existen; 43 y 45 forman el ciclo de caminata.
     const image = new Image();
-    image.src = `assets/yellow/${i}.png`;
+    image.src = desktopStory() ? `assets/optimized/yellow/${i}.webp` : `assets/yellow/${i}.png`;
     poses[i] = image;
+    if (desktopStory()) image.decode().then(() => render(trigger.progress)).catch(() => {});
   }
 
-  let activePose = 1;
+  if (desktopStory()) {
+    redDoorImage.src = "assets/optimized/doors/red-door.webp";
+    redGirl.querySelector("img").src = "assets/optimized/yellow/49.webp";
+  }
+  let activePose = 0;
 
   function setPose(number) {
     if (number === activePose) return;
@@ -1583,6 +1594,13 @@ if (!window.gsap || !window.ScrollTrigger) {
     if (!next || !next.complete || !next.naturalWidth) return;
     pose.src = next.src;
     activePose = number;
+  }
+
+  function setActorPose(image, number) {
+    const source = poses[number];
+    if (image.dataset.frame === String(number) || !source?.complete || !source.naturalWidth) return;
+    image.src = source.src;
+    image.dataset.frame = String(number);
   }
 
   /* AJUSTE RESPONSIVO DE TÍTULOS */
@@ -1683,9 +1701,13 @@ if (!window.gsap || !window.ScrollTrigger) {
             : 0;
       }
 
-      gsap.set(scene, {
-        autoAlpha: clamp(0, 1, opacity)
-      });
+      if (desktopStory()) {
+        // Sequential fades prevent two headings and plan grids occupying the same space.
+        if (i === index && index < lastIndex && local > .82) opacity=1-clamp(0,1,(local-.82)/.08);
+        if (i === index+1) opacity=local>.90 ? clamp(0,1,(local-.90)/.10) : 0;
+        if (i===5 && s<5.31) opacity=0;
+      }
+      gsap.set(scene, {autoAlpha:clamp(0,1,opacity)});
 
       // Habilitar clics solo en la escena visible.
       // GSAP controla la visibilidad; no se usa la clase .active.
@@ -1954,7 +1976,7 @@ if (!window.gsap || !window.ScrollTrigger) {
       const outsideRight = w + cw * 0.15;
       // Posición aproximada de la muñeca dentro de 32.png reflejada:
       // composición left:31% width:58%, muñeca a ~70% del PNG.
-      const approachX = w * 0.73 - cw * 0.5;
+      const approachX = (desktopStory() ? w * 0.51 : w * 0.73) - cw * 0.5;
       x = homeX;
       y = h * 0.17;
       scale = 1;
@@ -2012,16 +2034,18 @@ if (!window.gsap || !window.ScrollTrigger) {
       frame = 31;
       opacity = 0;
       const nFrame = t < .17 ? 39 : t < .31 ? 40 : 41;
-      if (nextPose.dataset.frame !== String(nFrame) && poses[nFrame]?.complete && poses[nFrame]?.naturalWidth) {
-        nextPose.src = poses[nFrame].src;
-        nextPose.dataset.frame = String(nFrame);
-      }
-      gsap.set(nextSequence, {autoAlpha: 1-clamp(0,1,(t-.77)/.09)});
-      const a = clamp(0,1,(t-.82)/.06);
+      setActorPose(nextPose, nFrame);
+      const departing = t >= .84;
+      gsap.set(nextSequence, {autoAlpha: departing ? 0 : 1});
+      const composition = nextSequence.getBoundingClientRect();
+      const actorY = composition.bottom - blueActor.offsetHeight;
+      const actorX = w * .81 - cw * .5;
       const walking = t >= .9;
-      const actorFrame = walking ? (Math.floor((t-.9)*90)%2 ? 43 : 45) : 42;
-      if (bluePose.dataset.frame !== String(actorFrame) && poses[actorFrame]?.complete && poses[actorFrame]?.naturalWidth) bluePose.src=poses[actorFrame].src,bluePose.dataset.frame=String(actorFrame);
-      gsap.set(blueActor,{autoAlpha:a,x:mix(w*.69,w+cw*.25,clamp(0,1,(t-.86)/.14)),y:h*.18,scaleX:1,scaleY:1,transformOrigin:'center bottom'});
+      setActorPose(bluePose, walking ? (Math.floor((t-.9)*90)%2 ? 43 : 45) : 42);
+      gsap.set(blueActor,{autoAlpha:departing ? 1 : 0,x:mix(actorX,w+cw*.25,clamp(0,1,(t-.90)/.10)),y:actorY,scaleX:1,scaleY:1,transformOrigin:'center bottom'});
+      const plansCopy = scenes[5].querySelector('.copy');
+      gsap.set(plansCopy,{autoAlpha:clamp(0,1,(t-.31)/.08)});
+      plansCopy.style.pointerEvents=t>=.31 && t<.90 ? 'auto':'none';
       gsap.set(redDoor,{autoAlpha:0});
       gsap.set(redGirl,{autoAlpha:0});
 
@@ -2037,12 +2061,14 @@ if (!window.gsap || !window.ScrollTrigger) {
       const walkT = clamp(0,1,t/.49);
       const blueX = mix(-cw*1.2,w*.57-cw*.45,walkT);
       const actorFrame = t < .49 ? (Math.floor(t*28)%2 ? 43 : 45) : t < .59 ? 46 : t < .71 ? 47 : t < .82 ? 48 : 46;
-      if (bluePose.dataset.frame !== String(actorFrame) && poses[actorFrame]?.complete && poses[actorFrame]?.naturalWidth) bluePose.src=poses[actorFrame].src,bluePose.dataset.frame=String(actorFrame);
-      gsap.set(blueActor,{autoAlpha:1,x:blueX,y:h*.19,scaleX:1,scaleY:1,transformOrigin:'center bottom'});
-      gsap.set(redDoor,{autoAlpha:1});
+      setActorPose(bluePose, actorFrame);
+      gsap.set(blueActor,{autoAlpha:1,x:blueX,y:nextSequence.getBoundingClientRect().bottom-blueActor.offsetHeight,scaleX:1,scaleY:1,transformOrigin:'center bottom'});
+      const floor = nextSequence.getBoundingClientRect().bottom;
+      gsap.set(redDoor,{autoAlpha:1,y:floor-h});
       const opening = clamp(0,1,(t-.82)/.12);
       gsap.set(redDoorImage,{rotationY:-opening*63,transformOrigin:'16% 50%'});
-      gsap.set(redGirl,{autoAlpha:clamp(0,1,(t-.84)/.10),x:-opening*12});
+      gsap.set(redGirl,{autoAlpha:clamp(0,1,(t-.84)/.10),x:-opening*12,y:floor-h});
+      gsap.set(scenes[6].querySelector('.copy'), {autoAlpha:clamp(0,1,(t-.84)/.10)});
     }
 
     /* En móvil, la escena de planes necesita prioridad de lectura.
@@ -2183,6 +2209,7 @@ if (!window.gsap || !window.ScrollTrigger) {
   const err=document.querySelector('#ccFormError');
   const next=document.querySelector('#ccQuoteNext');
   const back=document.querySelector('#ccQuoteBack');
+  if (window.innerWidth > 800) form.addEventListener('submit', e => { e.preventDefault(); document.querySelector('#ccQuoteNext').click(); });
   let step=0;let priorFocus=null;
   function navigate(n){step=n;steps.forEach((el,i)=>el.hidden=i!==n);labels.forEach((el,i)=>el.classList.toggle('is-current',i===n));err.hidden=true;back.hidden=n===0;next.textContent=n===2?'Preparar correo ↗':'Continuar →';document.querySelector('.cc-quote-content').scrollTop=0;}
   function open(plan){if(window.innerWidth>800)plan=plan.trim();priorFocus=document.activeElement;form.reset();form.querySelectorAll('[name=plan]').forEach(input=>input.checked=input.value===plan);overlay.hidden=false;document.body.classList.add('cc-modal-open');navigate(0);document.querySelector('#ccQuoteClose').focus();}

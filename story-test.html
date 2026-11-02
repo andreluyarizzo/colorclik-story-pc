@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ColorClik | Historia interactiva V5.0.9.7</title>
+<title>ColorClik | Historia PC V6.6</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2185,7 +2185,7 @@ if (!window.gsap || !window.ScrollTrigger) {
   const back=document.querySelector('#ccQuoteBack');
   let step=0;let priorFocus=null;
   function navigate(n){step=n;steps.forEach((el,i)=>el.hidden=i!==n);labels.forEach((el,i)=>el.classList.toggle('is-current',i===n));err.hidden=true;back.hidden=n===0;next.textContent=n===2?'Preparar correo ↗':'Continuar →';document.querySelector('.cc-quote-content').scrollTop=0;}
-  function open(plan){priorFocus=document.activeElement;form.reset();form.querySelectorAll('[name=plan]').forEach(input=>input.checked=input.value===plan);overlay.hidden=false;document.body.classList.add('cc-modal-open');navigate(0);document.querySelector('#ccQuoteClose').focus();}
+  function open(plan){if(window.innerWidth>800)plan=plan.trim();priorFocus=document.activeElement;form.reset();form.querySelectorAll('[name=plan]').forEach(input=>input.checked=input.value===plan);overlay.hidden=false;document.body.classList.add('cc-modal-open');navigate(0);document.querySelector('#ccQuoteClose').focus();}
   function close(){overlay.hidden=true;document.body.classList.remove('cc-modal-open');priorFocus?.focus();}
   track.querySelectorAll('[data-plan]').forEach(btn=>btn.addEventListener('click',()=>open(btn.dataset.plan)));
   document.querySelector('#ccQuoteClose').addEventListener('click',close);

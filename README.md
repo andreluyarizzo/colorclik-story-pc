@@ -32,10 +32,14 @@ Historia de escritorio con GSAP y ScrollTrigger, hasta la aparición de la pelir
 
 ## Contacto
 
-Los tres planes web abren `mailto:hola@colorclik.cl` con su asunto. El formulario de Marketing valida los pasos y prepara un correo en la aplicación del visitante. GitHub Pages no envía correos ni guarda datos: no se incluye un backend. Los precios existentes siguen marcados como referenciales.
+En escritorio se reutiliza el formulario original de ColorClik con sus cinco servicios, colores y opciones de correo y WhatsApp. Los seis botones de planes preseleccionan el servicio y plan correspondientes. La versión móvil conserva su formulario previo. GitHub Pages no envía correos ni guarda datos: no se incluye un backend. Los precios existentes siguen marcados como referenciales.
 
 ## Dependencias
 
 GSAP 3.12.5 y ScrollTrigger se cargan desde jsDelivr; las fuentes desde Google Fonts. Requiere conexión a Internet.
 
 Las comprobaciones y límites se documentan en `QA_DESKTOP.md`.
+
+## Trabajo por partes
+
+La actualización de escala y precios, las pruebas de los formularios originales y el orden de las próximas escenas se documentan en [docs/PARTE_1.md](docs/PARTE_1.md). El informe QA_DESKTOP.md corresponde a la publicación inicial V6.6.

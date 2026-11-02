@@ -2079,7 +2079,6 @@ if (!window.gsap || !window.ScrollTrigger) {
       setActorPose(nextPose, nFrame);
       const departing = t >= .80;
       gsap.set(nextSequence, {autoAlpha:1-clamp(0,1,(t-.80)/.04),clipPath:"inset(0)"});
-      normalizePortrait(redGirl.querySelector("img"),49);
       const composition = nextSequence.getBoundingClientRect();
       const actorY = composition.bottom - blueActor.offsetHeight;
       const artworkWidth = Math.min(composition.width,composition.height*1312/1199);

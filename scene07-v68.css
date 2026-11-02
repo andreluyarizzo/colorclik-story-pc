@@ -5,7 +5,7 @@
  #ccRedWelcome img:first-child{opacity:1;}
 }
 @media(min-width:801px){
- #ccNextSequence img{transform:scaleX(-1);}
+
  #scene8{grid-template-columns:56% 44%;padding-left:6vw;padding-right:4vw;}
  #scene8 .copy{max-width:50vw;}
  .cc-brandplans-title{font-size:clamp(58px,5.5vw,100px);line-height:.88;letter-spacing:-.035em;}

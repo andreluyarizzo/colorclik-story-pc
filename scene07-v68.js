@@ -3,7 +3,7 @@
   const clamp = n => Math.max(0, Math.min(1,n));
   const phase = (t,a,b) => clamp((t-a)/(b-a));
   const mix = (a,b,q) => a+(b-a)*q;
-  const beats = [0,.39,.435,.48,.70,.75,.80,.845,.89,.94];
+  const beats = [0,.39,.435,.48,.70,.75,.80,.845,.89,1];
   const walk = q => Math.floor(q*12)%2 ? 43 : 45;
   function render(t,c) {
     const {gsap,w,nextSequence,blueActor,bluePose,redDoor,redGirl,copy,setActorPose}=c;
@@ -35,7 +35,7 @@
     gsap.set('#ccRedPresentation',{autoAlpha:0});
     gsap.set(copy,{autoAlpha:1});copy.style.pointerEvents='auto';
     portal.dataset.frame=String(index);
-    redGirl.dataset.storyBeat=t<.20?'arrival':t<.39?'knocking':t<.54?'welcome':t<.70?'departure':t<.80?'step-out':t<.94?'closing':'wave';
+    redGirl.dataset.storyBeat=t<.20?'arrival':t<.39?'knocking':t<.54?'welcome':t<.70?'departure':t<.80?'step-out':t<1?'closing':'wave';
   }
   window.ColorClikScene07=Object.freeze({render});
 })();

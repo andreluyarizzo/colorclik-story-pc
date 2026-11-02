@@ -1,0 +1,6 @@
+/* The ten compositions share an aligned door frame and a real alpha channel. */
+@media(min-width:801px){
+ #ccRedWelcome{width:auto;z-index:23;overflow:visible;}
+ #ccRedWelcome img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;transform:none;opacity:0;}
+ #ccRedWelcome img:first-child{opacity:1;}
+}

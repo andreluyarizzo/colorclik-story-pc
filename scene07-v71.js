@@ -78,7 +78,7 @@
     const groundedX=w*.64;
     const catchX=pw*.065*cradle,catchY=ph*.105*cradle;
     const boundary=mix(w,w*.48,close);
-    gsap.set(aqua,{autoAlpha:phase(t,0,.04),left,top,width:pw,height:ph,clipPath:`inset(0 ${clamp((left+pw-boundary)/pw)*100}% 0 0)`});
+    gsap.set(aqua,{autoAlpha:phase(t,0,.04)*(close<.5?1:0),left,top,width:pw,height:ph,clipPath:'inset(0)',filter:`blur(${Math.sin(close*Math.PI)*10}px)`});
     gsap.set('#ccAquaReady',{autoAlpha:1});
     gsap.set('#ccAquaJoined',{autoAlpha:0});
     gsap.set('#ccRedApproach',{autoAlpha:1-ease(phase(t,.50,.54)),
@@ -95,8 +95,8 @@
     gsap.set('#ccSocialRedWalk',{autoAlpha:ease(phase(t,.61,.65))*(1-phase(t,.89,.91)),width:ww,height:wh,
       x:mix(groundedX-ww*.5,w+ww*.3,walk),y:floor-wh-Math.sin(walk*Math.PI*10)*3,
       scaleX:-1,scaleY:1,rotation:Math.sin(walk*Math.PI*10)*1.2,transformOrigin:'center bottom'});
-    socialStage(c,close>0?1:0);
-    gsap.set('#ccSocialStage',{clipPath:`inset(0 0 0 ${clamp((boundary-w*.56)/restPW)*100}%)`});
+    socialStage(c,close>=.5?1:0);
+    gsap.set('#ccSocialStage',{clipPath:'inset(0)',filter:`blur(${Math.sin(close*Math.PI)*10}px)`});
     gsap.set('#ccSocialRest',{autoAlpha:1,x:0,y:0,rotation:0,clipPath:'inset(0 0 0 0)'});
     gsap.set('#ccSocialStumble,#ccBanana,#ccRedWelcome,#ccRedPresentation,#ccRedFlight',{autoAlpha:0});
     gsap.set(blueActor,{autoAlpha:0});gsap.set(redDoor,{autoAlpha:0});
@@ -108,9 +108,9 @@
     const {gsap,w,blueActor,copy,redGirl,redDoor}=c;
     const {floor,ph,pw}=socialStage(c,1);
     const slip=ease(phase(t,.61,.78));
-    gsap.set('#ccSocialStage',{clipPath:'inset(0 0 0 0)'});
-    gsap.set('#ccSocialRest',{autoAlpha:slip<1?1:0,x:0,y:0,rotation:0,clipPath:`inset(0 0 ${slip*100}% 0)`});
-    gsap.set('#ccSocialStumble',{autoAlpha:slip>0?1:0,x:0,y:0,rotation:0,clipPath:`inset(${(1-slip)*100}% 0 0 0)`});
+    gsap.set('#ccSocialStage',{clipPath:'inset(0)',filter:`blur(${Math.sin(slip*Math.PI)*7}px)`});
+    gsap.set('#ccSocialRest',{autoAlpha:slip<.5?1:0,x:0,y:0,rotation:0,clipPath:'inset(0)'});
+    gsap.set('#ccSocialStumble',{autoAlpha:slip>=.5?1:0,x:0,y:0,rotation:0,clipPath:'inset(0)'});
     gsap.set('#ccBanana',{autoAlpha:ease(phase(t,.43,.51)),left:w*.56+pw*.28,top:floor-16,
       x:mix(0,-28,slip),y:-Math.sin(slip*Math.PI)*12,rotation:mix(-8,24,slip),width:Math.max(42,pw*.14)});
     gsap.set('#ccSocialRedWalk,#ccAquaStage,#ccRedWelcome,#ccRedPresentation,#ccRedFlight',{autoAlpha:0});

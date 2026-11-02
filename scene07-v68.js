@@ -34,6 +34,22 @@
     gsap.set(redGirl,{autoAlpha:0});
     gsap.set('#ccRedPresentation',{autoAlpha:0});
     gsap.set(copy,{autoAlpha:1});copy.style.pointerEvents='auto';
+    // Scene 8's final beat: the character leaves downward while the plans and
+    // closed door remain fixed. Existing pose 50 is already a transparent asset.
+    if(c.planPhase!==null && c.planPhase!==undefined){
+      const release=phase(c.planPhase,.76,.80);
+      const drop=phase(c.planPhase,.80,1);
+      const closed=document.querySelector('#ccRedPresentation');
+      const closedImage=closed.querySelector('img');
+      if(!closedImage.dataset.closed){closedImage.src='assets/optimized/red/v68/00.webp';closedImage.dataset.closed='true';}
+      gsap.set(closed,{autoAlpha:release,left,width:pw,height:ph,bottom:innerHeight-floor-ph*.03,x:0});
+      gsap.set(closedImage,{scaleX:.86,scaleY:1,transformOrigin:'37.5% 0%'});
+      gsap.set(portal,{autoAlpha:1-release});
+      if(release>0){
+        setActorPose(redGirl.querySelector('img'),50);
+        gsap.set(redGirl,{autoAlpha:release,left:0,right:'auto',top:0,bottom:'auto',x:left+pw*.69-redGirl.offsetWidth*.5+w*.025*drop,y:floor-ah+innerHeight*1.22*drop*drop,rotation:drop*-14,scaleX:1,scaleY:1,zIndex:25,transformOrigin:'center center'});
+      }
+    }
     portal.dataset.frame=String(index);
     redGirl.dataset.storyBeat=t<.20?'arrival':t<.39?'knocking':t<.54?'welcome':t<.70?'departure':t<.80?'step-out':t<1?'closing':'wave';
   }

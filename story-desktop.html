@@ -1537,7 +1537,7 @@ body.cc-modal-open {overflow:hidden;}
   </div>
 </div>
 
-<script src="scene07-v68.js?v=2"></script>
+<script src="scene07-v68.js?v=3"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 
@@ -2104,7 +2104,7 @@ if (!window.gsap || !window.ScrollTrigger) {
       gsap.set(nextSequence,{autoAlpha:0,clipPath:"inset(0)"});
       window.ColorClikScene07.render(t,{
         gsap,w,h,nextSequence,blueActor,bluePose,redDoor,redDoorImage,redGirl,
-        copy:scenes[s<7?6:7].querySelector('.copy'),setActorPose
+        copy:scenes[s<7?6:7].querySelector('.copy'),setActorPose,planPhase:s>=7?clamp(0,1,s-7):null
       });
     }
 

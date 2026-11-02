@@ -2082,7 +2082,8 @@ if (!window.gsap || !window.ScrollTrigger) {
       normalizePortrait(redGirl.querySelector("img"),49);
       const composition = nextSequence.getBoundingClientRect();
       const actorY = composition.bottom - blueActor.offsetHeight;
-      const actorX = composition.left + composition.width*.78 - blueActor.offsetWidth*.5;
+      const artworkWidth = Math.min(composition.width,composition.height*1312/1199);
+      const actorX = composition.left+(composition.width-artworkWidth)*.5+artworkWidth*.75-blueActor.offsetWidth*.5;
       const walking = t >= .84;
       setActorPose(bluePose, walking ? (Math.floor((t-.84)*75)%2 ? 43 : 45) : 46);
       gsap.set(blueActor,{autoAlpha:clamp(0,1,(t-.80)/.04),x:mix(actorX,w+cw*.25,clamp(0,1,(t-.84)/.16)),y:actorY,scaleX:1,scaleY:1,transformOrigin:'center bottom'});

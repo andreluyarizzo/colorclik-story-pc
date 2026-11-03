@@ -131,6 +131,7 @@
   function mount(){
     if(mounted||!window.ColorClikReading||!window.ColorClikStoryTimeline||!window.ColorClikActorScale)return;
     mounted=true;
+    document.documentElement.classList.add('story-composed');
     viewportProbe=document.createElement('div');viewportProbe.className='story-viewport-probe';
     viewportProbe.setAttribute('aria-hidden','true');document.body.append(viewportProbe);
     document.querySelectorAll('.scene').forEach((scene,index)=>{

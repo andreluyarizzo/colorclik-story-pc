@@ -9,3 +9,5 @@ La historia mantiene sus 105 momentos, planes, cinco proyectos y cierre. Los pre
 Las pruebas de Android usan Chromium emulado y las fuentes reales cargadas a través de la red configurada. No son pruebas en Samsung Internet físico. Se revisaron 384 × 854, 412 × 915, 480 × 1067 y 412 × 780, además de texto aumentado, sin superposición entre textos e ilustración. El recorrido de los 105 momentos también se comprobó en 320 × 568, 375 × 812, 768 × 1024, 1024 × 768 y 812 × 375. Las pruebas de cotización y teclado continúan pasando.
 
 Las capturas locales `proposal-scene*.png` documentan la composición; permanecen como artefactos de la conversación.
+
+La apariencia móvil también se mantiene con movimiento reducido: las acciones se presentan sin animación y se conserva la jerarquía visual, el escenario y la cotización.

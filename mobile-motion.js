@@ -82,8 +82,12 @@
     const next=beats.find(beat=>beat.at>progress+.0001);
     if(next){const state=timeline.sample(record.index,next.at);['base','lead','support'].forEach(key=>{if(state[key])imageFor(state[key].frame);});}
   }
-  function tick(){pending=false;if(reduced.matches||document.hidden)return;nearby.forEach(render);}
-  function schedule(){if(!pending&&!reduced.matches&&mounted){pending=true;requestAnimationFrame(tick);}}
+  function renderStill(record){
+    const frame=record.poster.split('assets/optimized/')[1].split('.webp')[0];
+    paint(record,{beat:'still',base:{frame,x:0,y:0,width:100,height:100,flip:1},cardX:0});
+  }
+  function tick(){pending=false;if(document.hidden)return;nearby.forEach(reduced.matches?renderStill:render);}
+  function schedule(){if(!pending&&mounted){pending=true;requestAnimationFrame(tick);}}
   function sizeStages(){
     if(document.querySelector('dialog[open]'))return;
     const availableWidth=Math.min(...records.map(record=>record.figure.clientWidth));
@@ -99,7 +103,8 @@
         return Math.max(100,viewportHeight-copy-toolbar-parseFloat(style.paddingTop)-parseFloat(style.paddingBottom)-2*parseFloat(style.rowGap));
       };
       const fit=(indices,ratio)=>Math.min(availableWidth/ratio,...indices.map(i=>(space(records[i])-32)/records[i].artRatio));
-      const cameras={portrait:Math.min(560,fit([0,1,2,3],.72)),blue:fit([4,5],1.35),red:fit([6,7],.8),aqua:fit([8,9],1.2),purple:fit([10,11],1.17),wide:availableWidth/2.5,finale:fit([17],1.55)};
+      const storyUnit=Math.min(availableWidth/1.3,...records.slice(0,12).map(record=>(space(record)-32)/record.artRatio));
+      const cameras={portrait:storyUnit,blue:storyUnit,red:storyUnit,aqua:storyUnit,purple:storyUnit,wide:availableWidth/2.5,finale:fit([17],1.55)};
       records.forEach(record=>{
         const camera=record.index<4?'portrait':record.index<6?'blue':record.index<8?'red':record.index<10?'aqua':record.index<12?'purple':record.index<17?'wide':'finale';
         record.unit=cameras[camera];record.designed=true;record.scene.dataset.camera=camera;
@@ -125,7 +130,8 @@
         if(record.card)record.card.style.transform='';
       });
       cache.clear();
-    }else sizeStages();
+    }
+    sizeStages();
   }
 
   function mount(){

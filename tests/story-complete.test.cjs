@@ -30,12 +30,14 @@ test('complete V80 touch story: all beats reversible, every asset exists and eve
  console.log(`${observed.size} beats, ${frames.size} image assets, 18 complete chapters`);
 });
 
-test('blue faces right while arriving, knocking and leaving the red door',()=>{
- for(const [a,b] of [[.02,.18],[.55,.69]]){
-  const start=sample(6,a).lead,end=sample(6,b).lead;
-  assert(end.x>start.x,'Blue must advance to the right');
-  assert.equal(start.flip,1,'Source walk poses 43/45 face right');
-  assert.equal(end.flip,1);
+test('blue arrives from the right, faces the red door, then walks out to the right',()=>{
+ const incomingA=sample(6,.02).lead,incomingB=sample(6,.18).lead;
+ assert(incomingA.x>incomingB.x,'Arrival must move leftward from the right edge');
+ assert.equal(incomingA.flip,-1);assert.equal(incomingB.flip,-1);
+ for(const p of [.22,.29,.32,.36,.41,.46,.51]){
+  assert.equal(sample(6,p).lead.flip,-1,'Keep facing left toward the door');
+  assert.equal(sample(6,p).lead.x,47);
  }
- for(const p of [.22,.29,.32,.36,.41,.46,.51])assert.equal(sample(6,p).lead.flip,1,'Keep facing the door while waiting and knocking');
+ const leavingA=sample(6,.55).lead,leavingB=sample(6,.69).lead;
+ assert(leavingB.x>leavingA.x);assert.equal(leavingA.flip,1);assert.equal(leavingB.flip,1);
 });

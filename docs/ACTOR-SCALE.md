@@ -42,3 +42,9 @@ Pruebas con emulación Chromium de Android, táctil y densidad 3 (no un Galaxy S
 | 412 × 780 | 265,8 px | 180,7 px |
 
 También se comprobaron 412 × 915 con títulos de 36 px y descripciones de 21 px. Los formatos cubren distintos anchos de ventana y ajustes de visualización; no se afirma que un modelo de teléfono tenga un único viewport fijo. En estos tamaños el plano cercano aumenta aproximadamente un 47 % respecto a la entrega anterior. Las pruebas esperan que las imágenes visibles estén cargadas antes de capturar el resultado.
+
+## Escala compartida de la historia
+
+Las escenas 1–12 usan ahora una única unidad corporal, calculada para el encuadre más exigente. Ya no cambia entre retratos, puertas y rescates. El equipo de cinco y el abrazo final conservan encuadres abiertos para verse completos, según la preferencia elegida por la usuaria. Las referencias de altura de las poses de pie aguamarina y purple se revisaron contra sus cuerpos, excluyendo la puerta y el espacio transparente. Las posturas dobladas conservan su postura natural.
+
+La misma normalización también se aplica a las imágenes estáticas cuando se solicita movimiento reducido.

@@ -13,7 +13,7 @@ function mountReading() {
   window.ScrollTrigger?.getAll().forEach(t => t.kill(true));
   document.documentElement.classList.add('reading');
   document.querySelectorAll('.scene').forEach(el => {el.style.removeProperty('height');el.style.removeProperty('position');});
-  const artwork = ['yellow/1','yellow/15','yellow/25','yellow/31','yellow/38','yellow/41','red/v68/09','red/51','story-v72/caught','social/rest','purple-v73/greeting','purple-v73/wave'];
+  const artwork = ['yellow/1','yellow/15','yellow/25','yellow/31','yellow/38','yellow/41','red/v68/09','red/51','story-v72/caught','story-v72/tired-transparent','purple-v73/greeting','purple-v73/wave'];
   document.querySelectorAll('.stage > [aria-hidden="true"] img').forEach(im => { im.loading = 'lazy'; im.decoding = 'async'; });
   document.querySelectorAll('.scene').forEach((scene, i) => {
     scene.inert = false;

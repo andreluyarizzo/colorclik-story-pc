@@ -36,3 +36,7 @@
 }
 
 @media(prefers-reduced-motion:reduce){.reading.story-composed .story-visual::after{display:none}}
+
+@media(max-width:600px) and (orientation:portrait){
+ .reading.story-composed .motion-chapter .story-visual,.reading.story-composed .motion-chapter.scene--portfolio .story-visual{width:calc(100vw - 16px)!important;margin-inline:calc((100% - 100vw + 16px)/2)!important}
+}

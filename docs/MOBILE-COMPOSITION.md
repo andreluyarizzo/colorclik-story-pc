@@ -11,3 +11,9 @@ Las pruebas de Android usan Chromium emulado y las fuentes reales cargadas a tra
 Las capturas locales `proposal-scene*.png` documentan la composición; permanecen como artefactos de la conversación.
 
 La apariencia móvil también se mantiene con movimiento reducido: las acciones se presentan sin animación y se conserva la jerarquía visual, el escenario y la cotización.
+
+## Correcciones de continuidad
+
+El azul entra en la puerta roja desde fuera del borde derecho, camina hacia la izquierda y mantiene la mirada hacia la puerta mientras espera y golpea. Después gira y sale hacia la derecha. Las escenas individuales y de puertas comparten escala; el grupo sigue completo en plano abierto.
+
+La pose de descanso aguamarina usa `assets/optimized/story-v72/tired-transparent.webp`, obtenida mediante edición de fondo y exportada a WebP con el alfa intacto. Se reemplaza tanto en la animación como en los carteles de movimiento reducido y en el HTML de escritorio. El recurso original se conserva como respaldo. El nuevo recurso pesa aproximadamente 198 kB.

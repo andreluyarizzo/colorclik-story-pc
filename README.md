@@ -46,6 +46,7 @@ node --test tests/actor-scale.test.cjs
 node --test tests/story-complete.test.cjs
 node tests/qa-actor-scale.cjs
 node tests/qa-android-ultra.cjs
+node tests/qa-requested-fixes.cjs
 node tests/qa-complete-story.cjs
 node tests/qa-mobile-motion.cjs
 node tests/qa-v80.cjs

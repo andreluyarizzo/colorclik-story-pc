@@ -1,45 +1,62 @@
-# ColorClik · Historia PC V6.6
+# ColorClik · Historia adaptable
 
-Proyecto independiente publicado en https://andreluyarizzo.github.io/colorclik-story-pc/.
-Repositorio: https://github.com/andreluyarizzo/colorclik-story-pc.
+La entrada es `index.html` → `story-desktop.html`. Una sola fuente de contenido mantiene los 18 capítulos, planes y portafolio. `story-test.html` redirige a esa misma versión para evitar divergencias.
 
-## Alcance
+Hasta 1100 px, `responsive.js`, `responsive.css`, `story-timeline.js`, `actor-metrics.js`, `actor-layout.js` y `mobile-motion.js` presentan los 18 capítulos con movimiento controlado por el deslizamiento nativo: pasos, saltos, puertas, encuentros, portafolio y abrazo final. Los 105 momentos narrativos mantienen el encuadre mientras avanza el gesto. Las tarjetas de planes y el contacto aparecen después de su secuencia completa, con scroll natural, para que sus acciones no se reproduzcan fuera de pantalla. Con movimiento reducido se usa la lectura sin animación. En escritorio se mantiene la animación GSAP V80. Si GSAP no carga se activa esta presentación adaptable, que anima sin depender de un CDN. Al reducir una ventana animada se pasa a la presentación adaptable; se conserva ese modo hasta recargar para no reiniciar la historia o un formulario al rotar el dispositivo.
 
-Historia de escritorio con GSAP y ScrollTrigger, hasta la aparición de la pelirroja (imagen 49). La versión móvil original se conserva y queda fuera del trabajo de esta entrega. No se modificó el repositorio `colorclik-web`.
+Se utilizan WebP en todos los tamaños. Las ilustraciones añadidas en lectura vertical se cargan de forma diferida. Los originales y versiones históricas siguen disponibles como respaldo; no forman parte del código activo. No se ha medido una puntuación Lighthouse.
 
-## Recursos y estructura
+## Ejecución
 
-- `index.html`: entrada con redirección relativa a `story-desktop.html`.
-- `story-desktop.html`: historia, estilos y control del scroll.
-- `story-test.html`: misma versión para pruebas.
-- `assets/yellow/`: todos los PNG originales, sin cambios. No existen 26 ni 44 en el ZIP; no se solicitan.
-- `assets/doors/red-door.png`: puerta roja original independiente.
-- `assets/optimized/`: copias WebP transparentes a calidad 90 para escritorio, sin generación de imágenes. Total 11,7 MB frente a 94,7 MB de originales; se conserva la relación de aspecto y el canal alfa.
-- `.nojekyll`: publicación estática desde `main`, carpeta raíz.
+Node.js 22 o superior, sin instalar dependencias:
 
-## Correcciones de escritorio
+```sh
+node server.mjs
+```
 
-- Continuidad de orientación y encuadre en las composiciones de la puerta azul.
-- Encuadre común para 38–41 y suelo común para los actores de la extensión.
-- Una sola capa de personaje durante el paso de la composición 41 a la pose 42.
-- Despedida 39/40, azul solo 41 y aparición posterior de los tres planes web.
-- Ciclo de marcha reutilizando 43 y 45; salida derecha y entrada izquierda.
-- Puerta roja y poses 46–48; aparición de 49 y del texto Branding y Diseño.
-- Fundidos sucesivos para evitar títulos superpuestos; las capas ocultas no interceptan clics.
-- Precarga de WebP y actualización al completar la decodificación.
-- Corrección de espacios en el nombre del plan al abrir el formulario en escritorio.
-- Evitar que Enter recargue la historia al completar el formulario en escritorio.
+Abrir `http://localhost:8000`. El servidor admite únicamente las entradas activas y los recursos de `assets/`; no sirve documentos internos ni archivos ocultos. Añade CSP, protección contra incrustación, restricciones de permisos, tipos MIME y caché de recursos. Configurar HTTPS en el alojamiento/proxy. El CDN de GSAP y las fuentes necesitan conectividad; si falta GSAP, el contenido sigue disponible en lectura.
 
-## Contacto
+GitHub Pages admite la web estática, pero **no ejecuta `server.mjs` ni aplica sus cabeceras HTTP**. La página incorpora una CSP mediante meta; la protección contra incrustación necesita las cabeceras del servidor.
 
-En escritorio se reutiliza el formulario original de ColorClik con sus cinco servicios, colores y opciones de correo y WhatsApp. Los seis botones de planes preseleccionan el servicio y plan correspondientes. La versión móvil conserva su formulario previo. GitHub Pages no envía correos ni guarda datos: no se incluye un backend. Los precios existentes siguen marcados como referenciales.
+## Contacto y spam
 
-## Dependencias
+El formulario común es un diálogo nativo accesible. Preselecciona servicio y plan, limita la longitud de los campos y usa datos como texto. Sin backend configurado, abre un correo para revisión del visitante: **no envía ni almacena mensajes**. El honeypot y el intervalo en navegador no constituyen protección contra bots por sí solos.
 
-GSAP 3.12.5 y ScrollTrigger se cargan desde jsDelivr; las fuentes desde Google Fonts. Requiere conexión a Internet.
+El servidor incorpora `/api/contact`, con validación del origen, servicio y campos, máximo de 16 KiB, honeypot, cinco intentos por dirección IP cada diez minutos y comprobación Turnstile en servidor (hostname y acción `contact`). Envía texto plano a través de Resend. No permite que el visitante elija destinatario o remitente. Las claves no se devuelven al navegador. Sin configuración completa, el envío directo queda deshabilitado.
 
-Las comprobaciones y límites se documentan en `QA_DESKTOP.md`.
+Configurar como secretos/variables del alojamiento, nunca dentro del HTML:
 
-## Trabajo por partes
+- `PUBLIC_ORIGIN`: origen HTTPS exacto, sin barra final, por ejemplo `https://colorclik.cl`.
+- `TURNSTILE_SITE_KEY`: clave pública del widget, con el dominio autorizado.
+- `TURNSTILE_SECRET_KEY`: secreto Turnstile.
+- `RESEND_API_KEY`: credencial de Resend.
+- `MAIL_FROM`: remitente autorizado con dominio verificado.
+- `MAIL_TO`: buzón fijo de destino.
+- `PORT`: opcional, predeterminado 8000.
 
-La actualización de escala y precios, las pruebas de los formularios originales y el orden de las próximas escenas se documentan en [docs/PARTE_1.md](docs/PARTE_1.md). El informe QA_DESKTOP.md corresponde a la publicación inicial V6.6.
+Permitir conexiones salientes a `challenges.cloudflare.com` y `api.resend.com` en el servidor. El entorno de esta entrega no tiene estas credenciales ni esos destinos habilitados: el envío real no se ha ejecutado. Configurar SPF, DKIM y DMARC en el dominio de correo para reducir la suplantación.
+
+El límite usa memoria del proceso y la dirección del socket; tras un proxy compartido agrupa visitantes y en varias instancias no comparte contadores. Para producción con proxy o múltiples instancias, configurar el límite en el proveedor/WAF o un almacén compartido y una lista explícita de proxies de confianza antes de interpretar cabeceras reenviadas. Los controles no garantizan ausencia de ataques o spam.
+
+## Verificación y mantenimiento
+
+```sh
+node --test tests/security-api.test.mjs
+node --test tests/actor-scale.test.cjs
+node --test tests/story-complete.test.cjs
+node tests/qa-actor-scale.cjs
+node tests/qa-complete-story.cjs
+node tests/qa-mobile-motion.cjs
+node tests/qa-v80.cjs
+node tests/qa-v80-motion.cjs
+node tests/qa-v80-portfolio.cjs
+node tests/qa-v80-contact-finale.cjs
+python tools/security-policy.py
+python tools/package-site.py
+```
+
+El último comando actualiza los hashes CSP de los scripts inline después de editarlos; incluir `security-policy.txt` al desplegar Node. La CSP permite estilos inline porque la animación los modifica en ejecución, pero los scripts inline necesitan hashes autorizados. Revisar `docs/RESPONSIVE-SECURITY.md` para resultados y límites.
+
+Para las pruebas de navegador: con el servidor local iniciado y Playwright/Chromium instalados, ejecutar `node tests/qa-responsive.cjs`.
+
+La escala visual usa una unidad corporal compartida entre todas las escenas; los márgenes transparentes y las distintas proporciones de los lienzos no cambian el tamaño del personaje. Ver `docs/ACTOR-SCALE.md`.

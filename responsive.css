@@ -1,0 +1,116 @@
+/* One content source, native scroll on touch devices and for reduced motion. */
+:focus-visible{outline:3px solid #146cff;outline-offset:4px}
+.reading .stage{height:auto!important;min-height:100svh;overflow:clip}
+.reading .stage>.scene{position:relative!important;inset:auto!important;display:flex!important;flex-direction:column;align-items:stretch;justify-content:center;gap:28px;min-height:85svh;height:auto;opacity:1!important;visibility:visible!important;transform:none!important;pointer-events:auto!important;padding:64px clamp(20px,6vw,80px);border-bottom:1px solid #eee}
+.reading .stage>.scene .copy{position:relative!important;inset:auto!important;display:flex!important;flex-direction:column;align-items:stretch;gap:16px;max-width:880px!important;width:100%!important;height:auto!important;max-height:none!important;margin:auto;transform:none!important;text-align:left!important;overflow:visible}
+.reading .title{font-size:clamp(30px,6.5vw,64px)!important;line-height:1.08!important;max-width:100%!important;margin:0!important;letter-spacing:-.035em!important;overflow-wrap:anywhere}
+.reading .title span,.reading .title strong{font-size:inherit!important;line-height:inherit!important}
+.reading .description{font-size:clamp(16px,2.3vw,20px);line-height:1.6;max-width:65ch!important;margin:0}
+.reading .stage>.header{position:relative;height:auto;min-height:80px;padding:20px clamp(20px,6vw,80px);display:flex;flex-wrap:wrap;gap:16px}
+.reading .header-note{margin-left:auto;font-size:10px}
+.reading .stage>[aria-hidden=true],.reading .visual-space,.reading .scroll-hint,.reading .counter,.reading .progress{display:none!important}
+.reading .reading-art{display:block;width:min(100%,560px);height:clamp(220px,40svh,380px);object-fit:contain;margin:0 auto}
+.reading .cc-pricing-track,.reading .cc-webplans-grid,.reading .cc-brandplans-grid{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(min(100%,235px),1fr))!important;gap:16px!important;transform:none!important;width:100%!important;max-height:none!important}
+.reading .cc-pricing-track{grid-template-columns:repeat(auto-fit,minmax(min(100%,235px),1fr))!important}
+.reading .cc-webplans-grid,.reading .cc-brandplans-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,235px),1fr))!important}
+.reading .cc-carousel-layout{display:block!important;height:auto!important}
+.reading .cc-plan-viewport{overflow:visible}
+.reading .cc-carousel-arrow,.reading .cc-carousel-dots,.reading .cc-carousel-top{display:none!important}
+.reading .plan,.reading .cc-webplan,.reading .cc-brand-plan{position:relative;min-width:0!important;width:auto!important;min-height:0!important;max-height:none!important;flex:none!important;padding:28px 20px!important;background:#fff;border:1px solid #ddd;border-radius:18px;display:flex;flex-direction:column;gap:12px;color:#111}
+.reading .plan-price,.reading .cc-brand-price,.reading .cc-webplan>strong{font-size:34px;line-height:1.2;font-weight:800}
+.reading .plan-features,.reading .cc-brand-plan ul{font-size:15px;line-height:1.6;padding-left:20px}
+.reading button,.reading .cc-webplan a,.reading-project a{min-height:44px}
+.reading .cc-brand-plan button,.reading .cc-webplan button,.reading .cc-site-quote{display:inline-flex!important;justify-content:center;align-items:center;border:0;border-radius:30px;padding:14px 20px;background:#111;color:white;font:700 15px Outfit,sans-serif;cursor:pointer}
+.reading .cc-brand-badge{position:absolute;right:16px;top:8px;font-size:9px}
+.reading .reading-project{width:min(100%,720px);margin:auto;border:1px solid #ddd;border-radius:20px;padding:24px;background:white}
+.reading-project img{display:block;max-width:100%;height:200px;object-fit:contain;margin:auto}
+.reading-project h3{font-size:28px}.reading-project p{line-height:1.6}.reading-project a{display:inline-flex;align-items:center}
+.reading #scene18 .cc-contact-panel{position:static!important;width:100%!important;max-width:100%;transform:none!important}
+.cc-contact{width:min(560px,calc(100% - 24px));max-height:90dvh;overflow:auto;border:1px solid #ddd;border-radius:20px;padding:28px;font-family:Outfit,sans-serif;color:#111}
+.cc-contact::backdrop{background:#1119}.cc-contact form{display:grid;gap:14px}.cc-contact label{display:grid;gap:6px;font-weight:600}.cc-contact input,.cc-contact textarea,.cc-contact select{width:100%;font:inherit;font-size:16px;padding:12px;border:1px solid #aaa;border-radius:8px}.cc-contact button{min-height:44px;padding:12px 20px;font:inherit;cursor:pointer}.cc-contact .trap{position:absolute;left:-10000px}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+.reading #stage > section.scene[id]{display:flex!important}
+.reading #stage > :not(header):not(section){display:none!important}
+.reading .hero-title{width:100%;text-align:left!important}
+.reading .hero-subtitle{position:static!important;transform:none!important;max-width:100%;line-height:1.6}
+.reading .cc-webplan a{background:#111;color:#fff}
+.reading #scene18 .cc-final-heading,.reading #scene18 .cc-final-quote{position:static!important;inset:auto!important;width:100%!important;transform:none!important}
+.reading #scene18 .cc-final-heading h2{font-size:clamp(36px,6vw,64px);line-height:1.08}
+.reading #scene18 .cc-final-quote{padding:clamp(18px,4vw,30px)}
+.reading #scene18 .cc-final-services{grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))}
+.reading #scene18 .cc-final-services button{overflow-wrap:anywhere}
+/* Mobile chapters keep their characters on screen while the gesture advances the story. */
+.reading .story-moment{width:100%;min-width:0;display:flex;flex-direction:column;gap:24px}
+.reading .story-visual{position:relative;display:grid;place-items:center;height:clamp(220px,36svh,380px);width:100%;max-width:620px;margin:0 auto;overflow:clip;isolation:isolate}
+.reading .motion-pose{display:block;width:100%;height:100%;min-height:0;object-fit:contain;transform-origin:center bottom}
+.reading .motion-door-actor{position:absolute;left:3%;bottom:0;width:40%;height:84%;object-fit:contain;pointer-events:none}
+.reading .story-moment>.reading-project{width:100%;max-width:720px}
+.touch-motion.reading #stage>section.motion-chapter{min-height:175svh;display:block!important;padding-block:0;overflow:visible}
+.touch-motion.reading .motion-chapter>.story-moment{position:sticky;top:0;min-height:100svh;padding-block:clamp(24px,5svh,48px);justify-content:center}
+.touch-motion.reading .motion-chapter .story-visual{flex-shrink:0}
+.touch-motion.reading .motion-chapter .copy{flex:none;margin:0 auto!important}
+.touch-motion.reading .motion-content .story-moment{gap:28px}
+.touch-motion.reading .motion-chapter.scene--portfolio .story-moment{gap:16px}
+.touch-motion.reading .motion-chapter.scene--portfolio .story-visual{height:clamp(160px,23svh,240px)}
+.touch-motion.reading .motion-chapter.scene--portfolio .reading-project img{height:clamp(90px,15svh,150px)}
+.touch-motion.reading .motion-chapter.scene--portfolio .reading-project{padding:18px}
+.touch-motion.reading .motion-chapter.scene--portfolio .reading-project h3{margin:4px 0;font-size:24px}
+.touch-motion.reading .motion-chapter.scene--portfolio .reading-project p{margin:8px 0}
+@media(max-height:650px){
+ .touch-motion.reading .motion-chapter .title{font-size:clamp(25px,4.8vw,42px)!important}
+ .touch-motion.reading .motion-chapter .description{font-size:14px;line-height:1.4}
+ .touch-motion.reading .motion-chapter .story-visual{height:30svh;min-height:130px}
+ .touch-motion.reading .motion-chapter>.story-moment{gap:12px;padding-block:20px}
+}
+/* Complete-story layout: the cinematic runway ends before pricing or the contact form. */
+.reading #stage>section.motion-chapter[id]{display:block!important;padding-block:0}
+.reading .story-runway,.reading .story-details{width:100%;max-width:880px;margin:0 auto}
+.reading .story-runway>.story-moment{padding-block:40px}
+.reading .story-details{padding-block:24px 64px}
+.reading .story-visual{position:relative;height:clamp(240px,43svh,430px);overflow:clip}
+.reading .story-visual>.motion-pose,.reading .story-visual>.motion-layer{position:absolute;bottom:0;left:0;width:100%;height:100%;object-fit:contain;transform-origin:center bottom;pointer-events:none}
+.reading .story-visual>[hidden]{display:none!important}
+.reading .story-peel{position:absolute;width:12%;height:auto;z-index:3}
+.reading .story-peel svg{display:block;width:100%;height:auto;opacity:1;visibility:visible}
+.reading .story-project-visual{height:clamp(340px,48svh,460px)}
+.reading .story-project-visual>.reading-project{position:absolute;top:0;left:3%;width:94%;padding:14px;max-width:none;z-index:2}
+.reading .story-project-visual .reading-project img{height:clamp(55px,8svh,85px);width:100%;object-fit:contain}
+.reading .story-project-visual .reading-project h3{font-size:20px;margin:4px 0}
+.reading .story-project-visual .reading-project p{font-size:13px;line-height:1.4;margin:4px 0}
+.reading .story-project-visual .reading-project a{font-size:14px;min-height:44px}
+.reading .story-rope{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.reading .story-rope line{stroke:#333;stroke-width:2;vector-effect:non-scaling-stroke}
+.reading:not(.touch-motion) .story-rope{display:none}
+.reading:not(.touch-motion) .story-project-visual>.motion-pose{height:36%;bottom:0}
+.touch-motion.reading #stage>section.motion-chapter[id]{min-height:0}
+.touch-motion.reading .story-runway{height:calc(100svh + var(--story-distance));position:relative;overflow:visible}
+.touch-motion.reading .story-runway>.story-moment{position:sticky;top:0;min-height:100svh;padding-block:clamp(20px,4svh,40px);gap:clamp(16px,3svh,28px);justify-content:center}
+.touch-motion.reading .motion-chapter.scene--portfolio .story-visual{height:clamp(340px,48svh,460px)}
+.touch-motion.reading .motion-chapter.scene--portfolio .reading-project img{height:clamp(55px,8svh,85px)}
+.touch-motion.reading .motion-chapter.scene--portfolio .reading-project{padding:14px}
+.touch-motion.reading .motion-chapter.scene--portfolio .reading-project h3{font-size:20px}
+@media(max-height:650px){
+ .touch-motion.reading .story-runway>.story-moment{gap:10px;padding-block:16px}
+ .touch-motion.reading .motion-chapter .story-visual{height:42svh;min-height:150px}
+ .touch-motion.reading .motion-chapter.scene--portfolio .story-visual{height:320px}
+ .touch-motion.reading .motion-chapter.scene--portfolio .story-moment{min-height:450px}
+ .touch-motion.reading .motion-chapter .eyebrow{font-size:9px}
+}
+.reading .title span,.reading .title strong{white-space:normal!important}
+@media(orientation:landscape) and (max-height:650px) and (min-width:600px){
+ .touch-motion.reading .story-runway>.story-moment{display:grid;grid-template-columns:minmax(0,44%) minmax(0,56%);align-items:center;min-height:100svh;gap:12px}
+ .touch-motion.reading .story-moment>.copy{grid-column:1}
+ .touch-motion.reading .story-moment>.story-visual{grid-column:2;height:calc(100svh - 32px)!important;min-height:0}
+ .touch-motion.reading .motion-chapter.scene--portfolio .story-moment{min-height:100svh}
+}
+/* Body units and feet share one scale, including the five-person team. */
+.touch-motion.reading .motion-chapter .story-visual{height:calc(var(--actor-unit,150px)*1.6 + 24px);min-height:0}
+.touch-motion.reading .motion-chapter.scene--portfolio .story-visual{height:calc(var(--actor-unit,150px) + 240px)}
+.touch-motion.reading .story-visual>.motion-pose,.touch-motion.reading .story-visual>.motion-layer{max-width:none;max-height:none;object-fit:fill;transform-origin:center bottom}
+@media(orientation:landscape) and (max-height:650px) and (min-width:600px){
+ .touch-motion.reading .story-moment>.story-visual{height:calc(100svh - 32px)!important}
+ .touch-motion.reading .story-project-visual .reading-project img{height:40px}
+ .touch-motion.reading .story-project-visual .reading-project p{margin:2px 0;font-size:12px}
+ .touch-motion.reading .story-project-visual>.reading-project{padding:10px}
+}

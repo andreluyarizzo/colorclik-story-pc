@@ -1,20 +1,22 @@
-/* The original ColorClik quotation app is reused, not recreated. */
+/* Shared accessible quotation dialog; no external app or customer data storage. */
 (() => {
- if(innerWidth<=800)return;
- document.querySelectorAll('#ccPricingTrack [data-plan]').forEach(button=>{
-  button.dataset.plan=button.dataset.plan.trim();
-  button.dataset.quote='';
-  button.dataset.quoteService='Marketing Digital';
- });
+ document.querySelectorAll('#ccPricingTrack [data-plan]').forEach(b=>{b.dataset.plan=b.dataset.plan.trim();b.dataset.quote='';b.dataset.quoteService='Marketing Digital';});
  document.querySelectorAll('.cc-webplan a').forEach(link=>{
-  const button=document.createElement('button');
-  button.type='button';button.dataset.quote='';button.dataset.quoteService='Desarrollo Web';
-  button.dataset.plan=link.closest('article').querySelector('h3').textContent.trim();
-  button.textContent='Elegir '+button.dataset.plan;link.replaceWith(button);
+  const b=document.createElement('button');b.type='button';b.dataset.quote='';b.dataset.quoteService='Desarrollo Web';
+  b.dataset.plan=link.closest('article').querySelector('h3').textContent.trim();b.textContent='Elegir '+b.dataset.plan;link.replaceWith(b);
  });
- const mount=document.createElement('div');mount.id='quote-ui';document.body.append(mount);
- const fallback=document.createElement('dialog');fallback.id='quote-dialog';fallback.hidden=true;document.body.append(fallback);
- const script=document.createElement('script');script.src='assets/vendor/colorclik-quote.js';script.defer=true;
- script.onerror=()=>{document.querySelectorAll('[data-quote]').forEach(button=>button.addEventListener('click',()=>{location.href='https://andreluyarizzo.github.io/colorclik-web/contacto.html';}));};
- document.body.append(script);
+ let backend=null,challengeId=null;
+ const configReady=fetch('api/contact-config',{signal:AbortSignal.timeout(4000)}).then(r=>r.ok?r.json():null).then(c=>{if(c?.enabled)backend=c;}).catch(()=>{});
+ const dialog=document.createElement('dialog');dialog.className='cc-contact';dialog.setAttribute('aria-labelledby','contact-title');
+ dialog.innerHTML=`<form><button type="button" data-close aria-label="Cerrar formulario">Cerrar ×</button><h2 id="contact-title">Hagamos clik.</h2><label>Servicio<select name="service"><option>Marketing Digital</option><option>Desarrollo Web</option><option>Branding y Diseño</option><option>Redes y Contenido</option><option>Soluciones a Medida</option></select></label><label>Plan<input name="plan" maxlength="100"></label><label>Nombre<input name="name" autocomplete="name" required maxlength="100"></label><label>Correo<input name="email" type="email" autocomplete="email" required maxlength="254"></label><label>Cuéntanos tu idea<textarea name="message" required minlength="10" maxlength="3000" rows="4"></textarea></label><label class="trap" aria-hidden="true">Sitio web<input name="website" tabindex="-1" autocomplete="off"></label><div id="contact-challenge"></div><p data-delivery-note>Al continuar se abrirá tu aplicación de correo con el mensaje para que lo revises y lo envíes. No guardamos estos datos en el sitio.</p><button type="submit">Preparar correo ↗</button><p role="status" aria-live="polite"></p></form>`;
+ document.body.append(dialog);const form=dialog.querySelector('form');let previous=null,opened=0,last=0;
+ document.addEventListener('click',async e=>{const b=e.target.closest('[data-quote]');if(!b)return;e.preventDefault();await configReady;if(dialog.open)return;previous=b;form.reset();form.elements.service.value=b.dataset.quoteService||'Marketing Digital';if(!form.elements.service.value)form.elements.service.selectedIndex=0;form.elements.plan.value=(b.dataset.plan||'').trim();opened=Date.now();if(backend){form.querySelector('[type=submit]').textContent='Enviar solicitud';form.querySelector('[data-delivery-note]').textContent='Usaremos tus datos para responder a esta solicitud.';if(!document.querySelector('[data-turnstile]')){const script=document.createElement('script');script.dataset.turnstile='';script.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';script.onload=()=>{challengeId=turnstile.render('#contact-challenge',{sitekey:backend.siteKey,action:'contact'});};document.head.append(script);}else if(challengeId!==null)turnstile.reset(challengeId);}dialog.querySelector('[role=status]').textContent='';dialog.showModal();dialog.querySelector('[data-close]').focus();});
+ dialog.querySelector('[data-close]').onclick=()=>dialog.close();dialog.addEventListener('close',()=>previous?.focus());
+ form.addEventListener('submit',async e=>{e.preventDefault();if(!form.reportValidity())return;const status=dialog.querySelector('[role=status]');if(form.elements.website.value)return;if(Date.now()-opened<2000||Date.now()-last<15000){status.textContent='Espera unos segundos antes de volver a preparar el correo.';return;}
+ const d=Object.fromEntries(new FormData(form));last=Date.now();
+ if(backend){const button=form.querySelector('[type=submit]');button.disabled=true;try{const token=window.turnstile?.getResponse(challengeId);if(!token){status.textContent='Completa la verificación de seguridad.';return;}const response=await fetch('api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...d,token}),signal:AbortSignal.timeout(25000)});const result=await response.json();if(!response.ok)throw Error(result.error||'No se pudo enviar.');status.textContent='Solicitud enviada. Te responderemos por correo.';form.reset();}catch(error){status.textContent=error.name==='TimeoutError'?'La respuesta tardó demasiado. Intenta más tarde.':error.message;}finally{button.disabled=false;if(challengeId!==null)turnstile.reset(challengeId);}return;}
+ const subject=('Cotización '+d.service+' · '+d.plan).replace(/[\r\n]/g,' ');
+ const body=`Servicio: ${d.service}\nPlan: ${d.plan}\nNombre: ${d.name}\nCorreo: ${d.email}\n\n${d.message}`;
+ location.href='mailto:hola@colorclik.cl?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);status.textContent='Correo preparado. Revisa y envía el mensaje desde tu aplicación de correo.';
+ });
 })();

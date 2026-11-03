@@ -16,7 +16,7 @@ export const server=createServer(async(req,res)=>{
  try{
   const path=decodeURIComponent(new URL(req.url,'http://localhost').pathname);
   const relative=path==='/'?'index.html':path.slice(1);
-  if(relative.split('/').some(p=>p.startsWith('.'))||!['index.html','story-desktop.html','responsive.js','responsive.css','mobile-motion.js','story-timeline.js','actor-metrics.js','actor-layout.js','desktop-foundation.js','desktop-foundation.css','scene07-v80.js','scene07-v80.css'].includes(relative)&&!relative.startsWith('assets/'))throw Error();
+  if(relative.split('/').some(p=>p.startsWith('.'))||!['index.html','story-desktop.html','responsive.js','responsive.css','mobile-composition.css','mobile-motion.js','story-timeline.js','actor-metrics.js','actor-layout.js','desktop-foundation.js','desktop-foundation.css','scene07-v80.js','scene07-v80.css'].includes(relative)&&!relative.startsWith('assets/'))throw Error();
   const file=resolve(root,relative);if(!file.startsWith(root.endsWith(sep)?root:root+sep))throw Error();
   if(!(await stat(file)).isFile())throw Error();
   const body=await readFile(file);res.setHeader('Content-Type',mime[extname(file)]||'application/octet-stream');res.setHeader('Cache-Control',relative.startsWith('assets/')?'public, max-age=86400':'no-cache');res.writeHead(200);res.end(req.method==='HEAD'?undefined:body);

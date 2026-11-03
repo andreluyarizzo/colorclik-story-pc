@@ -2,7 +2,7 @@
 
 La entrada es `index.html` → `story-desktop.html`. Una sola fuente de contenido mantiene los 18 capítulos, planes y portafolio. `story-test.html` redirige a esa misma versión para evitar divergencias.
 
-Hasta 1100 px, `responsive.js`, `responsive.css`, `story-timeline.js`, `actor-metrics.js`, `actor-layout.js` y `mobile-motion.js` presentan los 18 capítulos con movimiento controlado por el deslizamiento nativo: pasos, saltos, puertas, encuentros, portafolio y abrazo final. Los 105 momentos narrativos mantienen el encuadre mientras avanza el gesto. Las tarjetas de planes y el contacto aparecen después de su secuencia completa, con scroll natural, para que sus acciones no se reproduzcan fuera de pantalla. Con movimiento reducido se usa la lectura sin animación. En escritorio se mantiene la animación GSAP V80. Si GSAP no carga se activa esta presentación adaptable, que anima sin depender de un CDN. Al reducir una ventana animada se pasa a la presentación adaptable; se conserva ese modo hasta recargar para no reiniciar la historia o un formulario al rotar el dispositivo.
+Hasta 1100 px, `responsive.js`, `responsive.css`, `mobile-composition.css`, `story-timeline.js`, `actor-metrics.js`, `actor-layout.js` y `mobile-motion.js` presentan los 18 capítulos con movimiento controlado por el deslizamiento nativo: pasos, saltos, puertas, encuentros, portafolio y abrazo final. Los 105 momentos narrativos mantienen el encuadre mientras avanza el gesto. Las tarjetas de planes y el contacto aparecen después de su secuencia completa, con scroll natural, para que sus acciones no se reproduzcan fuera de pantalla. Con movimiento reducido se usa la lectura sin animación. En escritorio se mantiene la animación GSAP V80. Si GSAP no carga se activa esta presentación adaptable, que anima sin depender de un CDN. Al reducir una ventana animada se pasa a la presentación adaptable; se conserva ese modo hasta recargar para no reiniciar la historia o un formulario al rotar el dispositivo.
 
 Se utilizan WebP en todos los tamaños. Las ilustraciones añadidas en lectura vertical se cargan de forma diferida. Los originales y versiones históricas siguen disponibles como respaldo; no forman parte del código activo. No se ha medido una puntuación Lighthouse.
 
@@ -61,3 +61,5 @@ El último comando actualiza los hashes CSP de los scripts inline después de ed
 Para las pruebas de navegador: con el servidor local iniciado y Playwright/Chromium instalados, ejecutar `node tests/qa-responsive.cjs`.
 
 La escala visual usa una unidad corporal coherente dentro de cada encuadre: plano cercano en escenas normales de teléfono y plano abierto para la fila del equipo. Los márgenes transparentes y las distintas proporciones de los lienzos no cambian la anatomía del personaje. Ver `docs/ACTOR-SCALE.md`.
+
+La revisión de composición móvil, cámaras y pruebas con fuentes cargadas se documenta en `docs/MOBILE-COMPOSITION.md`.

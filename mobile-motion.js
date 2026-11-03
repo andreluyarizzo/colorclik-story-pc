@@ -22,11 +22,19 @@
     const frames = keys.filter(key=>state[key]).map(key=>imageFor(state[key].frame));
     // Swap the whole composition together: never show a new actor over an old beat.
     if (frames.some(image=>!image.complete||!image.naturalWidth)) return;
-    const geometry={width:record.figure.clientWidth,height:record.figure.clientHeight,unit:record.unit,floor:12};
+    const clusterTop=record.designed&&record.card?Math.max(16,(record.figure.clientHeight-record.card.offsetHeight-record.unit*record.artRatio-32)/2):16;
+    if(record.designed&&record.card)record.card.style.top=`${clusterTop}px`;
+    const stageFloor=record.designed?(record.card?clusterTop:Math.max(16,(record.figure.clientHeight-record.unit*record.artRatio)/2)):12;
+    record.figure.style.setProperty('--stage-floor',`${stageFloor}px`);
+    const geometry={width:record.figure.clientWidth,height:record.figure.clientHeight,unit:record.unit,floor:stageFloor};
     keys.forEach(key=>{
       const target=record.layers[key];let values=state[key];
       target.hidden=!values;
       if (!values) return;
+      if(record.designed&&record.index<4&&key==='base'){
+        const distance=Math.abs(values.x);
+        values={...values,x:Math.sign(values.x)*(distance<=20?distance*.15:3+(distance-20)*107/90)};
+      }
       target.loading='eager';
       if (target.dataset.frame!==values.frame) {
         target.src=imageFor(values.frame).src;target.dataset.frame=values.frame;
@@ -82,22 +90,29 @@
     const phone=matchMedia('(max-width:600px) and (orientation:portrait)').matches;
     const viewportHeight=viewportProbe.getBoundingClientRect().height;
     let closeUnit=window.ColorClikActorScale.unit(availableWidth,viewportHeight,phone);
-    if(phone){
-      // Reserve the actual text height, including larger Android text/font settings.
-      const budgets=records.filter(record=>!record.card).map(record=>{
+    const composed=phone&&getComputedStyle(document.querySelector('.story-toolbar')).display!=='none';
+    if(composed){
+      const space=record=>{
         const style=getComputedStyle(record.moment);
         const copy=record.scene.querySelector('.copy').getBoundingClientRect().height;
-        const padding=parseFloat(style.paddingTop)+parseFloat(style.paddingBottom);
-        return Math.max(80,(viewportHeight-copy-padding-parseFloat(style.rowGap||0)-24)/1.4);
+        const toolbar=record.moment.querySelector('.story-toolbar').getBoundingClientRect().height;
+        return Math.max(100,viewportHeight-copy-toolbar-parseFloat(style.paddingTop)-parseFloat(style.paddingBottom)-2*parseFloat(style.rowGap));
+      };
+      const fit=(indices,ratio)=>Math.min(availableWidth/ratio,...indices.map(i=>(space(records[i])-32)/records[i].artRatio));
+      const cameras={portrait:Math.min(560,fit([0,1,2,3],.72)),blue:fit([4,5],1.35),red:fit([6,7],.8),aqua:fit([8,9],1.2),purple:fit([10,11],1.17),wide:availableWidth/2.5,finale:fit([17],1.55)};
+      records.forEach(record=>{
+        const camera=record.index<4?'portrait':record.index<6?'blue':record.index<8?'red':record.index<10?'aqua':record.index<12?'purple':record.index<17?'wide':'finale';
+        record.unit=cameras[camera];record.designed=true;record.scene.dataset.camera=camera;
+        record.figure.style.setProperty('--actor-unit',`${record.unit}px`);
       });
-      closeUnit=Math.min(closeUnit,...budgets);
+    }else{
+      const wideUnit=window.ColorClikActorScale.unit(availableWidth,viewportHeight,phone,true);
+      records.forEach(record=>{
+        record.unit=phone&&record.card?wideUnit:closeUnit;record.designed=false;
+        record.scene.dataset.camera=phone&&record.card?'wide':'close';
+        record.figure.style.setProperty('--actor-unit',`${record.unit}px`);
+      });
     }
-    const wideUnit=window.ColorClikActorScale.unit(availableWidth,viewportHeight,phone,true);
-    records.forEach(record=>{
-      record.unit=phone&&record.card?wideUnit:closeUnit;
-      record.scene.dataset.camera=phone&&record.card?'wide':'close';
-      record.figure.style.setProperty('--actor-unit',`${record.unit}px`);
-    });
     schedule();
   }
   function applyPreference(){
@@ -122,6 +137,15 @@
       const copy=scene.querySelector('.copy'),original=scene.querySelector('.reading-art'),card=scene.querySelector('.reading-project');
       const runway=document.createElement('div');runway.className='story-runway';
       const moment=document.createElement('div');moment.className='story-moment';
+      const toolbar=document.createElement('div');toolbar.className='story-toolbar';
+      const logo=document.querySelector('.header .logo img').cloneNode(true);logo.removeAttribute('width');logo.removeAttribute('height');logo.loading='eager';
+      const actions=document.createElement('div');actions.className='story-toolbar-actions';
+      const counter=document.createElement('span');counter.className='story-chapter-count';counter.textContent=String(index+1).padStart(2,'0')+' / 18';counter.setAttribute('aria-label','Capítulo '+(index+1)+' de 18');
+      const quote=document.createElement('button');quote.type='button';quote.dataset.quote='';quote.textContent='Conversemos';
+      quote.dataset.quoteService=index<4?'Marketing Digital':index<6?'Desarrollo Web':index<8?'Branding y Diseño':index<10?'Redes y Contenido':index<12?'Soluciones a Medida':'Marketing Digital';
+      actions.append(counter,quote);toolbar.append(logo,actions);
+      const tints=['#fff3ce','#fff3ce','#fff3ce','#fff3ce','#eaf1ff','#eaf1ff','#fff0ee','#fff0ee','#e8f6f2','#e8f6f2','#f2edfc','#f2edfc','#fff4db','#edf3ff','#edf7ed','#edf8f8','#f4effb','#fff2dc'];
+      scene.style.setProperty('--scene-tint',tints[index]);
       const details=document.createElement('div');details.className='story-details';
       // Every action gets its own visible scroll distance, before lengthy pricing content.
       copy.querySelectorAll('.cc-plan-carousel,.cc-webplans-grid,.cc-brandplans-grid,.cc-final-quote').forEach(el=>details.append(el));
@@ -139,18 +163,24 @@
       const banana=document.querySelector('#ccBanana').cloneNode(true);banana.removeAttribute('id');prop.append(banana);figure.append(prop);
       let rope;
       if(card){
+        card.querySelector('a').textContent='Ver proyecto';
         figure.classList.add('story-project-visual');
         rope=document.createElementNS('http://www.w3.org/2000/svg','svg');
         rope.classList.add('story-rope');rope.setAttribute('aria-hidden','true');
         const line=document.createElementNS('http://www.w3.org/2000/svg','line');rope.append(line);figure.append(rope,card);
       }
-      moment.append(copy,figure);runway.append(moment);scene.append(runway);
+      moment.append(toolbar,copy,figure);runway.append(moment);scene.append(runway);
       if(details.childElementCount)scene.append(details);
       scene.classList.remove('motion-content');scene.classList.add('motion-chapter');
       // Longer sequences get more gesture distance so their intermediate poses remain readable.
       const count=window.ColorClikStoryTimeline.stories[index].length;
       scene.style.setProperty('--story-distance',`${Math.max(100,Math.min(240,count*14))}svh`);
-      records.push({unit:0,scene,runway,moment,figure,layers,prop,card,rope,index,poster:layers.base.src});
+            let artRatio=1;
+      window.ColorClikStoryTimeline.stories[index].forEach((beat,i,beats)=>{
+        const state=window.ColorClikStoryTimeline.sample(index,beat.at+((beats[i+1]?.at??1)-beat.at)*.5);
+        ['base','lead','support'].forEach(key=>{if(state[key]){const m=window.ColorClikActorMetrics[state[key].frame];artRatio=Math.max(artRatio,(m.floor-m.bounds[1])/m.body);}});
+      });
+      records.push({artRatio,unit:0,scene,runway,moment,figure,layers,prop,card,rope,index,poster:layers.base.src});
     });
     const observer=new IntersectionObserver(entries=>{
       entries.forEach(entry=>{

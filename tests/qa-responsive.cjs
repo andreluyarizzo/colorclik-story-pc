@@ -9,9 +9,9 @@ const {chromium}=require('playwright');
   const state=await page.evaluate(()=>({reading:ColorClikReading,scenes:[...document.querySelectorAll('.scene')].filter(e=>e.offsetHeight&&getComputedStyle(e).visibility==='visible').length,overflow:document.documentElement.scrollWidth>innerWidth}));
   if(state.reading)assert.equal(state.scenes,18);
   assert.equal(state.overflow,false);
-  const quote=page.locator('[data-quote]').first();await quote.click();assert.equal(await page.locator('dialog[open]').count(),1);
+  const quote=page.locator('[data-quote]:visible').first();await quote.click();assert.equal(await page.locator('dialog[open]').count(),1);
   await page.keyboard.press('Escape');assert.equal(await page.locator('dialog[open]').count(),0);assert.equal(await quote.evaluate(e=>document.activeElement===e),true);
-  if(state.reading){const plan=page.locator('#scene6 [data-quote]').first();await plan.scrollIntoViewIfNeeded();await plan.click();assert.equal(await page.locator('.cc-contact [name=service]').inputValue(),'Desarrollo Web');assert.equal(await page.locator('.cc-contact [name=plan]').inputValue(),'Landing');await page.keyboard.press('Escape');}
+  if(state.reading){const plan=page.locator('#scene6 .cc-webplans-grid [data-quote]').first();await plan.scrollIntoViewIfNeeded();await plan.click();assert.equal(await page.locator('.cc-contact [name=service]').inputValue(),'Desarrollo Web');assert.equal(await page.locator('.cc-contact [name=plan]').inputValue(),'Landing');await page.keyboard.press('Escape');}
   if([375,768,1024,1440].includes(width)){await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:`docs/responsive-${width}.png`});}
   assert.deepEqual(errors,[]);console.log(`${width}: no overflow, dialog, keyboard, plan selection PASS; reading=${state.reading}`);await page.close();
  }

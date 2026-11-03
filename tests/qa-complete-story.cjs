@@ -1,11 +1,11 @@
 const assert=require('node:assert/strict');
 const {chromium}=require('playwright');
 (async()=>{
- const browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||'/usr/bin/chromium',args:['--no-sandbox']});
+ const browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||'/usr/bin/chromium',args:['--no-sandbox'],proxy:process.env.HTTPS_PROXY?{server:process.env.HTTPS_PROXY,bypass:'localhost,127.0.0.1'}:undefined});
  try{for(const [width,height] of [[320,568],[375,812],[768,1024],[1024,768],[812,375]]){
   const page=await browser.newPage({viewport:{width,height},isMobile:true,hasTouch:true});
   const errors=[],missing=[];page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()===404&&r.url().includes('/assets/'))missing.push(r.url());});
-  await page.goto('http://127.0.0.1:8000/story-desktop.html');
+  await page.goto('http://127.0.0.1:8000/story-desktop.html');await page.evaluate(()=>document.fonts.ready);
   const chapters=await page.evaluate(()=>ColorClikStoryTimeline.stories.map(beats=>beats.map((beat,i)=>({id:beat.id,p:beat.at+((beats[i+1]?.at??1)-beat.at)*.5}))));
   let count=0;
   for(let i=0;i<chapters.length;i++){

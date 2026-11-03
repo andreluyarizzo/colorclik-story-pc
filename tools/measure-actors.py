@@ -34,8 +34,9 @@ for folder in ['yellow','red','motion-v79','story-v72','purple-v73','coherent-v8
   if name=='story-v72/tired-transparent':body=1080*w/1400;floor=b;kind='composition'
   # Upright characters inside a doorway must match their separate walking poses.
   body_refs={'story-v72/farewell':962,'story-v72/closed':1116,'story-v72/closing':1112,
+   'finale-v78/eat':1118,'finale-v78/drop':1117,
    'purple-v73/wave':1163,'purple-v73/greeting':1058,'purple-v73/farewell':1065,'purple-v73/closing':1132}
-  if name in body_refs:body=body_refs[name]
+  if name in body_refs:body=body_refs[name];kind='composition'
   # A crouch or tucked jump changes silhouette height, not the anatomical scale.
   posture={'yellow/4':.72,'yellow/5':.88,'yellow/6':.78,'yellow/17':.72,'aqua/red-flight':.8,'story-v72/landing':.8}.get(name,1)
   if kind=='portrait':body=body/posture

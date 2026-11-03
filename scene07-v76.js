@@ -144,7 +144,7 @@
     const {gsap,w,redGirl,copy}=c,l=layout(c),deck=document.querySelector('#ccPurpleAction');
     hideLegacy(c);gsap.set('#ccAquaStage,#ccAquaAction,#ccRedLanding,#ccSocialRedWalk,#ccBanana,#ccAquaFall,#ccAquaWalk',{autoAlpha:0});gsap.set(redGirl,{autoAlpha:0});
     gsap.set(deck,{autoAlpha:1,left:l.left,top:l.top,width:l.size,height:l.size});
-    deck.querySelectorAll('img').forEach(im=>im.style.opacity=(im.dataset.pose==='door'||t<.28&&(im.dataset.pose==='wave'||im.id==='ccPurpleWaveHand'))?'1':'0');
+    deck.querySelectorAll('img').forEach(im=>im.style.opacity=(im.dataset.pose==='door'||t<.28&&(im.dataset.pose==='wave'))?'1':'0');
     deck.dataset.beat=t<.28?'plans-wave':t<.65?'purple-exit':'plans';deck.dataset.progress=t.toFixed(4);
     const q=phase(t,.28,.65),ph=l.ah*1.15,pw=ph*PURPLE.purpleWalkRatio;
     gsap.set('#ccPurpleWalk',{autoAlpha:t>=.28&&t<.65?1:0,width:pw,height:ph,
@@ -152,5 +152,29 @@
       scaleX:1,scaleY:1,rotation:0});
     gsap.set(copy,{autoAlpha:phase(t,0,.06)});
   }
-  window.ColorClikScene07=Object.freeze({render,renderCatch,renderSocialPlans,renderPurple,renderPurplePlans});
+  const PROJECTS = [{"id": "freshclean", "name": "FreshClean", "image": "comercializadorafreshclean", "url": "https://comercializadorafreshclean.cl/", "description": "Una propuesta fresca y directa que pone los productos de limpieza en primer plano.", "color": "#efbc18"}, {"id": "manton", "name": "Manton", "image": "manton", "url": "http://manton.cl/", "description": "Una presencia sólida y visual que expresa la fuerza de la marca y su trabajo en fabricación de remolques.", "color": "#146cff"}, {"id": "naturalmentores", "name": "Naturalmentores", "image": "naturalmentores", "url": "https://naturalmentores.com/", "description": "Formación y bienestar en un espacio digital que invita a descubrir nuevas maneras de aprender y crecer.", "color": "#e52c32"}, {"id": "indeedinsurance", "name": "Indeed Insurance", "image": "indeedinsurance", "url": "http://indeedinsurance.net/", "description": "Una presentación clara y cercana para comunicar la propuesta de la agencia y sus soluciones de seguros.", "color": "#00aeb3"}, {"id": "colorclik", "name": "ColorClik", "image": null, "url": "https://andreluyarizzo.github.io/colorclik-web/", "description": "Diseño web interactivo para dar forma a nuevas ideas y proyectos.", "color": "#7939ed"}];
+  function renderPortfolio(progress,c){
+    const {gsap,w,h,redGirl,copy}=c;
+    hideLegacy(c);gsap.set('#ccAquaStage,#ccAquaAction,#ccRedLanding,#ccSocialRedWalk,#ccBanana,#ccAquaFall,#ccAquaWalk,#ccPurpleAction,#ccPurpleWalk',{autoAlpha:0});gsap.set(redGirl,{autoAlpha:0});
+    const index=Math.min(4,Math.floor(progress)),t=clamp(progress-index),project=PROJECTS[index];
+    const reduced=typeof matchMedia==='function'&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const shift=reduced?0:t<.22?mix(-w,0,ease(phase(t,0,.22))):index<4&&t>.72?mix(w*.02,w*1.2,ease(phase(t,.72,1))):mix(0,w*.02,phase(t,.22,.72));
+    const teamWidth=Math.min(w*.47,980),teamHeight=teamWidth*748/1580,floor=h*.84;
+    const bob=reduced?0:Math.sin(phase(t,0,1)*Math.PI*16)*2;
+    const teamX=w*.49+shift,teamY=floor-teamHeight+bob,handY=teamY+teamHeight*.40;
+    const cardWidth=Math.min(w*.30,560),cardHeight=cardWidth+120,cardX=w*.06+shift,cardY=handY-cardHeight/2;
+    const alpha=reduced?1:phase(t,0,.04)*(index<4?1-phase(t,.97,1):1);
+    const team=document.querySelector('#ccPortfolioTeam'),card=document.querySelector('#ccPortfolioCard'),rope=document.querySelector('#ccPortfolioRope');
+    gsap.set(team,{autoAlpha:alpha,width:teamWidth,height:teamHeight,x:teamX,y:teamY,rotation:0,scaleX:1,scaleY:1});
+    gsap.set(card,{autoAlpha:alpha,width:cardWidth,height:cardHeight,x:cardX,y:cardY,rotation:0});
+    gsap.set(rope,{autoAlpha:alpha,width:Math.max(0,teamX-cardX-cardWidth+8),height:24,x:cardX+cardWidth-2,y:handY-12});
+    card.style.setProperty('--project-accent',project.color);card.style.pointerEvents=alpha>.85?'auto':'none';card.dataset.client=project.id;
+    document.querySelector('#ccPortfolioTitle').textContent=project.name;
+    document.querySelector('#ccPortfolioDescription').textContent=project.description;
+    const link=document.querySelector('#ccPortfolioLink');link.href=project.url;link.setAttribute('aria-label','Ver proyecto '+project.name);
+    document.querySelector('#ccPortfolioPreview').querySelectorAll('[data-client]').forEach(im=>im.style.opacity=im.dataset.client===project.id?'1':'0');
+    team.dataset.direction='backward-right';team.dataset.progress=t.toFixed(4);
+    gsap.set(copy,{autoAlpha:phase(t,0,.08)});
+  }
+  window.ColorClikScene07=Object.freeze({render,renderCatch,renderSocialPlans,renderPurple,renderPurplePlans,renderPortfolio});
 })();

@@ -1,8 +1,8 @@
 /* One anatomical scale, regardless of pose canvas or CSS object-fit constraints. */
 (() => {
-  function unit(width,viewportHeight) {
+  function unit(width,viewportHeight,phone=false) {
     // Five linked people are the widest composition. Reserve space for full bodies.
-    return Math.min(width / 2.35, viewportHeight * .27, 280);
+    return Math.min(width / (phone ? 2.28 : 2.35), viewportHeight * .27, 280);
   }
   function layout(frame,values,geometry,role) {
     const m=window.ColorClikActorMetrics[frame];

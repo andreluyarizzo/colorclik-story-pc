@@ -114,3 +114,10 @@
  .touch-motion.reading .story-project-visual .reading-project p{margin:2px 0;font-size:12px}
  .touch-motion.reading .story-project-visual>.reading-project{padding:10px}
 }
+
+/* Give phone illustrations the full screen width while text keeps its reading gutter. */
+@media(max-width:600px) and (orientation:portrait){
+ .touch-motion.reading .motion-chapter .story-visual{width:100vw;max-width:none;margin-inline:calc((100% - 100vw)/2);height:calc(var(--actor-unit,165px)*1.4 + 24px)}
+ .touch-motion.reading .motion-chapter.scene--portfolio .story-visual{height:calc(var(--actor-unit,165px) + 240px)}
+ .touch-motion.reading .story-project-visual>.reading-project{left:5%;width:90%}
+}

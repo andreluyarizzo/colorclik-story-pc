@@ -77,7 +77,8 @@
   function schedule(){if(!pending&&!reduced.matches&&mounted){pending=true;requestAnimationFrame(tick);}}
   function sizeStages(){
     const availableWidth=Math.min(...records.map(record=>record.figure.clientWidth));
-    const sharedUnit=window.ColorClikActorScale.unit(availableWidth,document.documentElement.clientHeight);
+    const phone=matchMedia('(max-width:600px) and (orientation:portrait)').matches;
+    const sharedUnit=window.ColorClikActorScale.unit(availableWidth,document.documentElement.clientHeight,phone);
     records.forEach(record=>{
       record.unit=sharedUnit;
       record.figure.style.setProperty('--actor-unit',`${record.unit}px`);

@@ -14,8 +14,8 @@ Las pruebas de navegador recorrieron los 105 momentos y comprobaron la unidad pr
 
 | Viewport | Unidad corporal compartida |
 | --- | ---: |
-| 320 × 568 | 122,55 px |
-| 375 × 812 | 143,83 px |
+| 320 × 568 | 140,35 px |
+| 375 × 812 | 164,47 px |
 | 768 × 1024 | 263,83 px |
 | 1024 × 768 | 207,36 px |
 | 812 × 375 | 101,25 px |
@@ -23,3 +23,5 @@ Las pruebas de navegador recorrieron los 105 momentos y comprobaron la unidad pr
 El recorrido completo sigue disponible. Las trayectorias de salida, caída y salto se mantienen: durante esas acciones el personaje puede salir del encuadre intencionalmente. Las capturas `scale-*.png` y la grabación `scale-story-preview.mp4` muestran el resultado.
 
 La modificación afecta a la presentación adaptable y al respaldo que se activa si GSAP no está disponible. La coreografía original GSAP de escritorio mantiene su normalización anterior.
+
+En teléfono vertical (hasta 600 px), las ilustraciones usan todo el ancho disponible mientras los textos conservan sus márgenes. La unidad corporal aumenta aproximadamente un 15 % respecto a la entrega anterior, manteniendo al equipo completo visible. Tablet y horizontal conservan su escala anterior.

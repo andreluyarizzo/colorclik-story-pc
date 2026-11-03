@@ -1,0 +1,53 @@
+[
+  {
+    "name": "contact",
+    "ref": "assets/optimized/purple-v73/caught.webp",
+    "prompt": "Edit target exact complete composition. Previous keyframe immediately BEFORE this catch. Keep the purple door, its interior, crown, handle, camera, size and position IDENTICAL. Purple character feet and hips stay exactly fixed. Aqua grandfather is still airborne about 180 pixels HIGHER than reference, tilted slightly toward purple, knees tucked. Purple raises BOTH arms and visibly GRIPS grandfather's two forearms securely, hands fully wrapped around the sleeves. Aqua body hangs from those grips. This is ONE integrated drawing of both characters with actual physical contact, no disconnected floating hands. Preserve exact character head sizes, proportions, identities and clothes (aqua blue jeans). Whole door and full bodies, same square canvas. No extra gestures or symbols.",
+    "path": "/workspace/scratch/a8a40aa55dd9/generated_images/exec-02e3f194-3046-4ea6-bd58-754435c50e81.png"
+  },
+  {
+    "name": "lowering",
+    "ref": "assets/optimized/purple-v73/caught.webp",
+    "prompt": "Edit target exact complete composition. Intermediate keyframe while purple gently LOWERS the aqua grandfather from catch. Keep door/interior/crown/handle and purple feet IDENTICAL. Grandfather body only about80pixels HIGHER than reference, knees softly bending. Purple holds BOTH forearms securely with physically connected hands around aqua sleeves, elbows bending downward to absorb landing. Same head sizes and camera, same total body proportions/outfits, no giant hands. One integrated full-body composition, same square canvas, transparent outside characters/door.",
+    "path": "/workspace/scratch/a8a40aa55dd9/generated_images/exec-b53e0566-5cd4-4c39-821c-ee2c7c0a0d03.png"
+  },
+  {
+    "name": "team-a",
+    "ref": "assets/optimized/portfolio-v76/team.webp",
+    "prompt": "Animation keyframe A of this EXACT FIVE-person pushing/pulling line. Keep order LEFT to RIGHT yellow woman, blue young man, red woman, aqua grandfather, purple man. ALL faceLEFT, upper bodies and connected hands on shoulders MUST stay at their exact same positions. Change ONLY leg poses to a natural backward walking contact stride: each person one foot slightly aheadLEFT, other behindRIGHT, planted baseline equal. Correct aqua trousers to BLUE DENIM jeans matching others. Preserve faces, hat/hair, outfits, footwear, whole line width and character heights. Full bodies, wide same framing, no arrows, no symbols, no text.",
+    "path": "/workspace/scratch/a8a40aa55dd9/generated_images/exec-f3bda5dc-7e36-4daa-b6b9-d24b8d994671.png"
+  },
+  {
+    "name": "team-b",
+    "ref": "assets/optimized/portfolio-v76/team.webp",
+    "prompt": "Animation keyframe B of this EXACT FIVE-person pushing/pulling line, OPPOSITE FOOT step. Keep order LEFT to RIGHT yellow woman, blue young man, red woman, aqua grandfather, purple man. ALL faceLEFT. Upper bodies and connected hands on shoulders must stay at exact reference positions. ONLY swap the leg stride: RIGHT leg leads towardLEFT, LEFT leg trailsRIGHT for each figure, knees softly flexed, natural backward walking. Equal planted floor. Aqua trousers BLUE DENIM jeans. Preserve exact head sizes, identities/outfits/shoes and whole line dimensions. Full bodies, same wide framing. No arrows/text.",
+    "path": "/workspace/scratch/a8a40aa55dd9/generated_images/exec-dadb33ec-b187-4bba-af90-e629e8b9ac18.png"
+  },
+  {
+    "name": "gather",
+    "ref": "assets/optimized/finale-v78/hug.webp",
+    "prompt": "Animation keyframe BEFORE this exact five-character hug. Same final order/locations: purple farLEFT, aqua left-center, red CENTER FRONT, yellow behind red right-center, blue farRIGHT. All bodies full length and same head sizes as reference. They are gathering toward red at CENTER: purple and aqua step slightly RIGHT inward, blue and yellow step slightly LEFT inward, red stays centerfront facing audience with arms partly opening. Small gaps between shoulders, everyone close to final positions (no more than half shoulder width shift), hands reaching TOWARD central embrace. No one walks away. Preserve exact faces outfits shoes colors, aqua blue denim jeans. Same camera and landscape canvas, fullbody transparentbackground. Not yet touching but about to embrace.",
+    "path": "/workspace/scratch/a8a40aa55dd9/generated_images/exec-98c2ee0f-dd4f-48b5-8e66-84829faaece1.png"
+  },
+  {
+    "name": "embrace",
+    "ref": "assets/optimized/finale-v78/hug.webp",
+    "prompt": "Animation keyframe immediately BEFORE this exact final happy hug. Keep EXACT same character positions, order, head sizes, faces, clothes, footwear, blue denim aqua trousers and camera. Five characters move shoulders and arms INWARD to wrap each other, gentle connected embrace forming around red CENTER FRONT. Everyone now touches and smiles, arms around shoulders/waists, red's hands only half open versus full open reference. Both blue feet on floor for this preparatory frame. Whole bodies, same image bounds and baseline as reference. No one walking away; no changed order. Transparentbackground.",
+    "path": "/workspace/scratch/a8a40aa55dd9/generated_images/exec-9848fbf1-e407-4137-83a2-fa72411f37d6.png"
+  },
+  {
+    "name": "clean-team-b",
+    "ref": "exec-dadb33ec-b187-4bba-af90-e629e8b9ac18.png",
+    "prompt": "Remove only four upper-left yellow decorative rays; preserve characters, gait, camera, dimensions and true alpha.",
+    "path": "/workspace/scratch/a8a40aa55dd9/generated_images/exec-dc1f40f2-5a4d-4bc5-aae4-132cd2562133.png"
+  },
+  {
+    "name": "midcatch",
+    "ref": [
+      "exec-02e3f194-3046-4ea6-bd58-754435c50e81.png",
+      "exec-b53e0566-5cd4-4c39-821c-ee2c7c0a0d03.png"
+    ],
+    "prompt": "Draw one full-body intermediate exactly halfway between contact and lowering; both purple hands hold aqua sleeves; keep door, feet, camera, identities and true alpha.",
+    "path": "/workspace/scratch/a8a40aa55dd9/generated_images/exec-32d2a291-3fed-4122-b492-982cb41c0baf.png"
+  }
+]

@@ -121,3 +121,11 @@
  .touch-motion.reading .motion-chapter.scene--portfolio .story-visual{height:calc(var(--actor-unit,165px) + 240px)}
  .touch-motion.reading .story-project-visual>.reading-project{left:5%;width:90%}
 }
+
+.story-viewport-probe{position:fixed;top:0;left:0;width:1px;height:100svh;visibility:hidden;pointer-events:none;z-index:-1}
+@media(max-width:600px) and (orientation:portrait){
+ .touch-motion.reading .story-runway>.story-moment{justify-content:center;padding-block:max(20px,env(safe-area-inset-top)) max(20px,env(safe-area-inset-bottom));gap:18px}
+ .touch-motion.reading .motion-chapter .story-visual{height:calc(var(--actor-unit,260px)*1.4 + 24px)}
+ .touch-motion.reading .motion-chapter.scene--portfolio .story-visual{height:calc(var(--actor-unit,180px) + 240px)}
+ .touch-motion.reading .story-moment>.copy{padding-inline:0}
+}

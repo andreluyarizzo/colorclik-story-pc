@@ -25,3 +25,20 @@ El recorrido completo sigue disponible. Las trayectorias de salida, caída y sal
 La modificación afecta a la presentación adaptable y al respaldo que se activa si GSAP no está disponible. La coreografía original GSAP de escritorio mantiene su normalización anterior.
 
 En teléfono vertical (hasta 600 px), las ilustraciones usan todo el ancho disponible mientras los textos conservan sus márgenes. La unidad corporal aumenta aproximadamente un 15 % respecto a la entrega anterior, manteniendo al equipo completo visible. Tablet y horizontal conservan su escala anterior.
+
+## Encuadre Android Ultra
+
+La presentación de teléfono ya no limita todas las escenas al ancho de la fila de cinco personajes. Las escenas normales y el abrazo final usan un plano cercano uniforme; los cinco proyectos usan un plano abierto para mantener al equipo enlazado completo. La anatomía y proporciones originales se mantienen en ambos encuadres.
+
+La altura disponible se mide con una referencia CSS de 100svh, para estabilizar el diseño cuando aparecen o desaparecen las barras del navegador. El tamaño cercano también reserva la altura real del texto, los márgenes y la separación. Un ResizeObserver y la carga de fuentes actualizan el cálculo si cambia el texto. No se redimensiona la historia mientras un diálogo esté abierto, para evitar cambios al mostrar el teclado.
+
+Pruebas con emulación Chromium de Android, táctil y densidad 3 (no un Galaxy S26 Ultra físico):
+
+| Viewport CSS | Cuerpo en plano cercano | Cuerpo del equipo en plano abierto |
+| --- | ---: | ---: |
+| 384 × 854 | 247,7 px | 168,4 px |
+| 412 × 915 | 265,8 px | 180,7 px |
+| 480 × 1067 | 309,7 px | 210,5 px |
+| 412 × 780 | 265,8 px | 180,7 px |
+
+También se comprobaron 412 × 915 con títulos de 36 px y descripciones de 21 px. Los formatos cubren distintos anchos de ventana y ajustes de visualización; no se afirma que un modelo de teléfono tenga un único viewport fijo. En estos tamaños el plano cercano aumenta aproximadamente un 47 % respecto a la entrega anterior. Las pruebas esperan que las imágenes visibles estén cargadas antes de capturar el resultado.

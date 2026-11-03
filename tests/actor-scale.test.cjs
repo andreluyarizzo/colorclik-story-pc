@@ -19,3 +19,8 @@ test('all story layers use a shared body unit, preserve aspect and register the 
  const crouch=layout('yellow/4',{x:0,y:0,width:100,flip:1},geo,'base');
  assert(crouch.visible.height<standing.visible.height*.8,'Crouching must not be enlarged to standing height');
 });
+
+test('portrait-phone close camera is larger than the five-person wide shot',()=>{
+ for(const [w,h] of [[384,854],[412,915],[480,1067]])assert(unit(w,h,true)>unit(w,h,true,true)*1.4);
+ assert.equal(unit(620,1024,false),unit(620,1024,false,true));
+});

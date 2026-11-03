@@ -3,7 +3,7 @@
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const clamp = n => Math.max(0, Math.min(1,n));
   const cache = new Map(), records = [], nearby = new Set();
-  let mounted = false, pending = false;
+  let mounted = false, pending = false, viewportProbe;
 
   function imageFor(frame) {
     let image = cache.get(frame);
@@ -27,6 +27,7 @@
       const target=record.layers[key];let values=state[key];
       target.hidden=!values;
       if (!values) return;
+      target.loading='eager';
       if (target.dataset.frame!==values.frame) {
         target.src=imageFor(values.frame).src;target.dataset.frame=values.frame;
       }
@@ -76,11 +77,25 @@
   function tick(){pending=false;if(reduced.matches||document.hidden)return;nearby.forEach(render);}
   function schedule(){if(!pending&&!reduced.matches&&mounted){pending=true;requestAnimationFrame(tick);}}
   function sizeStages(){
+    if(document.querySelector('dialog[open]'))return;
     const availableWidth=Math.min(...records.map(record=>record.figure.clientWidth));
     const phone=matchMedia('(max-width:600px) and (orientation:portrait)').matches;
-    const sharedUnit=window.ColorClikActorScale.unit(availableWidth,document.documentElement.clientHeight,phone);
+    const viewportHeight=viewportProbe.getBoundingClientRect().height;
+    let closeUnit=window.ColorClikActorScale.unit(availableWidth,viewportHeight,phone);
+    if(phone){
+      // Reserve the actual text height, including larger Android text/font settings.
+      const budgets=records.filter(record=>!record.card).map(record=>{
+        const style=getComputedStyle(record.moment);
+        const copy=record.scene.querySelector('.copy').getBoundingClientRect().height;
+        const padding=parseFloat(style.paddingTop)+parseFloat(style.paddingBottom);
+        return Math.max(80,(viewportHeight-copy-padding-parseFloat(style.rowGap||0)-24)/1.4);
+      });
+      closeUnit=Math.min(closeUnit,...budgets);
+    }
+    const wideUnit=window.ColorClikActorScale.unit(availableWidth,viewportHeight,phone,true);
     records.forEach(record=>{
-      record.unit=sharedUnit;
+      record.unit=phone&&record.card?wideUnit:closeUnit;
+      record.scene.dataset.camera=phone&&record.card?'wide':'close';
       record.figure.style.setProperty('--actor-unit',`${record.unit}px`);
     });
     schedule();
@@ -101,6 +116,8 @@
   function mount(){
     if(mounted||!window.ColorClikReading||!window.ColorClikStoryTimeline||!window.ColorClikActorScale)return;
     mounted=true;
+    viewportProbe=document.createElement('div');viewportProbe.className='story-viewport-probe';
+    viewportProbe.setAttribute('aria-hidden','true');document.body.append(viewportProbe);
     document.querySelectorAll('.scene').forEach((scene,index)=>{
       const copy=scene.querySelector('.copy'),original=scene.querySelector('.reading-art'),card=scene.querySelector('.reading-project');
       const runway=document.createElement('div');runway.className='story-runway';
@@ -143,7 +160,11 @@
     },{rootMargin:'25% 0px'});
     records.forEach(record=>observer.observe(record.runway));
     addEventListener('scroll',schedule,{passive:true});addEventListener('resize',sizeStages,{passive:true});
-    document.addEventListener('visibilitychange',schedule);reduced.addEventListener('change',applyPreference);applyPreference();
+    document.addEventListener('visibilitychange',schedule);reduced.addEventListener('change',applyPreference);
+    document.fonts?.ready.then(sizeStages);
+    const textObserver=new ResizeObserver(sizeStages);
+    records.forEach(record=>textObserver.observe(record.scene.querySelector('.copy')));
+    applyPreference();
   }
   window.ColorClikMobileMotion={mount};
 })();

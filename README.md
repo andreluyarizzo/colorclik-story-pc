@@ -45,6 +45,7 @@ node --test tests/security-api.test.mjs
 node --test tests/actor-scale.test.cjs
 node --test tests/story-complete.test.cjs
 node tests/qa-actor-scale.cjs
+node tests/qa-android-ultra.cjs
 node tests/qa-complete-story.cjs
 node tests/qa-mobile-motion.cjs
 node tests/qa-v80.cjs
@@ -59,4 +60,4 @@ El último comando actualiza los hashes CSP de los scripts inline después de ed
 
 Para las pruebas de navegador: con el servidor local iniciado y Playwright/Chromium instalados, ejecutar `node tests/qa-responsive.cjs`.
 
-La escala visual usa una unidad corporal compartida entre todas las escenas; los márgenes transparentes y las distintas proporciones de los lienzos no cambian el tamaño del personaje. Ver `docs/ACTOR-SCALE.md`.
+La escala visual usa una unidad corporal coherente dentro de cada encuadre: plano cercano en escenas normales de teléfono y plano abierto para la fila del equipo. Los márgenes transparentes y las distintas proporciones de los lienzos no cambian la anatomía del personaje. Ver `docs/ACTOR-SCALE.md`.

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "freshclean",
+    "name": "FreshClean",
+    "image": "assets/brand/freshclean-logo.png",
+    "url": "https://comercializadorafreshclean.cl/",
+    "description": "Una propuesta fresca y directa que pone los productos de limpieza en primer plano.",
+    "color": "#efbc18"
+  },
+  {
+    "id": "manton",
+    "name": "Manton",
+    "image": "assets/brand/manton-logo.png",
+    "url": "http://manton.cl/",
+    "description": "Una presencia sólida y visual que expresa la fuerza de la marca y su trabajo en fabricación de remolques.",
+    "color": "#146cff"
+  },
+  {
+    "id": "naturalmentores",
+    "name": "Naturalmentores",
+    "image": "assets/brand/naturalmentores-logo.png",
+    "url": "https://naturalmentores.com/",
+    "description": "Formación y bienestar en un espacio digital que invita a descubrir nuevas maneras de aprender y crecer.",
+    "color": "#e52c32"
+  },
+  {
+    "id": "indeedinsurance",
+    "name": "Indeed Insurance",
+    "image": "assets/brand/indeedinsurance-logo.png",
+    "url": "http://indeedinsurance.net/",
+    "description": "Una presentación clara y cercana para comunicar la propuesta de la agencia y sus soluciones de seguros.",
+    "color": "#00aeb3"
+  },
+  {
+    "id": "colorclik",
+    "name": "ColorClik",
+    "image": "assets/brand/colorclik-black.png",
+    "url": "https://andreluyarizzo.github.io/colorclik-web/",
+    "description": "Diseño web interactivo para dar forma a nuevas ideas y proyectos.",
+    "color": "#7939ed"
+  }
+]
